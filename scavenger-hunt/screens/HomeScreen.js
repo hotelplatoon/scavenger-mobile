@@ -1,12 +1,15 @@
 import React from 'react';
 import {
+  Modal,
   Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Alert,
+  TouchableHighlight
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
@@ -16,6 +19,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       user_name : "Jon",
+      modalVisible: false,
     }}
 
   render() {
@@ -43,11 +47,48 @@ export default class HomeScreen extends React.Component {
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START NEW HUNT</Text>
           </TouchableOpacity>
+          </ScrollView>
 
-        </ScrollView>
+            <View style={{marginTop: 22}}>
+              <Modal 
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                <View style={{margin: 30, padding: 10}}>
+                  <View style={styles.howToModal}>
+                  <Text style={styles.subTitleText}>How to play THE HUNT</Text>
+                  <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
+                  <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
+
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.setModalVisible(!this.state.modalVisible);
+                      }}>
+                      <Text style={styles.subTitleText} >Hide</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </Modal>
+
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(true);
+            }}>
+            <Text style={styles.subTitleText}>How to play</Text>
+          </TouchableHighlight>
+        </View>
+
+
 
       </View>
     );
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   _maybeRenderDevelopmentModeWarning() {
@@ -127,7 +168,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    fontSize: 17,
+    fontSize: 15,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
     textAlign: 'center',
@@ -209,7 +250,18 @@ const styles = StyleSheet.create({
       textAlign:'center',
       paddingLeft : 10,
       paddingRight : 10
+  },
+  howToModal: {
+    // marginRight:70,
+    // marginLeft:70,
+    marginTop:'80%',
+    // paddingTop:30,
+    // paddingBottom:30,
+    borderWidth: 5,
+    borderColor: '#4c0a01'
+    // backgroundColor:'#4c0a01',
   }
+
 
   
 });
