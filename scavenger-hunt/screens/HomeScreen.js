@@ -6,60 +6,46 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      user_name : "Jon",
+    }}
 
   render() {
     return (
       <View style={styles.container}>
+
+      {/* Example of a useful console log for line number 27. Copy/paste as you see fit and alter number! :) */}
+      { console.log(`27: ${this.state.user_name}`) }
+
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
 
           <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
+            <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
+            <Text style={styles.subTitleText}>Welcome to</Text>
+            <Text style={styles.titleText}>THE HUNT</Text>
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
+
+          {/* Button to navigate to new hunt. Currently navigates to external website */}
+          <TouchableOpacity
+            style={styles.startGameButton}
+            onPress={() => {
+              WebBrowser.openBrowserAsync('https://expo.io');
+            }}
+            underlayColor='#fff'>
+            <Text style={styles.startGameText}>START NEW HUNT</Text>
+          </TouchableOpacity>
+
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
     );
   }
@@ -146,6 +132,26 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
+  subTitleText: {
+    fontSize: 18,
+    color: '#4c0a01',
+    lineHeight: 30,
+    textAlign: 'center',
+    fontWeight: "500",
+    paddingLeft : 10,
+    paddingRight : 10,
+    paddingTop : 30
+  },
+  titleText: {
+    fontSize: 30,
+    color: '#4c0a01',
+    lineHeight: 30,
+    textAlign: 'center',
+    fontWeight: "900",
+    paddingLeft : 10,
+    paddingRight : 10,
+    // paddingTop : 10
+  },
   tabBarInfoContainer: {
     position: 'absolute',
     bottom: 0,
@@ -185,4 +191,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  startGameButton:{
+    marginRight:70,
+    marginLeft:70,
+    marginTop:150,
+    paddingTop:30,
+    paddingBottom:30,
+    backgroundColor:'#4c0a01',
+    borderRadius:5,
+    // borderWidth: 5,
+    // borderColor: '#486970'
+  },
+  startGameText:{
+      color:'#fff',
+      fontSize: 25,
+      fontWeight: "900",
+      textAlign:'center',
+      paddingLeft : 10,
+      paddingRight : 10
+  }
+
+  
 });
