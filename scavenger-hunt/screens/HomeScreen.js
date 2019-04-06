@@ -23,11 +23,12 @@ export default class HomeScreen extends React.Component {
     }}
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
 
       {/* Example of a useful console log for line number 27. Copy/paste as you see fit and alter number! :) */}
-      { console.log(`27: ${this.state.user_name}`) }
+      { console.log(`31: ${this.state.user_name}`) }
 
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
@@ -38,40 +39,42 @@ export default class HomeScreen extends React.Component {
           </View>
 
 
-          {/* Button to navigate to new hunt. Currently navigates to external website */}
+          {/* Button to navigate to new hunt */}
           <TouchableOpacity
             style={styles.startGameButton}
-            onPress={() => {
-              WebBrowser.openBrowserAsync('https://expo.io');
-            }}
+            // onPress={() => {
+            //   WebBrowser.openBrowserAsync('https://expo.io');
+            // }}
+            onPress={() => navigate('Clue', {name: 'Jane'})}
+
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START NEW HUNT</Text>
           </TouchableOpacity>
           </ScrollView>
 
-            <View style={{marginTop: 22}}>
-              <Modal 
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                }}>
-                <View style={{margin: 30, padding: 10}}>
-                  <View style={styles.howToModal}>
-                  <Text style={styles.subTitleText}>How to play THE HUNT</Text>
-                  <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
-                  <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
+          <View style={{marginTop: 22}}>
+            <Modal 
+              animationType="slide"
+              transparent={false}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+              }}>
+              <View style={{margin: 30, padding: 10}}>
+                <View style={styles.howToModal}>
+                <Text style={styles.subTitleText}>How to play THE HUNT</Text>
+                <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
+                <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
 
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible);
-                      }}>
-                      <Text style={styles.subTitleText} >Hide</Text>
-                    </TouchableHighlight>
-                  </View>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}>
+                    <Text style={styles.subTitleText} >Hide</Text>
+                  </TouchableHighlight>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
 
           <TouchableHighlight
             onPress={() => {
@@ -240,8 +243,6 @@ const styles = StyleSheet.create({
     paddingBottom:30,
     backgroundColor:'#4c0a01',
     borderRadius:5,
-    // borderWidth: 5,
-    // borderColor: '#486970'
   },
   startGameText:{
       color:'#fff',
@@ -252,16 +253,8 @@ const styles = StyleSheet.create({
       paddingRight : 10
   },
   howToModal: {
-    // marginRight:70,
-    // marginLeft:70,
     marginTop:'80%',
-    // paddingTop:30,
-    // paddingBottom:30,
     borderWidth: 5,
     borderColor: '#4c0a01'
-    // backgroundColor:'#4c0a01',
   }
-
-
-  
 });
