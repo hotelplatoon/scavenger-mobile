@@ -36,9 +36,10 @@ export default class ClueScreen extends React.Component {
 
             <Text style={styles.buttonText}>PROVE IT!</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </View>
+
+
     );
   }
 }

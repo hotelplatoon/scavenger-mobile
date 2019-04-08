@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
+import ExitButton from '../components/ExitButton';
 
 export default class HomeScreen extends React.Component {
   constructor(props){
@@ -37,7 +38,10 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.subTitleText}>Welcome to</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
-
+          
+          <View style={styles.getStartedContainer}>
+            <ExitButton/>
+          </View>
 
           {/* Button to navigate to new hunt */}
           <TouchableOpacity
