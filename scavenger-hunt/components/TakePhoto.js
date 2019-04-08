@@ -27,6 +27,7 @@ export default class TakePhoto extends React.Component {
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
+    console.log(this.state.image)
   }
 
   render() {
