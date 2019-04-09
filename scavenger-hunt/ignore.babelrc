@@ -1,0 +1,14 @@
+// .babelrc
+// {
+//   "presets": ["babel-preset-expo", "react-native"],
+//   "plugins": [
+//   "transform-inline-environment-variables"
+//   ]
+// }
+
+{
+  "presets": ["react-native"],
+  "plugins": [
+    "transform-inline-environment-variables"
+  ]
+}
