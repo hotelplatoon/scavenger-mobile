@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Image, View, StyleSheet, Text } from 'react-native';
 import { ImagePicker, Constants } from 'expo';
 import { Permissions } from 'expo';
+import GoogleVisionAPI from "../api/GoogleVisionAPI"
 
 export default class TakePhoto extends React.Component {
   state = {
     image: null,
     hasCameraPermission: null,
+    encodedImage : null
   };
 
   async componentDidMount() {
@@ -19,15 +21,40 @@ export default class TakePhoto extends React.Component {
     // let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
+      base64: true
       // aspect: [4, 3],
     });
-
-    console.log(result);
-
+    // console.log(result);
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ 
+        image: result.uri,
+        encodedImage : result.base64
+      });
     }
-    console.log(this.state.image)
+    // console.log(this.state.encodedImage)
+  }
+  
+  handleAnalyzePhoto = () => {
+    console.log("Analyzing....")
+    GoogleVisionAPI.analyzeImage(this.state.encodedImage)
+      .then((JSONresponse) => { 
+        console.log("=========================")
+
+        if (!JSONresponse.responses[0].landmarkAnnotations) {
+          console.log("Your image could not be successfully analyzed")
+        } else {
+          let detectedLandmarks = []
+          for (landmark of JSONresponse.responses[0].landmarkAnnotations) {
+            // console.log(landmark.description)        
+            detectedLandmarks.push(landmark.description)
+          }
+          console.log(detectedLandmarks)
+          // If successful send image to S3 Bucket!
+        } 
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   render() {
@@ -40,7 +67,9 @@ export default class TakePhoto extends React.Component {
         </Button>
         {image &&
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-        
+        <Button title="ANALYZE" onPress={this.handleAnalyzePhoto}>
+          <Text>Analyze</Text>
+        </Button>
       </View>
     );
   }

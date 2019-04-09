@@ -5,3 +5,10 @@ npm-debug.*
 *.p12
 *.key
 *.mobileprovision
+
+
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

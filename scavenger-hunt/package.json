@@ -12,14 +12,18 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "dotenv": "^7.0.0",
     "expo": "^32.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "babel-preset-react-native": "^4.0.1",
+    "jest-expo": "^32.0.0",
+    "react-native-dotenv": "^0.2.0"
   },
   "private": true
 }

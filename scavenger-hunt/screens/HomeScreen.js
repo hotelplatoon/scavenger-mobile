@@ -19,7 +19,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       user_name : "Jon",
-      modalVisible: false,
+      modalVisible: false
     }}
 
   render() {
@@ -27,8 +27,9 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-      {/* Example of a useful console log for line number 27. Copy/paste as you see fit and alter number! :) */}
-      { console.log(`31: ${this.state.user_name}`) }
+      { console.log(`32: ${process.env.BABEL_ENV_GOOGLE_CLOUD_VISION_API_KEY}`) }
+      { console.log(`33: ${process.env.BABEL_ENV}`) }
+      {/* {console.log(`foo is equal to ${process.env.foo}`)} */}
 
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
