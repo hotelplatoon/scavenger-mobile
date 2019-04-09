@@ -16,7 +16,7 @@ export default class ClueText extends React.Component {
             <Text style={styles.subTitleText}>Here is your clue:</Text>
 
             <Text style={styles.clueText}>{this.props.clueText}</Text>
-          </View>
+        </View>
         </ScrollView>
       </View>
     );

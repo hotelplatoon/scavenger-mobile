@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ClueText from '../components/ClueText';
 // import { ExpoLinksView } from '@expo/samples';
+import ExitButton from '../components/ExitButton';
 
 export default class ClueScreen extends React.Component {
   
@@ -39,6 +40,7 @@ export default class ClueScreen extends React.Component {
             <Text style={styles.buttonText}>PROVE IT!</Text>
           </TouchableOpacity>
         </ScrollView>
+        <ExitButton/>
       </View>
 
 
