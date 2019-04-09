@@ -12,12 +12,13 @@ export default class ClueScreen extends React.Component {
     super(props);
     this.state = {
       checkpoint_number : 1,
-      clues: ["________, created by noted American artist Alexander Calder, is a 53-foot (16 m) tall stabile located in the Federal Plaza in front of the Kluczynski Federal Building in Chicago, Illinois, United States.", "Clue 2"]
+      clues: ["________, created by noted American artist Alexander Calder, is a 53-foot (16 m) tall stabile located in the Federal Plaza in front of the Kluczynski Federal Building in Chicago, Illinois, United States.", "Clue 2"],
+      checkpoint_name : "Merchandise Mart"
     }}
 
 
   render() {
-    const {navigate} = this.props.navigation;
+    // const {navigate} = this.props.navigation;
 
     return (
       <View style={styles.container}>
@@ -29,10 +30,13 @@ export default class ClueScreen extends React.Component {
           <View style={styles.getStartedContainer}>
             <ClueText clueText={this.state.clues[this.state.checkpoint_number - 1]}/>
           </View>
+
           {/* Button to navigate to new hunt */}
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('TakePhoto')}
+
+            onPress={() => this.props.navigation.navigate('TakePhoto', {checkpoint_name: this.state.checkpoint_name})}
+
             underlayColor='#fff'>
             <Text style={styles.buttonTextLight}>FOUND IT?</Text>
 

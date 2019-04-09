@@ -1,3 +1,5 @@
+import { Constants } from 'expo';
+
 import React from 'react';
 import {
   Modal,
@@ -27,9 +29,8 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-      { console.log(`32: ${process.env.BABEL_ENV_GOOGLE_CLOUD_VISION_API_KEY}`) }
-      { console.log(`33: ${process.env.BABEL_ENV}`) }
-      {/* {console.log(`foo is equal to ${process.env.foo}`)} */}
+      {/* { console.log(`32: ${process.env.BABEL_ENV_GOOGLE_CLOUD_VISION_API_KEY}`) }
+      { console.log(`33: ${process.env.BABEL_ENV}`) } */}
 
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 

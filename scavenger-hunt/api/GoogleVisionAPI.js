@@ -1,6 +1,6 @@
-const analyzeImage = async (encodedImage) => {
-  console.log(process.env.REACT_APP_GOOGLE_CLOUD_VISION_API_KEY)
+import { Constants } from 'expo';
 
+const analyzeImage = async (encodedImage) => {
   try {
     let body = JSON.stringify({
       requests: [
@@ -17,7 +17,7 @@ const analyzeImage = async (encodedImage) => {
     });
     let response = await fetch(
       "https://vision.googleapis.com/v1/images:annotate?key=" +
-        "XXXXXXX",
+      Constants.manifest.extra.GOOGLE_CLOUD_VISION_API_KEY,
       {
         headers: {
           Accept: "application/json",
