@@ -1,16 +1,19 @@
 
 import React from 'react';
-import { Button, Image, View, StyleSheet, Text } from 'react-native';
+import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker, Constants } from 'expo';
 import { Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
+import { Overlay, withTheme } from 'react-native-elements';
+
 
 export default class TakePhoto extends React.Component {
   state = {
     image: null,
     hasCameraPermission: null,
     encodedImage : null,
-    checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
+    checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME"),  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
+    isFailMessageVisible : false
   };
 
 
@@ -18,8 +21,7 @@ export default class TakePhoto extends React.Component {
     const camera = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     const hasCameraPermission = (camera.status === 'granted'); 
     this.setState({ hasCameraPermission });
-    console.log(`\n21: Checkpoint "${this.state.checkpoint_name}" passed from ClueScreen`) 
-    
+    console.log(`\n24: Checkpoint "${this.state.checkpoint_name}" passed from ClueScreen`) 
   };
 
   _pickImage = async () => {
@@ -36,7 +38,7 @@ export default class TakePhoto extends React.Component {
         encodedImage : result.base64
       });
     }
-    console.log(this.state.encodedImage)
+    // console.log(this.state.encodedImage)
   }
   
   handleAnalyzePhoto = () => {
@@ -45,7 +47,11 @@ export default class TakePhoto extends React.Component {
       .then((JSONresponse) => { 
         console.log("=========================")
         if (!JSONresponse.responses[0].landmarkAnnotations) {
-          console.log("48: Your image could not be successfully analyzed")
+          console.log("50: Your image could not be successfully analyzed")
+          this.setState({
+            isFailMessageVisible : true
+          })
+          // User notified and take new photo
         } else {
           let detectedLandmarks = []
           for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
@@ -62,24 +68,62 @@ export default class TakePhoto extends React.Component {
   }
 
   isMatchingPhoto = (detectedLandmarks) => {
-    // console.log(`65: ${this.state.checkpoint_name}`) 
     if (detectedLandmarks.includes(this.state.checkpoint_name) ){
-      console.log(`67: SUCCESS! Your photo matches!`) 
+      console.log(`72: SUCCESS! Your photo matches!`)
+      // this.setState({
+      //   isMatchedPhoto : true
+      // })
     }
+  }
+
+  setModalVisible(visible) {
+    this.setState({
+      isFailMessageVisible: visible,
+      image: null,
+      encodedImage: null
+    });
   }
 
   render() {
     let { image } = this.state;
     return (
       <View style={styles.container}>
+        { this.state.isFailMessageVisible 
+          ?
+            <Overlay
+              isVisible={this.state.isFailMessageVisible}
+              windowBackgroundColor="rgba(200, 200, 200, .5)"
+              overlayBackgroundColor="rgba(255, 255, 255, .8)"
+              width="80%"
+              height="50%"
+              // onBackdropPress={() => this.setState({ isVisible: false })}
+            >
+            <View style={styles.overlayMessage}>
+              <Text>Your photo does not match the checkpoint</Text>
+              <TouchableHighlight 
+                style={styles.button}
+                onPress={() => {
+                  this.setModalVisible(!this.state.isFailMessageVisible);
+                }}>
+                <Text style={styles.buttonText}>TRY AGAIN</Text>
+              </TouchableHighlight>
+              </View>
+            </Overlay> 
+          : null }
+
+        {!image &&
         <Button title="Take Photo" onPress={this._pickImage.bind(this)}>
           <Text>Open Camera</Text>
-        </Button>
+        </Button>}
+
         {image &&
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        
+        {image &&
         <Button title="ANALYZE" onPress={this.handleAnalyzePhoto}>
-          <Text>Analyze</Text>
-        </Button>
+          <Text >Analyze</Text>
+        </Button>}
+        
       </View>
     );
   }
@@ -92,5 +136,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
+  },
+  overlayMessage: {
+    marginTop:'40%',
+    alignItems: 'center',
+  },
+  button: {
+    paddingTop:20,
+    margin: 10,
+    paddingBottom:20,
+    backgroundColor:'#4c0a01',
+    borderRadius:5,
+  },
+  buttonText:{
+    color:'#fff',
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10
   },
 });
