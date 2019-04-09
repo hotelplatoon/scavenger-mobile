@@ -1,13 +1,22 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import ClueScreen from '../screens/ClueScreen'
-import MainTabNavigator from './MainTabNavigator';
-import TakePhoto from '../components/TakePhoto';
+
+import MainTabNavigator, { createRootNavigator, SignedOutStack, SignedInStack } from './MainTabNavigator';
+
+// export default createAppContainer({
+//   createRootNavigator: createRootNavigator(signedIn)
+// })
 
 export default createAppContainer(createSwitchNavigator({
   // You could add another route here for authentication.
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-  Clue: {screen: ClueScreen},
-  TakePhoto: {screen: TakePhoto}
-}));
+  // Main: MainTabNavigator,
+  SignedInStack: SignedInStack,
+  SignedOutStack: SignedOutStack
+},
+{
+  initialRouteName: 'SignedInStack'
+}
+
+
+));
