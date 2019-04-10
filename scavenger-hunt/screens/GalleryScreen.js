@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
 
-import testImage from '../api/testImage.json'
+// import testImage from '../api/testImage.json'
 import S3ImagesAPI from '../api/S3ImagesAPI';
 
 
@@ -15,22 +15,17 @@ export default class GalleryScreen extends React.Component {
       imageURL : null
     }}
 
-  // async componentDidMount() {
-  //   // let url = await S3ImagesAPI.s3.getSignedUrl('getObject', {
-  //   var params = {
-  //     Bucket: "guess-who-images", 
-  //     Key: 'iWqusZeadvg8'
-  //   };
-  //   let url = await S3ImagesAPI.s3.getObject(params, function(err, data) {
-  //     if (err) console.log(err, err.stack); // an error occurred
-  //     else     console.log(data.Body);
-
-  //   });
-  //   this.setState({
-  //     imageURL: url.Body,
-  //   })
-  // };
-
+  async componentDidMount() {
+    let url = await S3ImagesAPI.s3.getSignedUrl('getObject', {
+      Bucket: "guess-who-images",
+      Key: "fre7MpG4lQV9",
+      Expires: 1800
+    });
+    console.log(url)
+    this.setState({
+      imageURL: url
+    })
+  }
 
   render() {
     // { console.log(`22: ${testImage}`) }
@@ -42,18 +37,30 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <View style={styles.container}>
 
-            <Image 
+            {/* <Image 
               style={{width: 66, height: 58}}
               source={{uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='}}
             />
             <Image 
               style={{width: 200, height: 200}}
               source={{uri: `data:image/png;base64,${testImage}`}}
-            />
+            /> */}
             {/* <Image 
               style={{width: 200, height: 200}}
               source={{uri: `data:image/png;base64,${this.state.imageURL}`}}
             /> */}
+
+            { this.state.imageURL && 
+            <Image 
+              style={{width: 200, height: 200}}
+              source={{uri: this.state.imageURL}}
+            /> }
+
+            <Button
+              title="Go back"
+              onPress={() => this.props.navigation.navigate('Main')}
+            />
+
           </View>
 
         </ScrollView>

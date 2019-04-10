@@ -1,4 +1,4 @@
-
+import { RNS3 } from 'react-native-aws3';
 import React from 'react';
 import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker, Constants } from 'expo';
@@ -6,6 +6,7 @@ import { Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
+import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 
 export default class TakePhoto extends React.Component {
@@ -14,8 +15,10 @@ export default class TakePhoto extends React.Component {
     hasCameraPermission: null,
     encodedImage : null,
     checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME"),  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
-    checkpoint_number: this.props.navigation.getParam('checkpoint_number', "NO_CHECKPOINT_NUMBER"),
-    isFailMessageVisible : false
+    checkpoint_number : this.props.navigation.getParam('checkpoint_number', "NO_CHECKPOINT_NUMBER"),
+    isFailMessageVisible : false,
+    isMatchedPhoto: false,
+
   };
 
 
@@ -33,7 +36,9 @@ export default class TakePhoto extends React.Component {
       base64: true,
       aspect: [4, 3],
     });
-    // console.log(result);
+    console.log(result);
+    console.log(result.uri);
+
     if (!result.cancelled) {
       this.setState({ 
         image: result.uri,
@@ -58,18 +63,17 @@ export default class TakePhoto extends React.Component {
         console.log("=========================")
         if (!JSONresponse.responses[0].landmarkAnnotations) {
           console.log("50: Your image could not be successfully analyzed")
+          // If unsuccessful user notified and take new photo
           this.setState({
             isFailMessageVisible : true
           })
-          // User notified and take new photo
         } else {
           let detectedLandmarks = []
           for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
             detectedLandmarks.push(landmark.description)
           }
           console.log(detectedLandmarks)
-          this.isMatchingPhoto(detectedLandmarks)
-          // If successful send image to S3 Bucket!
+          this.isMatchingPhoto(detectedLandmarks)  // Checks if image matches
         } 
       })
       .catch((error) => {
@@ -78,33 +82,52 @@ export default class TakePhoto extends React.Component {
   }
 
   isMatchingPhoto = (detectedLandmarks) => {
-    if (detectedLandmarks.includes(this.state.checkpoint_name) ){
-      console.log(`72: SUCCESS! Your photo matches!`)
-      // this.setState({
-      //   isMatchedPhoto : true
-      // })
-      let fileName = this.generateUniqueImageName()
+    if (detectedLandmarks.includes(this.state.checkpoint_name) ){  // Checks if GVs response equals the checkpoint_name
+      console.log(`86: SUCCESS! Your photo matches!`)
+      let fileName = this.generateUniqueImageName()  // Create unique image name for bucket
       console.log(fileName)
-      let file = this.state.encodedImage
-      var params = {
-        Bucket: "guess-who-images", 
-        Key: fileName, 
-        Body: file, 
-        ContentType: 'image/jpeg'
-      };
-      // console.log(file)
-      let uploadImagePromise = S3ImagesAPI.s3.upload(params).promise()
-      uploadImagePromise
-        .then((data) => {
-          console.log("SENT!")
-          console.log(data.Key);
-          // throw new Error("ERROR!")
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      let file = {
+        uri: this.state.image,
+        name: fileName,
+        type: "image/png"
+      }
+      const options = {
+        // keyPrefix: "uploads/",
+        bucket: "guess-who-images",
+        region: "us-east-2",
+        accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+        secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+        successActionStatus: 201
+      }
+      RNS3.put(file, options).then(response => {  // Send to S3 bucket!
+        if (response.status !== 201) {
+          throw new Error("Failed to upload image to S3");
+        } else {
+        console.log(response.body)
+        // this.savePhotoToDB(fileName)
+          this.setState({
+            isMatchedPhoto : true
+          })
+        }
+      });
     }
   }
+
+  savePhotoToDB = (fileName) => {
+    // let userHuntId = this.state.userHuntId
+    let userHuntId = 1
+    ImagesDjangoAPI.addImage(fileName, userHuntId)
+      .then((response) => {
+        if (response.status === 201) {
+          console.log(response)
+        } else {
+          console.log(response)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })      
+    }
 
   setModalVisible(visible) {
     this.setState({
@@ -116,6 +139,8 @@ export default class TakePhoto extends React.Component {
 
   render() {
     let { image } = this.state;
+    console.log(`125: ${this.state.checkpoint_id}`)
+    console
     return (
       <View style={styles.container}>
         { this.state.isFailMessageVisible 
@@ -126,7 +151,6 @@ export default class TakePhoto extends React.Component {
               overlayBackgroundColor="rgba(255, 255, 255, .8)"
               width="80%"
               height="50%"
-              // onBackdropPress={() => this.setState({ isVisible: false })}
             >
             <View style={styles.overlayMessage}>
               <Text>Your photo does not match the checkpoint</Text>
@@ -136,6 +160,28 @@ export default class TakePhoto extends React.Component {
                   this.setModalVisible(!this.state.isFailMessageVisible);
                 }}>
                 <Text style={styles.buttonText}>TRY AGAIN</Text>
+              </TouchableHighlight>
+              </View>
+            </Overlay> 
+          : null }
+
+        { this.state.isMatchedPhoto 
+          ?
+            <Overlay
+              isVisible={true}
+              windowBackgroundColor="rgba(200, 200, 200, .5)"
+              overlayBackgroundColor="rgba(255, 255, 255, .8)"
+              width="80%"
+              height="50%"
+              // onBackdropPress={() => this.setState({ isVisible: false })}
+            >
+            <View style={styles.overlayMessage}>
+              <Text>Woohoo! You found it - nice work!</Text>
+              <TouchableHighlight 
+                style={styles.button}
+                onPress={() => this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_id})}
+                >
+                <Text style={styles.buttonText}>NEXT CHECKPOINT</Text>
               </TouchableHighlight>
               </View>
             </Overlay> 
