@@ -13,7 +13,7 @@ export default class ClueScreen extends React.Component {
     this.state = {
       checkpoint_number : 1,
       clues: ["________, created by noted American artist Alexander Calder, is a 53-foot (16 m) tall stabile located in the Federal Plaza in front of the Kluczynski Federal Building in Chicago, Illinois, United States.", "Clue 2"],
-      checkpoint_name : "Merchandise Mart"
+      checkpoint_name : "Cloud Gate"
     }}
 
 

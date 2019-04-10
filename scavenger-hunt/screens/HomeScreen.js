@@ -29,8 +29,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-      {/* { console.log(`32: ${process.env.BABEL_ENV_GOOGLE_CLOUD_VISION_API_KEY}`) }
-      { console.log(`33: ${process.env.BABEL_ENV}`) } */}
+      {/* { console.log(`34: ${testImage}`) } */}
 
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
@@ -38,6 +37,7 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
             <Text style={styles.subTitleText}>Welcome to</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
+          
           </View>
 
 
@@ -51,6 +51,13 @@ export default class HomeScreen extends React.Component {
 
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START NEW HUNT</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.startGameButton}
+            onPress={() => navigate('Gallery')}
+            underlayColor='#fff'>
+            <Text style={styles.startGameText}>View Gallery</Text>
           </TouchableOpacity>
           </ScrollView>
 
@@ -240,7 +247,7 @@ const styles = StyleSheet.create({
   startGameButton:{
     marginRight:70,
     marginLeft:70,
-    marginTop:150,
+    marginTop:20,
     paddingTop:30,
     paddingBottom:30,
     backgroundColor:'#4c0a01',

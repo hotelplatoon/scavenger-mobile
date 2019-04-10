@@ -4,7 +4,8 @@ import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react
 import { ImagePicker, Constants } from 'expo';
 import { Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
-import { Overlay, withTheme } from 'react-native-elements';
+import { Overlay } from 'react-native-elements';
+import S3ImagesAPI from '../api/S3ImagesAPI';
 
 
 export default class TakePhoto extends React.Component {
@@ -40,6 +41,14 @@ export default class TakePhoto extends React.Component {
     }
     // console.log(this.state.encodedImage)
   }
+
+  generateUniqueImageName = () => {
+    var uniqueString = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 12; i++)
+      uniqueString += possible.charAt(Math.floor(Math.random() * possible.length));
+    return uniqueString;
+  }
   
   handleAnalyzePhoto = () => {
     console.log("Analyzing....")
@@ -73,6 +82,26 @@ export default class TakePhoto extends React.Component {
       // this.setState({
       //   isMatchedPhoto : true
       // })
+      let fileName = this.generateUniqueImageName()
+      console.log(fileName)
+      let file = this.state.encodedImage
+      var params = {
+        Bucket: "guess-who-images", 
+        Key: fileName, 
+        Body: file, 
+        ContentType: 'image/jpeg'
+      };
+      // console.log(file)
+      let uploadImagePromise = S3ImagesAPI.s3.upload(params).promise()
+      uploadImagePromise
+        .then((data) => {
+          console.log("SENT!")
+          console.log(data.Key);
+          // throw new Error("ERROR!")
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 
