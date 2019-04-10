@@ -1,4 +1,4 @@
-
+import { RNS3 } from 'react-native-aws3';
 import React from 'react';
 import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker, Constants } from 'expo';
@@ -8,7 +8,7 @@ import { Overlay } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
 
 
-export default class TakePhoto extends React.Component {
+export default class TestTakePhoto extends React.Component {
   state = {
     image: null,
     hasCameraPermission: null,
@@ -86,24 +86,37 @@ export default class TakePhoto extends React.Component {
       // })
       let fileName = this.generateUniqueImageName()
       console.log(fileName)
-      let file = this.state.encodedImage
-      var params = {
-        Bucket: "guess-who-images", 
-        Key: fileName, 
-        Body: file, 
-        ContentType: 'image/jpeg'
-      };
+      let file = {
+        uri: this.state.image,
+        name: "image.png",
+        type: "image/png"
+      }
+      const options = {
+        keyPrefix: "uploads/",
+        bucket: "guess-who-images",
+        region: "us-east-2",
+        accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+        secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+        successActionStatus: 201
+      }
+      RNS3.put(file, options).then(response => {
+        if (response.status !== 201) {
+          throw new Error("Failed to upload image to S3");
+        } else {
+        console.log(response.body)
+        }
+      });
       // console.log(file)
-      let uploadImagePromise = S3ImagesAPI.s3.upload(params).promise()
-      uploadImagePromise
-        .then((data) => {
-          console.log("SENT!")
-          console.log(data.Key);
-          // throw new Error("ERROR!")
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      // let uploadImagePromise = S3ImagesAPI.s3.upload(params).promise()
+      // uploadImagePromise
+      //   .then((data) => {
+      //     console.log("SENT!")
+      //     console.log(data.Key);
+      //     // throw new Error("ERROR!")
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     }
   }
 

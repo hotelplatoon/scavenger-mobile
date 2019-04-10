@@ -35,7 +35,7 @@ export default class ClueScreen extends React.Component {
           <TouchableOpacity
             style={styles.button}
 
-            onPress={() => this.props.navigation.navigate('TakePhoto', {checkpoint_name: this.state.checkpoint_name})}
+            onPress={() => this.props.navigation.navigate('TestTakePhoto', {checkpoint_name: this.state.checkpoint_name})}
 
             underlayColor='#fff'>
             <Text style={styles.buttonTextLight}>FOUND IT?</Text>
