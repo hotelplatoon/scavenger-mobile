@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createTabNavigator ,createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -42,45 +42,6 @@ export const SignedInStack = createBottomTabNavigator({
   }
 });
 
-// // export const createRootNavigator = (signedIn = false) => {
-//   return createSwitchNavigator(
-//     {
-//       SignedInStack: {
-//         screen: SignedInStack
-//       },
-//       SignedOutStack: {
-//         screen: SignedOutStack
-//       }
-//     },
-//     // {
-//     //   initialRouteName: signedIn ? "SignedInStack" : "SignedOutStack"
-//     // }
-//   );
-// };
-
-// const SignedInStack = createTabNavigator({
-//   HomeScreen: {
-//     screen: HomeScreen,
-//     navigationOptions: {
-//       tabBarLabel: "Home",
-//       tabBarIcon: ({ tintColor }) => (
-//         <FontAwesome name="home" size={30} color={tintColor} />
-//       )
-//     }
-//   },
-//   ProfileScreen: {
-//     screen: ProfileScreen,
-//     navigationOptions: {
-//       tabBarLabel: "Profile",
-//       tabBarIcon: ({ tintColor }) => (
-//         <FontAwesome name="user" size={30} color={tintColor} />
-//       )
-//     }
-//   }
-// });
-// SignedInStack.navigationOptions = {
-//   tabBarLable
-// }
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -127,15 +88,3 @@ SettingsStack.navigationOptions = {
     />
   ),
 };
-
-// export default  SignedOutStack;
-// export default SignedOutStack;
-  // SignedInStack
-
-
-
-// export default createBottomTabNavigator({
-//   SignedOutStack,
-//   LinksStack,
-//   SettingsStack,
-// });

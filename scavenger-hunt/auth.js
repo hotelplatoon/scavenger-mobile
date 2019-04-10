@@ -2,9 +2,7 @@ import { AsyncStorage } from "react-native";
 
 export const USER_KEY = "auth-demo-key";
 
-export const onSignIn = () => {
-  console.log(USER_KEY)
-  AsyncStorage.setItem(USER_KEY, "true")};
+export const onSignIn = () => AsyncStorage.setItem(USER_KEY, "true");
 
 export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
 
@@ -12,7 +10,7 @@ export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(USER_KEY)
       .then(res => {
-        
+        console.log('\n Auth.js 13 res',res)
         if (res !== null) {
           resolve(true);
         } else {

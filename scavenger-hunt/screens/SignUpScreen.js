@@ -35,7 +35,7 @@ export default ({ navigation }) => (
         buttonStyle={{ marginTop: 20 }}
         type='outline'
         textStyle={{ color: "#bcbec1" }}
-        title="Sign In"
+        title="SIGN IN"
         onPress={() => navigation.navigate("SignInScreen")}
       />
     </Card>
