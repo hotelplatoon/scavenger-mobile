@@ -1,22 +1,42 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import MainTabNavigator, { createRootNavigator, SignedOutStack, SignedInStack } from './MainTabNavigator';
+import MainTabNavigator, { SignedOutStack, SignedInStack } from './MainTabNavigator';
 
 // export default createAppContainer({
-//   createRootNavigator: createRootNavigator(signedIn)
+//   createRootNavigator: createRootNavigator
 // })
 
-export default createAppContainer(createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  // Main: MainTabNavigator,
-  SignedInStack: SignedInStack,
-  SignedOutStack: SignedOutStack
-},
-{
-  initialRouteName: 'SignedInStack'
-}
+export const createRootNavigator = (signedIn = false) => {
+  return createAppContainer(createSwitchNavigator(
+    {
+      SignedInStack: {
+        screen: SignedInStack
+      },
+      SignedOutStack: {
+        screen: SignedOutStack
+      }
+    },
+    {
+      initialRouteName: signedIn ? "SignedInStack" : "SignedOutStack"
+    }
+  )
+  )
+};
+
+// export const createRootNavigator = (signedIn = false) => {
+//   return createAppContainer(createSwitchNavigator({
+//   // You could add another route here for authentication.
+//   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+//   // Main: MainTabNavigator,
+//   SignedOutStack: SignedOutStack,
+//   SignedInStack: SignedInStack,
+  
+// },
+// {
+//   initialRouteName: signedIn ? "SignedInStack" : "SignedOutStack"
+// }
 
 
-));
+// ));
+// }

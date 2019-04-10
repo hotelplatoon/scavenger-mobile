@@ -42,21 +42,21 @@ export const SignedInStack = createBottomTabNavigator({
   }
 });
 
-export const createRootNavigator = (signedIn = false) => {
-  return createSwitchNavigator(
-    {
-      SignedInStack: {
-        screen: SignedInStack
-      },
-      SignedOutStack: {
-        screen: SignedOutStack
-      }
-    },
-    {
-      initialRouteName: signedIn ? "SignedInStack" : "SignedOutStack"
-    }
-  );
-};
+// // export const createRootNavigator = (signedIn = false) => {
+//   return createSwitchNavigator(
+//     {
+//       SignedInStack: {
+//         screen: SignedInStack
+//       },
+//       SignedOutStack: {
+//         screen: SignedOutStack
+//       }
+//     },
+//     // {
+//     //   initialRouteName: signedIn ? "SignedInStack" : "SignedOutStack"
+//     // }
+//   );
+// };
 
 // const SignedInStack = createTabNavigator({
 //   HomeScreen: {

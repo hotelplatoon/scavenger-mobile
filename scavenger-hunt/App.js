@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import AppNavigator, { createRootNavigator } from './navigation/AppNavigator';
 import { isSignedIn } from './auth'
 
 export default class App extends React.Component {
@@ -14,22 +14,24 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
   }
-
+    
   componentDidMount() {
     isSignedIn()
       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
       .catch(err => alert("An error occurred"));
-  }
+      console.log('22',this.state)
+    }
 
   render() {
+    console.log('26',this.state)
     const { checkedSignIn, signedIn } = this.state;
 
     // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
     if (!checkedSignIn) {
       return null;
     }
-
-    return <AppNavigator />
+  const Layout =createRootNavigator(signedIn);
+    return <Layout />
     // if (signedIn) {
     //   return <SignedInStack />;
     // } else {

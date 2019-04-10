@@ -9,24 +9,27 @@ export default ({ navigation }) => (
       <Input
         label='Email'
         placeholder='charles@codeplatoon.com...'
+        autoCapitalize='none'
         // onChangeText={(email) => this.setState({email})}
       />
       <Input
         secureTextEntry
         label='Password'
         placeholder='Password...'
+        autoCapitalize='none'
       />
       <Input
         secureTextEntry
         label='Confirm Password'
         placeholder='Confirm Password...'
+        autoCapitalize='none'
       />
 
       <Button
         buttonStyle={{ marginTop: 20 }}
         backgroundColor="#03A9F4"
         title="SIGN UP"
-        onPress={() => onSignIn()}
+        onPress={() => onSignIn().then(() => navigation.navigate("SignInScreen"))}
       />
       <Button
         buttonStyle={{ marginTop: 20 }}
