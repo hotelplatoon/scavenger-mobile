@@ -13,6 +13,7 @@ export default class TakePhoto extends React.Component {
     hasCameraPermission: null,
     encodedImage : null,
     checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME"),  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
+    checkpoint_number: this.props.navigation.getParam('checkpoint_number', "NO_CHECKPOINT_NUMBER"),
     isFailMessageVisible : false
   };
 
@@ -70,9 +71,11 @@ export default class TakePhoto extends React.Component {
   isMatchingPhoto = (detectedLandmarks) => {
     if (detectedLandmarks.includes(this.state.checkpoint_name) ){
       console.log(`72: SUCCESS! Your photo matches!`)
-      // this.setState({
-      //   isMatchedPhoto : true
-      // })
+      this.setState({
+        // isMatchedPhoto : true
+        checkpoint_number: this.state.checkpoint_number + 1
+      })
+      this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number})
     }
   }
 
