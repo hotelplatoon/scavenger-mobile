@@ -5,7 +5,6 @@ import GalleryScreen from '../screens/GalleryScreen'
 
 import MainTabNavigator from './MainTabNavigator';
 import TakePhoto from '../components/TakePhoto';
-import TestTakePhoto from '../components/TestTakePhoto';
 
 
 export default createAppContainer(createSwitchNavigator({
@@ -13,6 +12,6 @@ export default createAppContainer(createSwitchNavigator({
   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
   Main: MainTabNavigator,
   Clue: {screen: ClueScreen},
-  TestTakePhoto: {screen: TestTakePhoto},
+  TakePhoto: {screen: TakePhoto},
   Gallery: {screen: GalleryScreen}
 }));
