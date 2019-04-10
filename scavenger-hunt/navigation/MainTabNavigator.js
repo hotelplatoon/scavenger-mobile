@@ -10,7 +10,10 @@ import SignUpScreen from '../screens/SignUpScreen';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ClueScreen from '../screens/ClueScreen';
+
+import TakePhoto from '../components/TakePhoto';
+import ClueScreen from '../screens/ClueScreen'
+import GalleryScreen from '../screens/GalleryScreen'
 
 export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
@@ -28,8 +31,8 @@ export const SignedOutStack = createStackNavigator({
 });
 
 export const SignedInStack = createBottomTabNavigator({
-  ClueScreen: {
-    screen: ClueScreen,
+  Main: {
+    screen: HomeScreen,
     navigationOptions: {
       tabBarLabel: "Start Game",
     }
@@ -38,6 +41,21 @@ export const SignedInStack = createBottomTabNavigator({
     screen: ProfileScreen,
     navigationOptions: {
       tabBarLabel: "Profile",
+    }
+  },  
+  Clue: {screen: ClueScreen,
+    navigationOptions: {
+      tabBarLabel: "Clue Screen",
+    }
+  },
+  TakePhoto: {screen: TakePhoto,
+    navigationOptions: {
+      tabBarLabel: "Take Photo",
+    }
+  },
+  Gallery: {screen: GalleryScreen,
+    navigationOptions: {
+    tabBarLabel: "Gallery",
     }
   }
 });
