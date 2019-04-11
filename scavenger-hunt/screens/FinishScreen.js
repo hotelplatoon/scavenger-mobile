@@ -42,7 +42,7 @@ export default class FinishScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Congratulations{this.state.user_name}!</Text>
+            <Text style={styles.getStartedText}>Congratulations {this.state.user_name}!</Text>
             <Text style={styles.subTitleText}>You have completed</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>

@@ -75,25 +75,28 @@ export default class ClueScreen extends React.Component {
       this.changeClues()
     }
     else if (this.state.checkpoint_number < this.state.checkpoint_amount) {
-      this.setState ({
-        checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
-      })
+      // this.setState ({
+      //   checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
+      // })
       console.log(this.state.checkpoint_number)
       this.changeClues()
     }
     else {
       console.log("the game should be over now.")
+      this.props.navigation.navigate('Finish')
     }
   }
 
 
-  componentWillUpdate() {
-    this.componentDidMount()
+  componentDidUpdate(props) {
+    // if (this.state.checkpoint_number != this.props.navigation.getParam('checkpoint_number', 0)) {
+      this.changeClues();
+    // }
   }
   
-  getSnapshotBeforeUpdate() {
+  // getSnapshotBeforeUpdate() {
 
-  }
+  // }
 
   render() {
     console.log(this.state.clues);
