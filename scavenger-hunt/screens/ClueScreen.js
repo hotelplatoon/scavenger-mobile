@@ -60,9 +60,9 @@ export default class ClueScreen extends React.Component {
             clues: clueText,
             checkpoint_name: clueName,
             checkpoint_amount: 5,
-            checkpoint_number: this.props.navigation.getParam('checkpoint_number', 0),
+            checkpoint_number: this.props.navigation.getParam('checkpoint_number', 1),
           })
-          // console.log(`On the clue screen, line 103: ${this.state.checkpoint_number}`)
+          console.log(`On the clue screen, line 103: ${this.state.checkpoint_number}`)
         })
         .catch((error) => {
           console.log(error)
@@ -71,10 +71,10 @@ export default class ClueScreen extends React.Component {
 
   componentDidMount() {
     console.log(`98 ${this.state.checkpoint_number}`)
-    if (this.state.checkpoint_number === 0) {
-      this.changeClues()
-    }
-    else if (this.state.checkpoint_number < this.state.checkpoint_amount) {
+    // if (this.state.checkpoint_number === 0) {
+    //   this.changeClues()
+    // }
+    if (this.state.checkpoint_number < this.state.checkpoint_amount) {
       // this.setState ({
       //   checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
       // })
