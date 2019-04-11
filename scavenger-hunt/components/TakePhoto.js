@@ -98,7 +98,6 @@ export default class TakePhoto extends React.Component {
       })
     }
 
-
     // if (detectedLandmarks.includes(checkpoint_name)){  
     // // if (detectedLandmarks.includes("Wrigley Field")){  // Checks if GVs response equals the checkpoint_name
     //   // Checks if GVs response equals the checkpoint_name
@@ -139,9 +138,12 @@ export default class TakePhoto extends React.Component {
 
   savePhotoToDB = (fileName) => {
     // let userHuntId = this.state.userHuntId
-    let userHuntId = 1
-    //send userHuntId and checkpoint_id to S3 bucket
-    ImagesDjangoAPI.addImage(fileName, userHuntId)
+    let imageObject = {
+      "image_name": fileName,
+      "user_hunt_id": 1,
+      "checkpoint_id": this.state.checkpoint_id
+    }
+    ImagesDjangoAPI.addImage(imageObject)
       .then((response) => {
         if (response.status === 201) {
           console.log(response)
@@ -151,6 +153,9 @@ export default class TakePhoto extends React.Component {
       })
       .catch((error) => {
         console.log(error)
+      })
+      this.setState({
+        isMatchedPhoto : true
       })      
     }
 
