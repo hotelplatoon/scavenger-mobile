@@ -1,15 +1,15 @@
 const fetchImages = () => {
-  return fetch(`https://cors-anywhere.herokuapp.com/https://hunt-app-backend.herokuapp.com/api/userhunt/`)
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/userimages/`)
     .then((response) => response.json());
 }
 
-const addImage = (imageName) => {
-  return fetch('https://cors-anywhere.herokuapp.com/https://hunt-app-backend.herokuapp.com/api/userhunt/', {
+const addImage = (imageObject) => {
+  return fetch('https://hunt-app-backend.herokuapp.com/api/userimages/', {
     headers: {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    body: JSON.stringify(imageName)
+    body: JSON.stringify(imageObject)
   })
 }
 

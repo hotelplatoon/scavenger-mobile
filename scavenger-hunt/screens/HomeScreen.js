@@ -104,9 +104,6 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.subTitleText}>How to play</Text>
           </TouchableHighlight>
         </View>
-
-
-
       </View>
     );
   }
