@@ -26,11 +26,11 @@ export default class App extends React.Component {
     isSignedIn()
       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
       .catch(err => alert("An error occurred"));
-      console.log('22 App.js this.state',this.state)
+      console.log('******** 22 App.js this.state',this.state)
     }
 
   render() {
-    console.log('26 App.js this.state',this.state)
+    console.log('********* 26 App.js this.state',this.state)
     const { checkedSignIn, signedIn } = this.state;
 
     // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
