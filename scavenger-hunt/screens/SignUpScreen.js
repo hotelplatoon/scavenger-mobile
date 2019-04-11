@@ -18,6 +18,7 @@ export default class SignUpScreen extends React.Component {
     componentDidUpdate() {
     console.log(this.state)
   }
+  _navigator = () => {this.props.navigation.navigate('SignInScreen')}
 
   _addUser = () => {
     const userObject =
@@ -28,13 +29,13 @@ export default class SignUpScreen extends React.Component {
   }
     UserAPI.addUser(userObject)
       .then((response) => {
-        // if (response.status === 200) {
-          console.log(response)
-          console.log('userObject', userObject)
-            // ._bodyInit.slice(9,-1))
-        // } else {
-          console.log('false')
-        // }
+        if (response.status === 201) {
+          // () => this.props.navigation.navigate("SignInScreen")  
+          alert('User Created');
+          this._navigator()
+        } else {
+          alert('No User Created')
+        }
       })
       .catch((error) => {
         console.log(error)
