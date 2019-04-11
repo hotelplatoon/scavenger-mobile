@@ -17,7 +17,7 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
-export default class HomeScreen extends React.Component {
+export default class FinishScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -42,8 +42,8 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
-            <Text style={styles.subTitleText}>Welcome to</Text>
+            <Text style={styles.getStartedText}>Congratulations{this.state.user_name}!</Text>
+            <Text style={styles.subTitleText}>You have completed</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
 
@@ -56,7 +56,7 @@ export default class HomeScreen extends React.Component {
             onPress={() => navigate('Clue', {name: 'Jane'})}
 
             underlayColor='#fff'>
-            <Text style={styles.startGameText}>START NEW HUNT</Text>
+            <Text style={styles.startGameText}>START A NEW HUNT</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component {
         />
           </ScrollView>
 
-          <View style={{marginTop: 22}}>
+          {/* <View style={{marginTop: 22}}>
             <Modal 
               animationType="slide"
               transparent={false}
@@ -103,7 +103,7 @@ export default class HomeScreen extends React.Component {
             }}>
             <Text style={styles.subTitleText}>How to play</Text>
           </TouchableHighlight>
-        </View>
+        </View> */}
 
 
 
