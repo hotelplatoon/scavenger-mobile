@@ -1,18 +1,18 @@
-const fetchHuntByID = (huntID) => {
+const fetchHuntByID = () => {
   return fetch(`https://scavenger-backend.herokuapp.com/api/hunt`)
     .then((response) => response.json());
 }
 
-const fetchCheckpointsbyID = (checkpointID) => {
+const fetchCheckpointsbyID = () => {
   //Ask Scotty or Dr.Google
   // return fetch(`https://cors-anywhere.herokuapp.com/https://hunt-app-backend.herokuapp.com/api/checkpoint/`)
 
-  return fetch(`https://hunt-app-backend.herokuapp.com/api/checkpoint/${checkpointID}`)
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/checkpoint`)
     .then((response) => response.json());
 }
  
 const fetchUsersbyID = (userID) => {
-  return fetch(`https://craigslist-django-backend.herokuapp.com/api/signup`)
+  return fetch(`https://scavenger-backend.herokuapp.com/api/signup`)
     .then((response) => response.json());
 }
 
