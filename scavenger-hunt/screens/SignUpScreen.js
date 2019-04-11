@@ -4,7 +4,6 @@ import { Button, Card, Input, Text } from "react-native-elements";
 import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 
-// export default ({ navigation }) => (
 export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -30,7 +29,6 @@ export default class SignUpScreen extends React.Component {
     UserAPI.addUser(userObject)
       .then((response) => {
         if (response.status === 201) {
-          // () => this.props.navigation.navigate("SignInScreen")  
           alert('User Created');
           this._navigator()
         } else {
@@ -91,57 +89,3 @@ export default class SignUpScreen extends React.Component {
     )
   }
 };
-
-// export default class SignUpScreen extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     state = {
-//       email: '',
-//       password: '',
-//       confirmPassword: ''
-//     }
-//   }
-
-//   componentDidUpdate() {
-//     console.log(this.state)
-//   }
-
-//   render() {
-//     return (
-//       <View style={{ paddingVertical: 20 }}>
-//       <Card title="Sign up">
-//         <Text h1>Sign Up</Text>
-//         <Input
-//           label='Email'
-//           placeholder='charles@codeplatoon.com...'
-//           onChangeText={(email) => this.setState({email})}
-//         />
-//         <Input
-//           secureTextEntry
-//           label='Password'
-//           placeholder='Password...'
-//         />
-//         <Input
-//           secureTextEntry
-//           label='Confirm Password'
-//           placeholder='Confirm Password...'
-//         />
-//         <Button
-//           buttonStyle={{ marginTop: 20 }}
-//           backgroundColor="#03A9F4"
-//           title="SIGN UP"
-//           onPress={() => alert('onSignIn()')}
-//         />
-//         <Button
-//           buttonStyle={{ marginTop: 20 }}
-//           type='outline'
-//           textStyle={{ color: "#bcbec1" }}
-//           title="Sign In"
-//           onPress={() => this.props.navigation.navigate("SignInScreen")}
-//         />
-//         </Card>
-//       </View>
-
-//     )
-//   }
-// }
