@@ -170,6 +170,7 @@ export default class TakePhoto extends React.Component {
       checkpoint_number: (this.state.checkpoint_number + 1)
     })
     this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number})
+    this.props. changeClues()
   }
 
   render() {
