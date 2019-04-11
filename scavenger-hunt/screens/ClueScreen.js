@@ -10,26 +10,26 @@ export default class ClueScreen extends React.Component {
     this.state = {
       clues: [],
       // flag: false,
-      checkpoint_number: 1,
+      checkpoint_number: 0,
       description: "",
       // clueName: "",
-      hunts: [],
+      // hunts: [],
       // checkpoint_number: {this.props.navigation.checkpoint_number}? {this.props.navigation.checkpoint_number} : null}
 
       // clues: ["________, created by noted American artist Alexander Calder, is a 53-foot (16 m) tall stabile located in the Federal Plaza in front of the Kluczynski Federal Building in Chicago, Illinois, United States.", "Clue 2"],
       checkpoint_name : "",
-      checkpoint_amount: 0
+      checkpoint_amount: 5
     }
   }
 
   //get the checkpoint amount of the hunt_id
-  getHunts() {
-    HuntApi.fetchHuntByID()
-      .then((apiResponseJSON) => {
-      return
-      }
-    )
-  }
+  // getHunts() {
+  //   HuntApi.fetchHuntByID()
+  //     .then((apiResponseJSON) => {
+  //     return
+  //     }
+  //   )
+  // }
 
   // filterCluesHuntID() {
   //   this.setState({
@@ -68,14 +68,14 @@ export default class ClueScreen extends React.Component {
     return clueName
   }
 
-  getCheckpointAmount (hunts) {
-    let checkpointAmount = hunts.filter(function(hunt) {
-    if (hunt.pk === 1) {
-      return hunt.checkpoint_amount;
-    }})
-    console.log(checkpointAmount);
-    return checkpointAmount
-  }
+  // getCheckpointAmount (hunts) {
+  //   let checkpointAmount = hunts.filter(function(hunt) {
+  //   if (hunt.pk === 1) {
+  //     return hunt.checkpoint_amount;
+  //   }})
+  //   console.log(checkpointAmount);
+  //   return checkpointAmount
+  // }
 
   // filterCluesCheckpointNumber(clues) {
   // return clues.find(index => index === 2)
@@ -84,18 +84,19 @@ export default class ClueScreen extends React.Component {
   changeClues() {
       HuntApi.fetchCheckpointsbyID()
         .then((apiResponseJSON) => {
-          let hunts = this.getHuntInfo()
+          // let hunts = this.getHuntInfo()
+          // let checkpointAmount = this.getCheckpointAmount(hunts)
+
           let cluesByHuntID = this.filterCluesHuntID(apiResponseJSON)
           let correctClue = this.filterCluesCheckpointNumber(cluesByHuntID)
-          let checkpointAmount = this.getCheckpointAmount(hunts)
           let clueText = this.getClueText(correctClue)
           let clueName = this.getClueName(correctClue)
 
           this.setState({
-            hunts: hunts,
+            // hunts: hunts,
             clues: clueText,
             checkpoint_name: clueName,
-            checkpoint_amount: checkpointAmount
+            checkpoint_amount: 5
             // description:  
           })
         })
@@ -107,10 +108,10 @@ export default class ClueScreen extends React.Component {
   componentDidMount() {
     // this.changeCheckpointNumber()
     console.log(`98 ${this.state.checkpoint_number}`)
-    if (this.state.checkpoint_number === 1) {
+    if (this.state.checkpoint_number === 0) {
       this.changeClues()
     }
-    else if (this.state.checkpoint_number <= this.state.checkpoint_amount()) {
+    else if (this.state.checkpoint_number < this.state.checkpoint_amount) {
       this.setState ({
         checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
       })

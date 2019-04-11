@@ -32,8 +32,8 @@ export default class TakePhoto extends React.Component {
   };
 
   _pickImage = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
-    let result = await ImagePicker.launchCameraAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
+    // let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       base64: true,
       aspect: [4, 3],
