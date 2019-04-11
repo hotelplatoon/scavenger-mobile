@@ -14,7 +14,14 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
   }
-    
+  componentDidUpdate(){ 
+    _signOutAsync = async () => {
+      await AsyncStorage.clear();
+      this.props.navigation.navigate('Auth');
+  };
+}
+
+
   componentDidMount() {
     isSignedIn()
       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
