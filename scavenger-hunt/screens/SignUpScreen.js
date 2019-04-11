@@ -17,20 +17,22 @@ export default class SignUpScreen extends React.Component {
     componentDidUpdate() {
     console.log(this.state)
   }
-  _navigator = () => {this.props.navigation.navigate('SignInScreen')}
+  _goToSignInScreen = () => {this.props.navigation.navigate('SignInScreen')}
 
   _addUser = () => {
-    const userObject =
-    {
-      "name": this.state.name,
-      "email": this.state.email,
-      "password": this.state.password
-  }
+    const userObject = this.state
+  //   {
+  //     "name": this.state.name,
+  //     "email": this.state.email,
+  //     "password": this.state.password
+  // }
+
+  // allFieldsFilled = () =>
     UserAPI.addUser(userObject)
       .then((response) => {
         if (response.status === 201) {
           alert('User Created');
-          this._navigator()
+          this._goToSignInScreen()
         } else {
           alert('No User Created')
         }
@@ -72,6 +74,7 @@ export default class SignUpScreen extends React.Component {
 
       <Button
         buttonStyle={{ marginTop: 20 }}
+        // disabled='false'
         backgroundColor="#03A9F4"
         title="SIGN UP"
         onPress={() => this._addUser()}

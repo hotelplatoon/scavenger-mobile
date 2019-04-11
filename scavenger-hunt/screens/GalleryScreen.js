@@ -1,8 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
-
-// import testImage from '../api/testImage.json'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
+import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 
 export default class GalleryScreen extends React.Component {
@@ -12,57 +12,68 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      imageURL : null
+      images : null,
+      imageURLs : []
     }}
+    // Maybe only get the urls of images, whose user_hunt_id matches whats in state
 
   async componentDidMount() {
-    let url = await S3ImagesAPI.s3.getSignedUrl('getObject', {
-      Bucket: "guess-who-images",
-      Key: "fre7MpG4lQV9",
-      Expires: 1800
-    });
-    console.log(url)
-    this.setState({
-      imageURL: url
+    let imageNames = []
+    let imageURLs = []
+    await ImagesDjangoAPI.fetchImages()  // Grab all imagenames from DB
+      .then((apiResponseJSON) => {
+        for (let element of apiResponseJSON) {
+          let imageObject = { // Create new obj with user_hunt_id and image name
+            user_hunt_id : element.user_hunt_id,
+            image_name : element.image_name
+          }
+          imageNames.push({imageObject})
+          let url = S3ImagesAPI.s3.getSignedUrl('getObject', {  // Get the urls for all the images from the bucket
+            Bucket: "guess-who-images",
+            Key: element.image_name,
+            Expires: 1800
+          });
+          imageURLs.push(url)
+      }
+      this.setState({
+        imageURLs: imageURLs,
+        images: imageNames
+      })
+    })
+    .catch((error) => {
+      console.log(error)
     })
   }
 
-  render() {
-    // { console.log(`22: ${testImage}`) }
-    { console.log(`22: ${this.state.imageURL}`) }
+  createImages() {
+    return this.state.imageURLs.map(( imageURL, index ) =>
+      <View key={index} >
+        <Image 
+          style={{width: 155, height: 155, margin: 6, borderRadius: 2}}
+          source={{uri: imageURL}}
+          PlaceholderContent={<ActivityIndicator />}
+        />
+      </View>
+      )
+    }
 
+  render() {
     return (
       <View style={styles.container}>
-
         <ScrollView contentContainerStyle={styles.contentContainer}>
+          <Text style={styles.titleText}>Checkpoint Photos</Text>
           <View style={styles.container}>
 
-            {/* <Image 
-              style={{width: 66, height: 58}}
-              source={{uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=='}}
-            />
-            <Image 
-              style={{width: 200, height: 200}}
-              source={{uri: `data:image/png;base64,${testImage}`}}
-            /> */}
-            {/* <Image 
-              style={{width: 200, height: 200}}
-              source={{uri: `data:image/png;base64,${this.state.imageURL}`}}
-            /> */}
-
-            { this.state.imageURL && 
-            <Image 
-              style={{width: 200, height: 200}}
-              source={{uri: this.state.imageURL}}
-            /> }
-
+            { this.state.imageURLs && this.createImages() }
+          </View>
+          <View style={styles.container}>
             <Button
               title="Go back"
+              type="outline"
+              raised={true}
               onPress={() => this.props.navigation.navigate('Main')}
             />
-
           </View>
-
         </ScrollView>
       </View>
     );
@@ -79,5 +90,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
+  },
+  titleText: {
+    fontSize: 30,
+    color: '#4c0a01',
+    lineHeight: 30,
+    textAlign: 'center',
+    fontWeight: "900",
+    paddingLeft : 10,
+    paddingRight : 10,
   },
 });

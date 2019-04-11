@@ -104,10 +104,10 @@ export default class TakePhoto extends React.Component {
           throw new Error("Failed to upload image to S3");
         } else {
         console.log(response.body)
-        // this.savePhotoToDB(fileName)
-          this.setState({
-            isMatchedPhoto : true
-          })
+        this.savePhotoToDB(fileName)
+          // this.setState({
+          //   isMatchedPhoto : true
+          // })
         }
       });
     }
@@ -115,8 +115,12 @@ export default class TakePhoto extends React.Component {
 
   savePhotoToDB = (fileName) => {
     // let userHuntId = this.state.userHuntId
-    let userHuntId = 1
-    ImagesDjangoAPI.addImage(fileName, userHuntId)
+    let imageObject = {
+      "image_name": fileName,
+      "user_hunt_id": 1,
+      "checkpoint_id": this.state.checkpoint_id
+    }
+    ImagesDjangoAPI.addImage(imageObject)
       .then((response) => {
         if (response.status === 201) {
           console.log(response)
@@ -126,6 +130,9 @@ export default class TakePhoto extends React.Component {
       })
       .catch((error) => {
         console.log(error)
+      })
+      this.setState({
+        isMatchedPhoto : true
       })      
     }
 
