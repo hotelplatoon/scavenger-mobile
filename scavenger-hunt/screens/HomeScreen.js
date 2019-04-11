@@ -10,10 +10,13 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  TouchableHighlight
+  TouchableHighlight,
+  Button,
+  AsyncStorage
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
+import { USER_KEY } from '../auth'
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -22,7 +25,14 @@ export default class HomeScreen extends React.Component {
       modalVisible: false
     }}
 
+    _checkAsync = async () => {
+      let value = await AsyncStorage.getItem('USER_KEY')
+      console.log(value)
+    }
+
   render() {
+    
+
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -55,6 +65,12 @@ export default class HomeScreen extends React.Component {
             underlayColor='#fff'>
             <Text style={styles.startGameText}>View Gallery</Text>
           </TouchableOpacity>
+          <Button
+        buttonStyle={{ marginTop: 20 }}
+        backgroundColor="#03A9F4"
+        title="Async Test"
+        onPress={() => this._checkAsync()}
+        />
           </ScrollView>
 
           <View style={{marginTop: 22}}>
