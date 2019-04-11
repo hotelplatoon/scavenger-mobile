@@ -4,7 +4,6 @@ import { Button, Card, Input, Text } from "react-native-elements";
 import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 
-// export default ({ navigation }) => (
 export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -18,23 +17,25 @@ export default class SignUpScreen extends React.Component {
     componentDidUpdate() {
     console.log(this.state)
   }
+  _goToSignInScreen = () => {this.props.navigation.navigate('SignInScreen')}
 
   _addUser = () => {
-    const userObject =
-    {
-      "name": this.state.name,
-      "email": this.state.email,
-      "password": this.state.password
-  }
+    const userObject = this.state
+  //   {
+  //     "name": this.state.name,
+  //     "email": this.state.email,
+  //     "password": this.state.password
+  // }
+
+  // allFieldsFilled = () =>
     UserAPI.addUser(userObject)
       .then((response) => {
-        // if (response.status === 200) {
-          console.log(response)
-          console.log('userObject', userObject)
-            // ._bodyInit.slice(9,-1))
-        // } else {
-          console.log('false')
-        // }
+        if (response.status === 201) {
+          alert('User Created');
+          this._goToSignInScreen()
+        } else {
+          alert('No User Created')
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -73,6 +74,7 @@ export default class SignUpScreen extends React.Component {
 
       <Button
         buttonStyle={{ marginTop: 20 }}
+        // disabled='false'
         backgroundColor="#03A9F4"
         title="SIGN UP"
         onPress={() => this._addUser()}
@@ -90,57 +92,3 @@ export default class SignUpScreen extends React.Component {
     )
   }
 };
-
-// export default class SignUpScreen extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     state = {
-//       email: '',
-//       password: '',
-//       confirmPassword: ''
-//     }
-//   }
-
-//   componentDidUpdate() {
-//     console.log(this.state)
-//   }
-
-//   render() {
-//     return (
-//       <View style={{ paddingVertical: 20 }}>
-//       <Card title="Sign up">
-//         <Text h1>Sign Up</Text>
-//         <Input
-//           label='Email'
-//           placeholder='charles@codeplatoon.com...'
-//           onChangeText={(email) => this.setState({email})}
-//         />
-//         <Input
-//           secureTextEntry
-//           label='Password'
-//           placeholder='Password...'
-//         />
-//         <Input
-//           secureTextEntry
-//           label='Confirm Password'
-//           placeholder='Confirm Password...'
-//         />
-//         <Button
-//           buttonStyle={{ marginTop: 20 }}
-//           backgroundColor="#03A9F4"
-//           title="SIGN UP"
-//           onPress={() => alert('onSignIn()')}
-//         />
-//         <Button
-//           buttonStyle={{ marginTop: 20 }}
-//           type='outline'
-//           textStyle={{ color: "#bcbec1" }}
-//           title="Sign In"
-//           onPress={() => this.props.navigation.navigate("SignInScreen")}
-//         />
-//         </Card>
-//       </View>
-
-//     )
-//   }
-// }
