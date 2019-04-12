@@ -43,7 +43,9 @@ export default class SelectThemeScreen extends React.Component {
           raised={true}
           style={{width: 100}}
           // Currently just sends over the first object to ClueScreen. Need to send only the button that was pressed.
-          onPress={() => this.props.navigation.navigate('Clue',{huntTheme: (this.state.huntThemes[0])})}
+          // onPress={() => this.props.navigation.navigate('Clue',{huntTheme: (this.state.huntThemes[0])})}
+          onPress={() => this.props.navigation.navigate('Clue',{selectedHuntTheme: huntTheme.category})}
+
         />
       </View>
       )

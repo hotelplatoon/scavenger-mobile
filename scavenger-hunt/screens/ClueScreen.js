@@ -70,7 +70,8 @@ export default class ClueScreen extends React.Component {
     }
 
   componentDidMount() {
-    console.log(`98 ${this.state.checkpoint_number}`)
+    console.log(`73 ${this.state.checkpoint_number}`)
+    console.log(`74 ${this.props.navigation.getParam('selectedHuntTheme', "NO_THEME_SELECTED")}`)
     // if (this.state.checkpoint_number === 0) {
     //   this.changeClues()
     // }
@@ -88,11 +89,11 @@ export default class ClueScreen extends React.Component {
   }
 
 
-  componentDidUpdate(props) {
-    // if (this.state.checkpoint_number != this.props.navigation.getParam('checkpoint_number', 0)) {
-      this.changeClues();
-    // }
-  }
+  // componentDidUpdate(props) {
+  //   // if (this.state.checkpoint_number != this.props.navigation.getParam('checkpoint_number', 0)) {
+  //     this.changeClues();
+  //   // }
+  // }
   
   // getSnapshotBeforeUpdate() {
 
