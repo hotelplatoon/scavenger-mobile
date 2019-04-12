@@ -32,6 +32,10 @@ export default class SelectThemeScreen extends React.Component {
     })
   }
 
+  setHuntTheme = (huntTheme) => {
+    this.props.navigation.navigate('Clue', {selectedHuntTheme: huntTheme.pk})
+  }
+
   createThemeButtons() {
     return this.state.huntThemes.map(( huntTheme, index ) =>
       <View key={index} 
@@ -42,10 +46,7 @@ export default class SelectThemeScreen extends React.Component {
           type="outline"
           raised={true}
           style={{width: 100}}
-          onPress={() => this.props.navigation.navigate('Clue',{
-            selectedHuntTheme: huntTheme
-          })}
-
+          onPress={this.setHuntTheme(huntTheme)}
         />
       </View>
       )

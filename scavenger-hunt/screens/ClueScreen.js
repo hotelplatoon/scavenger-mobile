@@ -7,7 +7,6 @@ export default class ClueScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      //array of clue objects, [0,1,2,3,4]
       clues: [],
       checkpoint_number: 0,
       description: "",
@@ -72,7 +71,6 @@ export default class ClueScreen extends React.Component {
       'TakePhoto', { 
         checkpoint_number: clueIndex, 
         checkpoint_name: clue.clue,
-        //Last checkppoint is the lenthg of the total clues array -1
         finalCheckpoint: this.state.clues.length - 1,
       }
     )}
@@ -89,24 +87,17 @@ export default class ClueScreen extends React.Component {
   }
 
   renderClue = () => {
-    //The index of the clue displayed should match the checkpoint number that the user is currently on.
-    //Correct clue number is grabbed using the checkpoint number as the clue index 
     const clueIndex = this.state.checkpoint_number
     const clue = this.state.clues[clueIndex]
-    // const clueName = clue.clue
-    //If clue object exists then grab the description of the clue and send the text to Clue as the text
     if (clue) {
       return <Clue text={clue.description} />
     }
   }
 
-  //Filtering of clues by HuntID is currently hardcoded to 1, which is landmarks. Clue objects are pulled in from the database and then filtered if they are tagged as landmarks in the database.
   filterCluesHuntID(data) {
-    return data.filter(clue => clue.hunt_id === 1)
+    return data.filter(clue => clue.hunt_id === this.props.navigation.getParam('selectedHuntTheme'))
   }
 
-  //Call to the database to pull in clue JSON data and create an array of clue objects. 
-  //filterCluesHuntID is called to match the clues with the type of hunt the user selectec (Landmark, statues, signs, etc.)
   fetchClues = () => {
     HuntApi.fetchCheckpointsbyID()
       .then(allClues => {
