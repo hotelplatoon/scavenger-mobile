@@ -70,7 +70,13 @@ export default class ClueScreen extends React.Component {
     }
 
   componentDidMount() {
-    console.log(`98 ${this.state.checkpoint_number}`)
+    // console.log(`73 ${this.state.checkpoint_number}`)
+    let selectedHuntTheme = this.props.navigation.getParam('selectedHuntTheme', "NO_THEME_SELECTED") 
+    console.log(`75 - Hunt theme passed from SelectThemeScreen: ${selectedHuntTheme.category}`)
+    console.log(`76 - Number of checkpoints: ${selectedHuntTheme.checkpoint_amount}`)
+    console.log(`77 - ID of Selected hunt theme: ${selectedHuntTheme.pk}`)
+
+
     // if (this.state.checkpoint_number === 0) {
     //   this.changeClues()
     // }
