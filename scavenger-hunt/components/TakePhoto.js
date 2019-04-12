@@ -14,9 +14,7 @@ export default class TakePhoto extends React.Component {
     image: null,
     hasCameraPermission: null,
     encodedImage : null,
-    // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
     checkpoint_name : "",
-    // checkpoint_number has been changed from grabbing the param passed into navigation from the ClueScreen to 0.
     checkpoint_number : 0,
     isFailMessageVisible : false,
     isMatchedPhoto: false,
@@ -30,13 +28,9 @@ export default class TakePhoto extends React.Component {
     this.setState({ hasCameraPermission, checkpoint_name });
   };
 
-  //Adding in componentDidUpdate
-  //clueIndex is set to the checkpoint_number passed through navigation, otherwise 0.
-  //TakePhoto is initialized to have a checkpoint of 0, but each time the TakePhoto is rendered it is pulling the checkpoint_number passed from ClueScreen (which is then getting the incremented checkpoint_number from the TakePhoto screen if the photo is correct.)
   componentDidUpdate(){
     const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
     const checkpoint_name = this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")
-    //If this.state.checkpoint_number doesn't match the clueIndex (which is the checkpoint_number pulled from navigation) then the checkpoint_number is set so the clueIndex is the new checkpoint_number.
     if (this.state.checkpoint_number != clueIndex) {
       this.setState({
         ...this.state, 
@@ -47,14 +41,12 @@ export default class TakePhoto extends React.Component {
   }
 
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
-    // let result = await ImagePicker.launchCameraAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       base64: true,
       aspect: [4, 3],
       quality: 0.5,
     });
-    // console.log(result);
     console.log(result.uri);
 
     if (!result.cancelled) {
@@ -63,7 +55,6 @@ export default class TakePhoto extends React.Component {
         encodedImage : result.base64
       });
     }
-    // console.log(this.state.encodedImage)
   }
 
   generateUniqueImageName = () => {
@@ -81,7 +72,6 @@ export default class TakePhoto extends React.Component {
         console.log("=========================")
         if (!JSONresponse.responses[0].landmarkAnnotations) {
           console.log("50: Your image could not be successfully analyzed")
-          // If unsuccessful user notified and take new photo
           this.setState({
             isFailMessageVisible : true,
             isMatchedPhoto: false
@@ -92,9 +82,7 @@ export default class TakePhoto extends React.Component {
           for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
             detectedLandmarks.push((landmark.description))
           }
-          //This is empty???
-          // console.log(`77: ${detectedLandmarks}`)
-          this.isMatchingPhoto(detectedLandmarks)  // Checks if image matches
+          this.isMatchingPhoto(detectedLandmarks)
         } 
       })
       .catch((error) => {
@@ -103,37 +91,6 @@ export default class TakePhoto extends React.Component {
   }
 
   isMatchingPhoto = (detectedLandmarks) => {
-
-    // if (detectedLandmarks.includes(this.state.checkpoint_name) ){  // Checks if GVs response equals the checkpoint_name
-    //   console.log(`86: SUCCESS! Your photo matches!`)
-    //   let fileName = this.generateUniqueImageName()  // Create unique image name for bucket
-    //   console.log(fileName)
-    //   let file = {
-    //     uri: this.state.image,
-    //     name: fileName,
-    //     type: "image/png"
-    //   }
-    //   const options = {
-    //     // keyPrefix: "uploads/",
-    //     bucket: "scavenger-bucket",
-    //     region: "us-east-2",
-    //     accessKey: Constants.manifest.extra.S3_API_KEY_ID,
-    //     secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
-    //     successActionStatus: 201
-    //   }
-    //   RNS3.put(file, options).then(response => {  // Send to S3 bucket!
-    //     if (response.status !== 201) {
-    //       console.log(response)
-    //       throw new Error("Failed to upload image to S3");
-    //     } else {
-    //     console.log(response.body)
-    //     this.savePhotoToDB(fileName)
-    //       // this.setState({
-    //       //   isMatchedPhoto : true
-    //       // })
-    //     }
-    //   });
-
     let checkpoint_name = this.state.checkpoint_name
 
     console.log(`89: ${detectedLandmarks}`)
@@ -141,11 +98,33 @@ export default class TakePhoto extends React.Component {
 
     for (let i=0; i< detectedLandmarks.length; i++) {
       if (detectedLandmarks[i] === checkpoint_name) {
+
         console.log("yes")
-        this.setState({
-          isMatchedPhoto : true,
-          isFailMessageVisible : false
-        })
+
+        let fileName = this.generateUniqueImageName()
+        console.log(fileName)
+        let file = {
+          uri: this.state.image,
+          name: fileName,
+          type: "image/png"
+        }
+        const options = {
+          // keyPrefix: "uploads/",
+          bucket: "scavenger-bucket",
+          region: "us-east-2",
+          accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+          secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+          successActionStatus: 201
+        }
+        RNS3.put(file, options).then(response => {  // Send to S3 bucket!
+          if (response.status !== 201) {
+            console.log(response)
+            throw new Error("Failed to upload image to S3");
+          } else {
+          console.log(response.body)
+          this.savePhotoToDB(fileName)
+          }
+        });
         break
       }
       else {
@@ -156,25 +135,13 @@ export default class TakePhoto extends React.Component {
         })
       }
     }
-
-    // (name in detectedLandmarks) {
-    //   if (name === checkpoint_name)
-    //   console.log("yes")
-    //   this.setState({
-    //     isMatchedPhoto : true
-    //   })
-
-    // }
-
   }
   
-
   savePhotoToDB = (fileName) => {
-    // let userHuntId = this.state.userHuntId
     let imageObject = {
       "image_name": fileName,
       "user_hunt_id": 1,
-      "checkpoint_id": this.state.checkpoint_id
+      "checkpoint_id": (this.state.checkpoint_number + 1)
     }
     ImagesDjangoAPI.addImage(imageObject)
       .then((response) => {
@@ -187,9 +154,11 @@ export default class TakePhoto extends React.Component {
       .catch((error) => {
         console.log(error)
       })
+      //
       this.setState({
-        isMatchedPhoto : true
-      })      
+        isMatchedPhoto : true,
+        isFailMessageVisible : false
+      })   
     }
 
   setModalVisible(visible) {
@@ -200,9 +169,7 @@ export default class TakePhoto extends React.Component {
     });
   }
 
-  //My old function
   clearOverlay= () => {
-    //sets the finalCheckpoint variable to default of 4, which is 1 less than the array length, or to the finalCheckpoint which is set on the ClueScreen to be 1 less than the total Clue array (length is currently 5.)
     const finalCheckpoint = this.props.navigation.getParam('finalCheckpoint', 4)
 
     this.setState({
@@ -221,7 +188,6 @@ export default class TakePhoto extends React.Component {
   render() {
     let { image } = this.state;
     console.log(`125: ${this.state.checkpoint_number}`)
-    // console
 
     return (
       <View style={styles.container}>
@@ -255,7 +221,6 @@ export default class TakePhoto extends React.Component {
               overlayBackgroundColor="rgba(255, 255, 255, .8)"
               width="80%"
               height="50%"
-              // onBackdropPress={() => this.setState({ isVisible: false })}
             >
             <View style={styles.overlayMessage}>
               <Text>Woohoo! You found it - nice work!</Text>
