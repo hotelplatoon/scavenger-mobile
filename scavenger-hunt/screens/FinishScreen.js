@@ -49,7 +49,7 @@ export default class FinishScreen extends React.Component {
           */}
           <TouchableOpacity
             style={styles.startGameButton}
-            onPress={() => navigate('Clue', {checkpoint_number: 0}, {name: 'Jane'})}
+            onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START A NEW HUNT</Text>
           </TouchableOpacity>

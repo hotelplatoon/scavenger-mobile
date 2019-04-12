@@ -37,8 +37,10 @@ export default class ClueScreen extends React.Component {
 
           <View style={styles.getStartedContainer}>
             <Text style={styles.titleText}>
-            {this.props.navigation.getParam('selectedHuntCategory')}
-            CHECKPOINT {this.state.checkpoint_number + 1}
+              {this.props.navigation.getParam('selectedHuntCategory', 'NONE')}
+            </Text>
+            <Text style={styles.titleText}>
+              CHECKPOINT {this.state.checkpoint_number + 1}     
             </Text>
           </View>
 
