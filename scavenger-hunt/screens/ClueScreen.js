@@ -1,141 +1,119 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import ClueText from '../components/ClueText';
-// import { ExpoLinksView } from '@expo/samples';
+import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
 
 export default class ClueScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      //array of clue objects, [0,1,2,3,4]
       clues: [],
       checkpoint_number: 0,
       description: "",
       checkpoint_name : "",
       checkpoint_amount: 5,
-      numberUpdated: false
+      clueText: ""
     }
   }
-
-  filterCluesHuntID(data) {
-    return data.filter(clue => clue.hunt_id === 1)
-  }
-
-  filterCluesCheckpointNumber(clues) {
-    // console.log(`47 ${typeof(this.state.checkpoint_number)}`)
-    // console.log(`48 ${this.state.checkpoint_number}`)
-    let number = this.state.checkpoint_number
-    let clue = clues.filter(function(clue, index, self) {
-      // console.log(`50 ${self.indexOf(clue)}`)
-      return self.indexOf(clue) === number
-  });
-  return clue;
-  }
-
-  getClueText(clue) {
-    let clueText = clue.map(function(clue) {
-      return clue.description;
-    })
-    console.log(clueText);
-    return clueText
-  }
-
-  getClueName(clue) {
-    let clueName = clue.map(function(clue) {
-      return clue.clue;
-    })
-    console.log(clueName);
-    return clueName
-  }
-
-  changeClues() {
-      HuntApi.fetchCheckpointsbyID()
-        .then((apiResponseJSON) => {
-          let cluesByHuntID = this.filterCluesHuntID(apiResponseJSON)
-          let correctClue = this.filterCluesCheckpointNumber(cluesByHuntID)
-          let clueText = this.getClueText(correctClue)
-          let clueName = this.getClueName(correctClue)
-
-          this.setState({
-            clues: clueText,
-            checkpoint_name: clueName,
-            checkpoint_amount: 5,
-            checkpoint_number: this.props.navigation.getParam('checkpoint_number', 1),
-          })
-          console.log(`On the clue screen, line 103: ${this.state.checkpoint_number}`)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
 
   componentDidMount() {
-    // console.log(`73 ${this.state.checkpoint_number}`)
-    let selectedHuntTheme = this.props.navigation.getParam('selectedHuntTheme', "NO_THEME_SELECTED") 
-    console.log(`75 - Hunt theme passed from SelectThemeScreen: ${selectedHuntTheme.category}`)
-    console.log(`76 - Number of checkpoints: ${selectedHuntTheme.checkpoint_amount}`)
-    console.log(`77 - ID of Selected hunt theme: ${selectedHuntTheme.pk}`)
-
-
-    // if (this.state.checkpoint_number === 0) {
-    //   this.changeClues()
-    // }
-    if (this.state.checkpoint_number < this.state.checkpoint_amount) {
-      // this.setState ({
-      //   checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
-      // })
-      console.log(this.state.checkpoint_number)
-      this.changeClues()
-    }
-    else {
-      console.log("the game should be over now.")
-      this.props.navigation.navigate('Finish')
-    }
+    this.fetchClues()
   }
 
-
-  componentDidUpdate(props) {
-    // if (this.state.checkpoint_number != this.props.navigation.getParam('checkpoint_number', 0)) {
-      this.changeClues();
-    // }
-  }
-  
-  // getSnapshotBeforeUpdate() {
-
-  // }
+  componentDidUpdate() {
+    const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
+    clue = this.state.clues[clueIndex]
+    if (clueIndex != this.state.checkpoint_number) {
+      this.setState({
+        ...this.state, checkpoint_number: clueIndex, checkpoint_name: clue.clue
+      })
+      }
+    }
 
   render() {
-    console.log(this.state.clues);
-    // console.log(`\n24: Checkpoint number "${this.props.navigation.getParam('checkpoint_number', 'no value')}" passed from TouchScreen`) 
-
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.getStartedContainer}>
-            <Text style={styles.titleText}>CHECKPOINT {this.state.checkpoint_number + 1}</Text>
-          </View>
-          <View style={styles.getStartedContainer}>
-            {/* <ClueText clueText={this.state.clues[this.state.checkpoint_number - 1]}/> */} 
-            <ClueText clueText= {this.state.clues}/>
-            {/* {this.state.clues ? <ClueText clueText= {this.state.clues}/> : null} */}
 
+          <View style={styles.getStartedContainer}>
+            <Text style={styles.titleText}>
+              CHECKPOINT {this.state.checkpoint_number + 1}
+            </Text>
           </View>
 
-          {/* Button to navigate to new hunt */}
+          <View style={styles.getStartedContainer}>
+            {this.renderClue()}
+          </View>
+
           <TouchableOpacity
             style={styles.button}
-
-            onPress={() => this.props.navigation.navigate('TakePhoto', {checkpoint_number: (this.state.checkpoint_number), checkpoint_name: this.state.checkpoint_name})}
-
-            underlayColor='#fff'>
-            <Text style={styles.buttonTextLight}>FOUND IT?</Text>
-
-            <Text style={styles.buttonText}>PROVE IT!</Text>
+            onPress={this.goTakePhoto}
+            underlayColor='#fff'
+            >
+            <Text style={styles.buttonTextLight}>
+              FOUND IT?
+            </Text>
+            <Text style={styles.buttonText}>
+              PROVE IT!
+            </Text>
           </TouchableOpacity>
 
         </ScrollView>
       </View>
     );
+  }
+
+  goTakePhoto = () => {
+    const clueIndex = this.state.checkpoint_number
+    const clues = this.state.clues
+    const clue = clues[clueIndex]
+    this.props.navigation.navigate(
+      'TakePhoto', { 
+        checkpoint_number: clueIndex, 
+        checkpoint_name: clue.clue,
+        //Last checkppoint is the lenthg of the total clues array -1
+        finalCheckpoint: this.state.clues.length - 1,
+      }
+    )}
+
+  getClueName = () => {
+    const clueIndex = this.state.checkpoint_number
+    const clue = this.state.clues[clueIndex]
+    if (clue) {
+      this.setState({
+      ...this.setState, checkpoint_name: clue.clue 
+      })
+    }
+    return this.state.checkpoint_name
+  }
+
+  renderClue = () => {
+    //The index of the clue displayed should match the checkpoint number that the user is currently on.
+    //Correct clue number is grabbed using the checkpoint number as the clue index 
+    const clueIndex = this.state.checkpoint_number
+    const clue = this.state.clues[clueIndex]
+    // const clueName = clue.clue
+    //If clue object exists then grab the description of the clue and send the text to Clue as the text
+    if (clue) {
+      return <Clue text={clue.description} />
+    }
+  }
+
+  //Filtering of clues by HuntID is currently hardcoded to 1, which is landmarks. Clue objects are pulled in from the database and then filtered if they are tagged as landmarks in the database.
+  filterCluesHuntID(data) {
+    return data.filter(clue => clue.hunt_id === 1)
+  }
+
+  //Call to the database to pull in clue JSON data and create an array of clue objects. 
+  //filterCluesHuntID is called to match the clues with the type of hunt the user selectec (Landmark, statues, signs, etc.)
+  fetchClues = () => {
+    HuntApi.fetchCheckpointsbyID()
+      .then(allClues => {
+        let clues = this.filterCluesHuntID(allClues)
+        this.setState({clues})
+      })
+      .catch(error => console.log(error))
   }
 }
 
