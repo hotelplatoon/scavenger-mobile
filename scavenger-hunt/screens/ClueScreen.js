@@ -37,7 +37,8 @@ export default class ClueScreen extends React.Component {
 
           <View style={styles.getStartedContainer}>
             <Text style={styles.titleText}>
-              CHECKPOINT {this.state.checkpoint_number + 1}
+            {this.props.navigation.getParam('selectedHuntCategory')}
+            CHECKPOINT {this.state.checkpoint_number + 1}
             </Text>
           </View>
 
@@ -95,7 +96,7 @@ export default class ClueScreen extends React.Component {
   }
 
   filterCluesHuntID(data) {
-    return data.filter(clue => clue.hunt_id === this.props.navigation.getParam('selectedHuntTheme'))
+    return data.filter(clue => clue.hunt_id === this.props.navigation.getParam('selectedHuntID'))
   }
 
   fetchClues = () => {
