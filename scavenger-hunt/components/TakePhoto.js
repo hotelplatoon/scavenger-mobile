@@ -130,42 +130,6 @@ export default class TakePhoto extends React.Component {
       })
 
     }
-
-    // if (detectedLandmarks.includes(checkpoint_name)){  
-    // // if (detectedLandmarks.includes("Wrigley Field")){  // Checks if GVs response equals the checkpoint_name
-    //   // Checks if GVs response equals the checkpoint_name
-    //   console.log(`86: SUCCESS! Your photo matches!`)
-    //   let fileName = this.generateUniqueImageName()  // Create unique image name for bucket
-    //   console.log(fileName)
-    //   let file = {
-    //     uri: this.state.image,
-    //     name: fileName,
-    //     type: "image/png"
-    //   }
-    //   const options = {
-    //     // keyPrefix: "uploads/",
-    //     bucket: "guess-who-images",
-    //     region: "us-east-2",
-    //     accessKey: Constants.manifest.extra.S3_API_KEY_ID,
-    //     secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
-    //     successActionStatus: 201
-    //   }
-    //   // this.setState({
-    //   //   isMatchedPhoto : true
-    //   // })
-    //   console.log(this.state.isMatchedPhoto)
-    //   RNS3.put(file, options).then(response => { 
-    //     if (response.status !== 201) {
-    //       throw new Error("Failed to upload image to S3");
-    //     } else {
-    //     console.log(response.body)
-    //     // this.savePhotoToDB(fileName)
-    //       this.setState({
-    //         isMatchedPhoto : true
-    //       })
-    //     }
-    //   });
-    // }
   }
   
 
