@@ -42,10 +42,7 @@ export default class SelectThemeScreen extends React.Component {
           type="outline"
           raised={true}
           style={{width: 100}}
-          onPress={() => this.props.navigation.navigate('Clue',{
-            selectedHuntTheme: huntTheme
-          })}
-
+          onPress={() => this.props.navigation.navigate('Clue', {selectedHuntID: huntTheme.pk}, {selectedHuntCategory: huntTheme.category} )}
         />
       </View>
       )
