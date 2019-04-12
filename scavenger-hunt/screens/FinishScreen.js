@@ -42,11 +42,6 @@ export default class FinishScreen extends React.Component {
             <Text style={styles.subTitleText}>You have completed</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
-          {/* 
-          Button to navigate to new hunt
-          Takes user back to the clue screen and re-initializes the checkpoint number to 0, then sets the user_nam to Jane.
-          User name is currently hardcoded and will be changed.    
-          */}
           <TouchableOpacity
             style={styles.startGameButton}
             onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
@@ -66,36 +61,6 @@ export default class FinishScreen extends React.Component {
             onPress={() => this._checkAsync()}
             />
           </ScrollView>
-          {/* <View style={{marginTop: 22}}>
-            <Modal 
-              animationType="slide"
-              transparent={false}
-              visible={this.state.modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-              }}>
-              <View style={{margin: 30, padding: 10}}>
-                <View style={styles.howToModal}>
-                <Text style={styles.subTitleText}>How to play THE HUNT</Text>
-                <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
-                <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}>
-                    <Text style={styles.subTitleText} >Hide</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </Modal>
-
-          <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(true);
-            }}>
-            <Text style={styles.subTitleText}>How to play</Text>
-          </TouchableHighlight>
-        </View> */}
       </View>
     );
   }
