@@ -4,7 +4,6 @@ import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
-
 export default class GalleryScreen extends React.Component {
     static navigationOptions = {
     title: 'Gallery',
@@ -62,7 +61,6 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <Text style={styles.titleText}>Checkpoint Photos</Text>
           <View style={styles.container}>
-
             { this.state.imageURLs && this.createImages() }
           </View>
           <View style={styles.container}>

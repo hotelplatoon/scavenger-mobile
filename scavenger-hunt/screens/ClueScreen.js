@@ -75,6 +75,7 @@ export default class ClueScreen extends React.Component {
         checkpoint_number: clueIndex, 
         checkpoint_name: clue.clue,
         finalCheckpoint: this.state.clues.length - 1,
+        huntCategory: this.props.navigation.getParam('selectedHuntCategory', 'NO_CATEGORY')
       }
     )}
 
