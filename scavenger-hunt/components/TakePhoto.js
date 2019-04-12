@@ -14,22 +14,37 @@ export default class TakePhoto extends React.Component {
     image: null,
     hasCameraPermission: null,
     encodedImage : null,
-    checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME"),  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
-    checkpoint_number : this.props.navigation.getParam('checkpoint_number', "NO_CHECKPOINT_NUMBER"),
+    // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
+    checkpoint_name : "",
+    // checkpoint_number has been changed from grabbing the param passed into navigation from the ClueScreen to 0.
+    checkpoint_number : 0,
     isFailMessageVisible : false,
     isMatchedPhoto: false,
-
   };
 
 
   async componentDidMount() {
+    const checkpoint_name = this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")
     const camera = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     const hasCameraPermission = (camera.status === 'granted'); 
-    this.setState({ hasCameraPermission });
-    console.log(`\n24: Checkpoint "${this.state.checkpoint_name}" passed from ClueScreen`)
-    console.log(`\n24: Checkpoint number "${this.state.checkpoint_number}" passed from ClueScreen`) 
-
+    this.setState({ hasCameraPermission, checkpoint_name });
   };
+
+  //Adding in componentDidUpdate
+  //clueIndex is set to the checkpoint_number passed through navigation, otherwise 0.
+  //TakePhoto is initialized to have a checkpoint of 0, but each time the TakePhoto is rendered it is pulling the checkpoint_number passed from ClueScreen (which is then getting the incremented checkpoint_number from the TakePhoto screen if the photo is correct.)
+  componentDidUpdate(){
+    const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
+    const checkpoint_name = this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")
+    //If this.state.checkpoint_number doesn't match the clueIndex (which is the checkpoint_number pulled from navigation) then the checkpoint_number is set so the clueIndex is the new checkpoint_number.
+    if (this.state.checkpoint_number != clueIndex) {
+      this.setState({
+        ...this.state, 
+        checkpoint_number: clueIndex, 
+        checkpoint_name: checkpoint_name
+      })
+    }
+  }
 
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
@@ -68,7 +83,8 @@ export default class TakePhoto extends React.Component {
           console.log("50: Your image could not be successfully analyzed")
           // If unsuccessful user notified and take new photo
           this.setState({
-            isFailMessageVisible : true
+            isFailMessageVisible : true,
+            isMatchedPhoto: false
           })
         } 
         else {
@@ -76,7 +92,8 @@ export default class TakePhoto extends React.Component {
           for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
             detectedLandmarks.push((landmark.description))
           }
-          console.log(`77: ${detectedLandmarks}`)
+          //This is empty???
+          // console.log(`77: ${detectedLandmarks}`)
           this.isMatchingPhoto(detectedLandmarks)  // Checks if image matches
         } 
       })
@@ -122,14 +139,33 @@ export default class TakePhoto extends React.Component {
     console.log(`89: ${detectedLandmarks}`)
     console.log(`90: ${checkpoint_name}`)
 
-    for ( name of detectedLandmarks ) {
-      if (name == checkpoint_name)
-      console.log("yes")
-      this.setState({
-        isMatchedPhoto : true
-      })
-
+    for (let i=0; i< detectedLandmarks.length; i++) {
+      if (detectedLandmarks[i] === checkpoint_name) {
+        console.log("yes")
+        this.setState({
+          isMatchedPhoto : true,
+          isFailMessageVisible : false
+        })
+        break
+      }
+      else {
+        console.log("HELL NO!")
+        this.setState({
+          isMatchedPhoto : false,
+          isFailMessageVisible : true
+        })
+      }
     }
+
+    // (name in detectedLandmarks) {
+    //   if (name === checkpoint_name)
+    //   console.log("yes")
+    //   this.setState({
+    //     isMatchedPhoto : true
+    //   })
+
+    // }
+
   }
   
 
@@ -164,18 +200,21 @@ export default class TakePhoto extends React.Component {
     });
   }
 
-  clearOverlay() {
+  //My old function
+  clearOverlay= () => {
+    //sets the finalCheckpoint variable to default of 4, which is 1 less than the array length, or to the finalCheckpoint which is set on the ClueScreen to be 1 less than the total Clue array (length is currently 5.)
+    const finalCheckpoint = this.props.navigation.getParam('finalCheckpoint', 4)
+
     this.setState({
       isMatchedPhoto: false,
       image: null,
       encodedImage: null,
-      checkpoint_number: (this.state.checkpoint_number + 1)
     })
-    if (this.state.checkpoint_number === 5) {
+    if (this.state.checkpoint_number === finalCheckpoint) {
       this.props.navigation.navigate('Finish', {checkpoint_number: 0})
     }
     else {
-      this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number})
+      this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number + 1})
     }
   }
 

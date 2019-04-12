@@ -4,9 +4,6 @@ const fetchHuntByID = () => {
 }
 
 const fetchCheckpointsbyID = () => {
-  //Ask Scotty or Dr.Google
-  // return fetch(`https://cors-anywhere.herokuapp.com/https://hunt-app-backend.herokuapp.com/api/checkpoint/`)
-
   return fetch(`https://hunt-app-backend.herokuapp.com/api/checkpoint`)
     .then((response) => response.json());
 }
