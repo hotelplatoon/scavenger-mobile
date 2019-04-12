@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { Button, Card, Input, Text } from "react-native-elements";
-import { onSignIn } from '../auth'
+import { Button, Card, Input, Icon} from "react-native-elements";
 import UserAPI from '../api/UserAPI'
+
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {
@@ -11,86 +11,138 @@ export default class SignUpScreen extends React.Component {
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      nameValidated: false,
+      emailValidated: false,
+      passwordValidated: false,
+      confirmPasswordValidated: false,
+      allValidatedS: false,
     }
   }
-    componentDidUpdate() {
-    console.log(this.state)
+  
+  render() {
+    return(
+      <View>
+        <Card title="SIGN UP">
+
+          <Input
+            label='Name'
+            placeholder='Hunter'
+            onChangeText={this.handleNameChange}
+            value={this.state.name}
+            rightIcon={ this.state.nameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
+            }
+          />
+
+          <Input
+            label='Email'
+            placeholder='hunter@scavenger.com...'
+            autoCapitalize='none'
+            onChangeText={this.handleEmailChange}
+            value={this.state.email}
+            rightIcon={ this.state.emailValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
+            }
+          />
+
+          <Input
+            secureTextEntry
+            label='Password'
+            placeholder='Password...'
+            autoCapitalize='none'
+            onChangeText={this.handlePasswordChange}
+            value={this.state.password}
+            rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
+            }
+          />
+
+          <Input
+            secureTextEntry
+            label='Confirm Password'
+            placeholder='Confirm Password...'
+            autoCapitalize='none'
+            onChangeText={this.handleConfirmPasswordChange}
+            value={this.state.confirmPassword}
+            rightIcon={ this.state.confirmPasswordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
+            }
+          />
+
+          <Button
+            buttonStyle={{ marginTop: 20 }}
+            backgroundColor="#03A9F4"
+            title="SIGN UP"
+            onPress={this.addUser}
+            disabled={!(this.state.nameValidated && this.state.emailValidated && this.state.passwordValidated && this.state.confirmPasswordValidated)}
+          />
+
+          <Button
+            buttonStyle={{ marginTop: 20 }}
+            type='outline'
+            textStyle={{ color: "#bcbec1" }}
+            title="SIGN IN"
+            onPress={this.goSignIn}
+          />
+
+        </Card>
+      </View>
+    )
   }
-  _goToSignInScreen = () => {this.props.navigation.navigate('SignInScreen')}
 
-  _addUser = () => {
-    const userObject = this.state
-  //   {
-  //     "name": this.state.name,
-  //     "email": this.state.email,
-  //     "password": this.state.password
-  // }
+  handleNameChange = name => {
+    if (name.length > 0) {
+      this.setState({nameValidated: true})
+    } else {
+      this.setState({nameValidated: false})
+    }
+    this.setState({name})
+  }
 
-  // allFieldsFilled = () =>
-    UserAPI.addUser(userObject)
+  handlePasswordChange = password => {
+    if (password.length > 3) {
+      this.setState({passwordValidated: true})
+    } else {
+      this.setState({passwordValidated: false})
+    }
+    this.setState({password})
+  }
+
+  handleConfirmPasswordChange = confirmPassword => {
+    if (confirmPassword === this.state.password) {
+      this.setState({confirmPasswordValidated: true})
+    } else {
+      this.setState({confirmPasswordValidated: false})
+    }
+    this.setState({confirmPassword})
+  }
+
+  handleEmailChange = email => {
+    let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
+    if(reg.test(email) === false)
+    {
+    this.setState({email:email, emailValidated:false})
+    return false;
+      }
+    else {
+      this.setState({email:email, emailValidated:true})
+    }
+  }
+
+  addUser = async () => {
+    const user = this.state
+    UserAPI.addUser(user)
       .then((response) => {
+        console.log(response._bodyInit.slice(11,54))
         if (response.status === 201) {
           alert('User Created');
-          this._goToSignInScreen()
+          this.goSignIn()
+        } else if (response._bodyInit.slice(11,54) === 'user profile with this email already exists') {
+          alert('This User already exists')
         } else {
           alert('No User Created')
         }
       })
-      .catch((error) => {
-        console.log(error)
-      })      
-    }
-
-  render() {
-
-// 
-
-    return(
-  <View style={{ paddingVertical: 20 }}>
-    <Card title="SIGN UP">
-    <Input
-        label='Name'
-        placeholder='Hunter'
-        onChangeText={(name) => this.setState({name})}
-      />
-      <Input
-        label='Email'
-        placeholder='hunter@scavenger.com...'
-        autoCapitalize='none'
-        onChangeText={(email) => this.setState({email})}
-      />
-      <Input
-        secureTextEntry
-        label='Password'
-        placeholder='Password...'
-        autoCapitalize='none'
-        onChangeText={(password) => this.setState({password})}
-      />
-      <Input
-        secureTextEntry
-        label='Confirm Password'
-        placeholder='Confirm Password...'
-        autoCapitalize='none'
-        onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-      />
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        // disabled='false'
-        backgroundColor="#03A9F4"
-        title="SIGN UP"
-        onPress={() => this._addUser()}
-          // onSignIn().then(() => navigation.navigate("SignInScreen"))}
-      />
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        type='outline'
-        textStyle={{ color: "#bcbec1" }}
-        title="SIGN IN"
-        onPress={() => this.props.navigation.navigate("SignInScreen")}
-      />
-    </Card>
-  </View>
-    )
+      .catch(error => console.log(error))
   }
+
+  goSignIn = () => this.props.navigation.navigate('SignInScreen')
+
 };
