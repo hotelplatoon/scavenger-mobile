@@ -40,7 +40,24 @@ export default class TakePhoto extends React.Component {
     }
   }
 
-  _pickImage = async () => {
+  _pickImageCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      base64: true,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+    console.log(result.uri);
+
+    if (!result.cancelled) {
+      this.setState({ 
+        image: result.uri,
+        encodedImage : result.base64
+      });
+    }
+  }
+
+  _pickImageCameraRoll = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       base64: true,
@@ -234,9 +251,25 @@ export default class TakePhoto extends React.Component {
             </Overlay> 
           : null }
 
+        {!image &&   
+          <View>
+            <Text style={styles.subTitleText}>
+              Clue Reminder
+            </Text>
+            <Text style={styles.clueText}>
+              {this.props.navigation.getParam('checkpoint_description')}
+            </Text>
+          </View>
+        }
+
         {!image &&
-        <Button title="Take Photo" onPress={this._pickImage.bind(this)}>
+        <Button title="Take Photo" onPress={this._pickImageCamera.bind(this)}>
           <Text>Open Camera</Text>
+        </Button>}
+
+        {!image &&
+        <Button title="Open Camera Roll" onPress={this._pickImageCameraRoll.bind(this)}>
+          <Text>Open Camera Roll</Text>
         </Button>}
 
         {image &&
@@ -278,5 +311,32 @@ const styles = StyleSheet.create({
     textAlign:'center',
     paddingLeft : 10,
     paddingRight : 10
+  },
+  clueReminderText:{
+    color:'#fff',
+    fontSize: 20,
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10
+  },
+  subTitleText: {
+    fontSize: 18,
+    color: '#4c0a01',
+    textAlign: 'center',
+    fontWeight: "500",
+    paddingLeft : 10,
+    paddingRight : 10,
+    paddingTop : 10,
+    marginBottom : 20,
+  },
+  clueText: {
+    fontSize: 15,
+    color: 'rgba(96,100,109, 1)',
+    lineHeight: 24,
+    textAlign: 'center',
+    paddingLeft : 50,
+    paddingRight : 50,
+    paddingTop : 20,
+    marginBottom : 20,
   },
 });
