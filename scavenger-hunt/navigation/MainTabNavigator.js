@@ -14,6 +14,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import TakePhoto from '../components/TakePhoto';
 import ClueScreen from '../screens/ClueScreen'
 import GalleryScreen from '../screens/GalleryScreen'
+import FinishScreen from '../screens/FinishScreen';
 
 export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
@@ -56,6 +57,11 @@ export const SignedInStack = createBottomTabNavigator({
   Gallery: {screen: GalleryScreen,
     navigationOptions: {
     tabBarLabel: "Gallery",
+    }
+  },
+  Finish: {screen: FinishScreen,
+    navigationOptions: {
+    tabBarLabel: "Finish",
     }
   }
 });

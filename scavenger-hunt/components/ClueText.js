@@ -6,7 +6,7 @@ export default class ClueText extends React.Component {
   // static navigationOptions = {
   //   title: 'Checkpoint',
   // };
-
+  
   render() {
     return (
       <View style={styles.container}>

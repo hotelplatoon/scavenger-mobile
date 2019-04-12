@@ -15,7 +15,7 @@ export default class TakePhoto extends React.Component {
     hasCameraPermission: null,
     encodedImage : null,
     checkpoint_name : this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME"),  // Grabbing the checkpoint name to compare against, must provide a default variable "NO_CHECKPOINT_NAME" incase nothing is passed down
-    checkpoint_id : this.props.navigation.getParam('checkpoint_id', "NO_CHECKPOINT_id"),
+    checkpoint_number : this.props.navigation.getParam('checkpoint_number', "NO_CHECKPOINT_NUMBER"),
     isFailMessageVisible : false,
     isMatchedPhoto: false,
 
@@ -26,17 +26,19 @@ export default class TakePhoto extends React.Component {
     const camera = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     const hasCameraPermission = (camera.status === 'granted'); 
     this.setState({ hasCameraPermission });
-    console.log(`\n24: Checkpoint "${this.state.checkpoint_name}" passed from ClueScreen`) 
+    console.log(`\n24: Checkpoint "${this.state.checkpoint_name}" passed from ClueScreen`)
+    console.log(`\n24: Checkpoint number "${this.state.checkpoint_number}" passed from ClueScreen`) 
+
   };
 
   _pickImage = async () => {
-    // let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
-    let result = await ImagePicker.launchCameraAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({  //For grabbing image from camera roll
+    // let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       base64: true,
       aspect: [4, 3],
     });
-    console.log(result);
+    // console.log(result);
     console.log(result.uri);
 
     if (!result.cancelled) {
@@ -67,12 +69,13 @@ export default class TakePhoto extends React.Component {
           this.setState({
             isFailMessageVisible : true
           })
-        } else {
+        } 
+        else {
           let detectedLandmarks = []
           for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
-            detectedLandmarks.push(landmark.description)
+            detectedLandmarks.push((landmark.description))
           }
-          console.log(detectedLandmarks)
+          console.log(`77: ${detectedLandmarks}`)
           this.isMatchingPhoto(detectedLandmarks)  // Checks if image matches
         } 
       })
@@ -82,36 +85,56 @@ export default class TakePhoto extends React.Component {
   }
 
   isMatchingPhoto = (detectedLandmarks) => {
-    if (detectedLandmarks.includes(this.state.checkpoint_name) ){  // Checks if GVs response equals the checkpoint_name
-      console.log(`86: SUCCESS! Your photo matches!`)
-      let fileName = this.generateUniqueImageName()  // Create unique image name for bucket
-      console.log(fileName)
-      let file = {
-        uri: this.state.image,
-        name: fileName,
-        type: "image/png"
-      }
-      const options = {
-        // keyPrefix: "uploads/",
-        bucket: "guess-who-images",
-        region: "us-east-2",
-        accessKey: Constants.manifest.extra.S3_API_KEY_ID,
-        secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
-        successActionStatus: 201
-      }
-      RNS3.put(file, options).then(response => {  // Send to S3 bucket!
-        if (response.status !== 201) {
-          throw new Error("Failed to upload image to S3");
-        } else {
-        console.log(response.body)
-        this.savePhotoToDB(fileName)
-          // this.setState({
-          //   isMatchedPhoto : true
-          // })
-        }
-      });
+    let checkpoint_name = this.state.checkpoint_name
+
+    console.log(`89: ${detectedLandmarks}`)
+    console.log(`90: ${checkpoint_name}`)
+
+    for ( name of detectedLandmarks ) {
+      if (name == checkpoint_name)
+      console.log("yes")
+      this.setState({
+        isMatchedPhoto : true
+      })
     }
+
+    // if (detectedLandmarks.includes(checkpoint_name)){  
+    // // if (detectedLandmarks.includes("Wrigley Field")){  // Checks if GVs response equals the checkpoint_name
+    //   // Checks if GVs response equals the checkpoint_name
+    //   console.log(`86: SUCCESS! Your photo matches!`)
+    //   let fileName = this.generateUniqueImageName()  // Create unique image name for bucket
+    //   console.log(fileName)
+    //   let file = {
+    //     uri: this.state.image,
+    //     name: fileName,
+    //     type: "image/png"
+    //   }
+    //   const options = {
+    //     // keyPrefix: "uploads/",
+    //     bucket: "guess-who-images",
+    //     region: "us-east-2",
+    //     accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+    //     secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+    //     successActionStatus: 201
+    //   }
+    //   // this.setState({
+    //   //   isMatchedPhoto : true
+    //   // })
+    //   console.log(this.state.isMatchedPhoto)
+    //   RNS3.put(file, options).then(response => { 
+    //     if (response.status !== 201) {
+    //       throw new Error("Failed to upload image to S3");
+    //     } else {
+    //     console.log(response.body)
+    //     // this.savePhotoToDB(fileName)
+    //       this.setState({
+    //         isMatchedPhoto : true
+    //       })
+    //     }
+    //   });
+    // }
   }
+  
 
   savePhotoToDB = (fileName) => {
     // let userHuntId = this.state.userHuntId
@@ -144,10 +167,27 @@ export default class TakePhoto extends React.Component {
     });
   }
 
+  clearOverlay() {
+    this.setState({
+      isMatchedPhoto: false,
+      image: null,
+      encodedImage: null,
+      checkpoint_number: (this.state.checkpoint_number + 1)
+    })
+    if (this.state.checkpoint_number === 5) {
+      this.props.navigation.navigate('Finish')
+    }
+    else {
+      this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number})
+    }
+    // this.props.changeClues()
+  }
+
   render() {
     let { image } = this.state;
-    console.log(`125: ${this.state.checkpoint_id}`)
-    console
+    console.log(`125: ${this.state.checkpoint_number}`)
+    // console
+
     return (
       <View style={styles.container}>
         { this.state.isFailMessageVisible 
@@ -186,7 +226,7 @@ export default class TakePhoto extends React.Component {
               <Text>Woohoo! You found it - nice work!</Text>
               <TouchableHighlight 
                 style={styles.button}
-                onPress={() => this.props.navigation.navigate('Clue', {checkpoint_id: this.state.checkpoint_id})}
+                onPress={() => this.clearOverlay()}
                 >
                 <Text style={styles.buttonText}>NEXT CHECKPOINT</Text>
               </TouchableHighlight>
