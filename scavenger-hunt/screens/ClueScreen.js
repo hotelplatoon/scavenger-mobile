@@ -9,7 +9,7 @@ export default class ClueScreen extends React.Component {
     super(props)
     this.state = {
       clues: [],
-      checkpoint_number: 0,
+      checkpoint_number: null,
       description: "",
       checkpoint_name : "",
       checkpoint_amount: 5,
@@ -48,6 +48,15 @@ export default class ClueScreen extends React.Component {
     return clueName
   }
 
+  getCheckpoint() {
+    if (this.state.checkpoint_number === null) {
+      return this.props.navigation.getParam('checkpoint_number', 0)
+    }
+    else {
+        return this.props.navigation.getParam('checkpoint_number', 0)
+    }
+  }
+
   changeClues() {
       HuntApi.fetchCheckpointsbyID()
         .then((apiResponseJSON) => {
@@ -55,12 +64,13 @@ export default class ClueScreen extends React.Component {
           let correctClue = this.filterCluesCheckpointNumber(cluesByHuntID)
           let clueText = this.getClueText(correctClue)
           let clueName = this.getClueName(correctClue)
+          let checkpoint = this.getCheckpoint()
 
           this.setState({
             clues: clueText,
             checkpoint_name: clueName,
             checkpoint_amount: 5,
-            checkpoint_number: this.props.navigation.getParam('checkpoint_number', 1),
+            checkpoint_number: checkpoint
           })
           console.log(`On the clue screen, line 103: ${this.state.checkpoint_number}`)
         })
@@ -70,14 +80,9 @@ export default class ClueScreen extends React.Component {
     }
 
   componentDidMount() {
-    console.log(`98 ${this.state.checkpoint_number}`)
-    // if (this.state.checkpoint_number === 0) {
-    //   this.changeClues()
-    // }
-    if (this.state.checkpoint_number < this.state.checkpoint_amount) {
-      // this.setState ({
-      //   checkpoint_number: this.props.navigation.getParam('checkpoint_number', 'Number did not pass'),
-      // })
+    // console.log(`98 ${this.state.checkpoint_number}`)
+      this.changeClues()
+    if ((this.state.checkpoint_number < this.state.checkpoint_amount)) {
       console.log(this.state.checkpoint_number)
       this.changeClues()
     }
@@ -88,15 +93,11 @@ export default class ClueScreen extends React.Component {
   }
 
 
-  componentDidUpdate(props) {
-    // if (this.state.checkpoint_number != this.props.navigation.getParam('checkpoint_number', 0)) {
-      this.changeClues();
-    // }
+    componentDidUpdate() {
+      if ((this.props.navigation.getParam('checkpoint_number')) != (this.state.checkpoint_number)) {
+        this.changeClues()
+      }
   }
-  
-  // getSnapshotBeforeUpdate() {
-
-  // }
 
   render() {
     console.log(this.state.clues);
