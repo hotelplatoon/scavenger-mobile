@@ -14,6 +14,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import TakePhoto from '../components/TakePhoto';
 import ClueScreen from '../screens/ClueScreen'
 import GalleryScreen from '../screens/GalleryScreen'
+import SelectThemeScreen from '../screens/SelectThemeScreen';
 
 export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
@@ -57,7 +58,12 @@ export const SignedInStack = createBottomTabNavigator({
     navigationOptions: {
     tabBarLabel: "Gallery",
     }
+  },
+  SelectTheme: {screen: SelectThemeScreen,
+    navigationOptions: {
+    tabBarLabel: "Choose Theme",
   }
+  },
 });
 
 
