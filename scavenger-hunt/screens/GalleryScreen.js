@@ -29,7 +29,7 @@ export default class GalleryScreen extends React.Component {
           }
           imageNames.push({imageObject})
           let url = S3ImagesAPI.s3.getSignedUrl('getObject', {  // Get the urls for all the images from the bucket
-            Bucket: "guess-who-images",
+            Bucket: "scavenger-bucket",
             Key: element.image_name,
             Expires: 1800
           });
