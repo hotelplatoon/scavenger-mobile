@@ -35,8 +35,9 @@ export default class TakePhoto extends React.Component {
       allowsEditing: true,
       base64: true,
       aspect: [4, 3],
+      quality: 0.5,
     });
-    console.log(result);
+    // console.log(result);
     console.log(result.uri);
 
     if (!result.cancelled) {
@@ -93,7 +94,7 @@ export default class TakePhoto extends React.Component {
       }
       const options = {
         // keyPrefix: "uploads/",
-        bucket: "guess-who-images",
+        bucket: "scavenger-bucket",
         region: "us-east-2",
         accessKey: Constants.manifest.extra.S3_API_KEY_ID,
         secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
@@ -101,6 +102,7 @@ export default class TakePhoto extends React.Component {
       }
       RNS3.put(file, options).then(response => {  // Send to S3 bucket!
         if (response.status !== 201) {
+          console.log(response)
           throw new Error("Failed to upload image to S3");
         } else {
         console.log(response.body)
