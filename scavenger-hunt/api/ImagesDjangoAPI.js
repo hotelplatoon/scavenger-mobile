@@ -13,7 +13,15 @@ const addImage = (imageObject) => {
   })
 }
 
+const fetchHuntThemes = () => {
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/hunt/`)
+    .then((response) => response.json());
+}
+
+
+
 export default {
   addImage: addImage,
-  fetchImages: fetchImages
+  fetchImages: fetchImages,
+  fetchHuntThemes: fetchHuntThemes
 }
