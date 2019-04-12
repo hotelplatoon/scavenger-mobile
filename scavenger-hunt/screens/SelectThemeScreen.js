@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
-import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 
@@ -14,18 +13,19 @@ export default class SelectThemeScreen extends React.Component {
     this.state = {
       huntThemes : []
     }}
-    // Maybe only get the urls of images, whose user_hunt_id matches whats in state
+    
 
   async componentDidMount() {
     let huntThemes = []
-    await ImagesDjangoAPI.fetchHuntThemes()  // Grab all imagenames from DB
+    await ImagesDjangoAPI.fetchHuntThemes() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
-          huntThemes.push(element.category)
+          huntThemes.push(element)
         }
-      this.setState({
-        huntThemes: huntThemes
-      })
+        this.setState({
+          huntThemes: huntThemes
+        })
+        console.log(huntThemes)
     })
     .catch((error) => {
       console.log(error)
@@ -34,13 +34,17 @@ export default class SelectThemeScreen extends React.Component {
 
   createThemeButtons() {
     return this.state.huntThemes.map(( huntTheme, index ) =>
-      <View key={index} >
-            <Button
-              title={huntTheme}
-              type="outline"
-              raised={true}
-              onPress={() => this.props.navigation.navigate('Main')}
-            />
+      <View key={index} 
+      style={{margin: 6}}
+      >
+        <Button
+          title={huntTheme.category}
+          type="outline"
+          raised={true}
+          style={{width: 100}}
+          // Currently just sends over the first object to ClueScreen. Need to send only the button that was pressed.
+          onPress={() => this.props.navigation.navigate('Clue',{huntTheme: (this.state.huntThemes[0])})}
+        />
       </View>
       )
     }
@@ -51,8 +55,7 @@ export default class SelectThemeScreen extends React.Component {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <Text style={styles.titleText}>Choose a Theme</Text>
           <View style={styles.container}>
-
-            { this.state.imageURLs && this.createThemeButtons() }
+            { this.state.huntThemes && this.createThemeButtons() }
           </View>
           <View style={styles.container}>
             <Button

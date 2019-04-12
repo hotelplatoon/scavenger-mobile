@@ -43,6 +43,9 @@ export default class SignUpScreen extends React.Component {
     }
 
   render() {
+
+// 
+
     return(
   <View style={{ paddingVertical: 20 }}>
     <Card title="SIGN UP">
@@ -71,7 +74,6 @@ export default class SignUpScreen extends React.Component {
         autoCapitalize='none'
         onChangeText={(confirmPassword) => this.setState({confirmPassword})}
       />
-
       <Button
         buttonStyle={{ marginTop: 20 }}
         // disabled='false'
