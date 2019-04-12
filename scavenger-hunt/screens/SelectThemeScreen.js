@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Image, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 
@@ -42,9 +42,9 @@ export default class SelectThemeScreen extends React.Component {
           type="outline"
           raised={true}
           style={{width: 100}}
-          // Currently just sends over the first object to ClueScreen. Need to send only the button that was pressed.
-          // onPress={() => this.props.navigation.navigate('Clue',{huntTheme: (this.state.huntThemes[0])})}
-          onPress={() => this.props.navigation.navigate('Clue',{selectedHuntTheme: huntTheme.category})}
+          onPress={() => this.props.navigation.navigate('Clue',{
+            selectedHuntTheme: huntTheme
+          })}
 
         />
       </View>
