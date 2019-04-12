@@ -31,14 +31,10 @@ export default class FinishScreen extends React.Component {
     }
 
   render() {
-    
-
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-
       { console.log(`30: hello`) }
-
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={styles.getStartedContainer}>
@@ -46,19 +42,17 @@ export default class FinishScreen extends React.Component {
             <Text style={styles.subTitleText}>You have completed</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
-
-          {/* Button to navigate to new hunt */}
+          {/* 
+          Button to navigate to new hunt
+          Takes user back to the clue screen and re-initializes the checkpoint number to 0, then sets the user_nam to Jane.
+          User name is currently hardcoded and will be changed.    
+          */}
           <TouchableOpacity
             style={styles.startGameButton}
-            // onPress={() => {
-            //   WebBrowser.openBrowserAsync('https://expo.io');
-            // }}
-            onPress={() => navigate('Clue', {name: 'Jane'})}
-
+            onPress={() => navigate('Clue', {checkpoint_number: 0}, {name: 'Jane'})}
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START A NEW HUNT</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.startGameButton}
             onPress={() => navigate('Gallery')}
@@ -66,13 +60,12 @@ export default class FinishScreen extends React.Component {
             <Text style={styles.startGameText}>View Gallery</Text>
           </TouchableOpacity>
           <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="Async Test"
-        onPress={() => this._checkAsync()}
-        />
+            buttonStyle={{ marginTop: 20 }}
+            backgroundColor="#03A9F4"
+            title="Async Test"
+            onPress={() => this._checkAsync()}
+            />
           </ScrollView>
-
           {/* <View style={{marginTop: 22}}>
             <Modal 
               animationType="slide"
@@ -86,7 +79,6 @@ export default class FinishScreen extends React.Component {
                 <Text style={styles.subTitleText}>How to play THE HUNT</Text>
                 <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
                 <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
-
                   <TouchableHighlight
                     onPress={() => {
                       this.setModalVisible(!this.state.modalVisible);
@@ -104,9 +96,6 @@ export default class FinishScreen extends React.Component {
             <Text style={styles.subTitleText}>How to play</Text>
           </TouchableHighlight>
         </View> */}
-
-
-
       </View>
     );
   }

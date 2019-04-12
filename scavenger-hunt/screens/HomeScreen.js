@@ -53,7 +53,8 @@ export default class HomeScreen extends React.Component {
             // onPress={() => {
             //   WebBrowser.openBrowserAsync('https://expo.io');
             // }}
-            onPress={() => navigate('Clue', {name: 'Jane'})}
+            // onPress={() => navigate('Clue', {name: 'Jane'})}
+            onPress={() => navigate('SelectTheme', {name: 'Jane'})}
 
             underlayColor='#fff'>
             <Text style={styles.startGameText}>START NEW HUNT</Text>
