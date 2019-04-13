@@ -130,26 +130,30 @@ export default class TakePhoto extends React.Component {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
         console.log(fileName)
-        // let file = {
-        //   uri: this.state.image,
-        //   name: fileName,
-        //   type: "image/png"
-        // }
-        // const options = {
-        //   bucket: "scavenger-bucket",
-        //   region: "us-east-2",
-        //   accessKey: Constants.manifest.extra.S3_API_KEY_ID,
-        //   secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
-        //   successActionStatus: 201
-        // }
-        // RNS3.put(file, options).then(response => {
-        //   if (response.status !== 201) {
-        //     // console.log(response)
-        //     throw new Error("Failed to upload image to S3");
-        //   } else {
+        let file = {
+          uri: this.state.image,
+          name: fileName,
+          type: "image/png"
+        }
+        const options = {
+          bucket: "scavenger-bucket",
+          region: "us-east-2",
+          accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+          secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+          successActionStatus: 201
+        }
+        console.log("here")
+        RNS3.put(file, options).then(response => {
+          if (response.status !== 201) {
+            console.log(response)
+            console.log("not going to DB")
+            throw new Error("Failed to upload image to S3");
+          } else 
+          {
+            console.log("going to DB")
             this.savePhotoToDB(fileName)
-        //   }
-        // });
+          }
+        });
         break
       } 
       else {
