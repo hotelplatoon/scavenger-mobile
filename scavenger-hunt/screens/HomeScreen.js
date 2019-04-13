@@ -17,6 +17,7 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
+
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -31,8 +32,6 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
-    
-
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>

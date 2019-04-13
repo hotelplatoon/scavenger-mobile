@@ -5,7 +5,6 @@ import { ImagePicker, Constants } from 'expo';
 import { Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay } from 'react-native-elements';
-import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 
@@ -125,7 +124,7 @@ export default class TakePhoto extends React.Component {
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
-    for (let i=0; i< detectedLabels.length; i++) {
+    for (let i = 0; i < detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
         console.log(fileName)
