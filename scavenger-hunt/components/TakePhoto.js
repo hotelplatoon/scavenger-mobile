@@ -116,20 +116,17 @@ export default class TakePhoto extends React.Component {
             this.isMatchingPhoto(detectedLabels)
           }
         }
-        })
-      .catch((error) => {
-        console.log(error)
       })
+    .catch((error) => {
+      console.log(error)
+    })
   }
   
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
-    // console.log(`89: ${detectedLabels}`)
-    // console.log(`90: ${checkpoint_name}`)
     for (let i=0; i< detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
-        // console.log("yes")
         let fileName = this.generateUniqueImageName()
         console.log(fileName)
         let file = {
@@ -146,17 +143,14 @@ export default class TakePhoto extends React.Component {
         }
         RNS3.put(file, options).then(response => {
           if (response.status !== 201) {
-            console.log(response)
+            // console.log(response)
             throw new Error("Failed to upload image to S3");
           } else {
-          console.log(response.body)
-          this.savePhotoToDB(fileName)
+            this.savePhotoToDB(fileName)
           }
         });
         break
-      }
-      else {
-        console.log("HELL NO!")
+      } else {
         this.setState({
           isMatchedPhoto : false,
           isFailMessageVisible : true
