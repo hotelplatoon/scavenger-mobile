@@ -1,6 +1,22 @@
+import { Constants } from 'expo';
 import React from 'react';
-import { ScrollView, Text, View, TouchableOpacity, Modal, Image, Platform, StyleSheet, Alert, TouchableHighlight } from 'react-native';
-// import { ExpoLinksView } from '@expo/samples';
+import {
+  Modal,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  TouchableHighlight,
+  Button,
+  AsyncStorage
+} from 'react-native';
+import { WebBrowser } from 'expo';
+import { MonoText } from '../components/StyledText';
+import { USER_KEY } from '../auth'
 
 export default class ExitButton extends React.Component {
     constructor(props){
@@ -14,12 +30,13 @@ export default class ExitButton extends React.Component {
   }
   
   render() {
-    // const {navigate} = this.props.navigation;
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={styles.container}>
 
         <ScrollView style={styles.container} contentContainerStyle={styles.exitContainer}>
-
+        
           {/* Button to navigate to new hunt */}
           <TouchableOpacity
             style={styles.exitButton}
@@ -45,7 +62,9 @@ export default class ExitButton extends React.Component {
                 <Text style={styles.exitText}>Warning! Data from this hunt session will not be saved.</Text>
 
                   <TouchableHighlight
-                    onPress={() => navigate('Main')}>
+                    style={styles.startGameButton}
+                    onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
+                    underlayColor='#fff'>
                     <Text style={styles.subTitleText} >Quit</Text>
                   </TouchableHighlight>
 
@@ -57,6 +76,7 @@ export default class ExitButton extends React.Component {
               </View>
             </Modal>
           </View>
+
       </View>
     );
   }

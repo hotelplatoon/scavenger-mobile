@@ -17,6 +17,7 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
+
 export default class FinishScreen extends React.Component {
   constructor(props){
     super(props);

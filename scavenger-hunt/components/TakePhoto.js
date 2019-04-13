@@ -31,7 +31,7 @@ export default class TakePhoto extends React.Component {
   componentDidUpdate(){
     const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
     const checkpoint_name = this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")
-    if (this.state.checkpoint_number != clueIndex) {
+    if ((this.state.checkpoint_number != clueIndex) || (this.props.navigation.getParam('checkpoint_name') != this.state.checkpoint_name)) {
       this.setState({
         ...this.state, 
         checkpoint_number: clueIndex, 
@@ -125,32 +125,34 @@ export default class TakePhoto extends React.Component {
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
+    console.log(checkpoint_name)
     for (let i=0; i< detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
         console.log(fileName)
-        let file = {
-          uri: this.state.image,
-          name: fileName,
-          type: "image/png"
-        }
-        const options = {
-          bucket: "scavenger-bucket",
-          region: "us-east-2",
-          accessKey: Constants.manifest.extra.S3_API_KEY_ID,
-          secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
-          successActionStatus: 201
-        }
-        RNS3.put(file, options).then(response => {
-          if (response.status !== 201) {
-            // console.log(response)
-            throw new Error("Failed to upload image to S3");
-          } else {
+        // let file = {
+        //   uri: this.state.image,
+        //   name: fileName,
+        //   type: "image/png"
+        // }
+        // const options = {
+        //   bucket: "scavenger-bucket",
+        //   region: "us-east-2",
+        //   accessKey: Constants.manifest.extra.S3_API_KEY_ID,
+        //   secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
+        //   successActionStatus: 201
+        // }
+        // RNS3.put(file, options).then(response => {
+        //   if (response.status !== 201) {
+        //     // console.log(response)
+        //     throw new Error("Failed to upload image to S3");
+        //   } else {
             this.savePhotoToDB(fileName)
-          }
-        });
+        //   }
+        // });
         break
-      } else {
+      } 
+      else {
         this.setState({
           isMatchedPhoto : false,
           isFailMessageVisible : true

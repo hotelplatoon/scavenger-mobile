@@ -14,6 +14,7 @@ import ClueScreen from '../screens/ClueScreen'
 import GalleryScreen from '../screens/GalleryScreen'
 import SelectThemeScreen from '../screens/SelectThemeScreen';
 import FinishScreen from '../screens/FinishScreen';
+import ExitButton from '../components/ExitButton';
 
 
 export const SignedOutStack = createStackNavigator({
@@ -52,6 +53,11 @@ export const SignedInStack = createBottomTabNavigator({
   TakePhoto: {screen: TakePhoto,
     navigationOptions: {
       tabBarLabel: "Take Photo",
+    }
+  },
+  ExitButton: {screen: ExitButton,
+    navigationOptions: {
+    tabBarLabel: "Exit",
     }
   },
   Gallery: {screen: GalleryScreen,
