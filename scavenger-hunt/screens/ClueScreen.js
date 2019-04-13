@@ -74,6 +74,7 @@ export default class ClueScreen extends React.Component {
       'TakePhoto', { 
         checkpoint_number: clueIndex, 
         checkpoint_name: clue.clue,
+        checkpoint_description: clue.description,
         finalCheckpoint: this.state.clues.length - 1,
       }
     )}
