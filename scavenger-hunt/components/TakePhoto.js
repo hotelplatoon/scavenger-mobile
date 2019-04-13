@@ -1,13 +1,10 @@
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
 import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
-import { ImagePicker, Constants } from 'expo';
-import { Permissions } from 'expo';
+import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay } from 'react-native-elements';
-import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
-
 
 export default class TakePhoto extends React.Component {
   state = {
@@ -19,7 +16,6 @@ export default class TakePhoto extends React.Component {
     isFailMessageVisible : false,
     isMatchedPhoto: false,
   };
-
 
   async componentDidMount() {
     const checkpoint_name = this.props.navigation.getParam('checkpoint_name', "NO_CHECKPOINT_NAME")
@@ -47,8 +43,6 @@ export default class TakePhoto extends React.Component {
       aspect: [4, 3],
       quality: 0.5,
     });
-    console.log(result.uri);
-
     if (!result.cancelled) {
       this.setState({ 
         image: result.uri,
@@ -64,8 +58,6 @@ export default class TakePhoto extends React.Component {
       aspect: [4, 3],
       quality: 0.5,
     });
-    console.log(result.uri);
-
     if (!result.cancelled) {
       this.setState({ 
         image: result.uri,
@@ -89,7 +81,7 @@ export default class TakePhoto extends React.Component {
         let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
         if (huntCategory === "Landmarks") {
           if (!JSONresponse.responses[0].landmarkAnnotations) {
-            console.log("75: Your image could not be successfully analyzed")
+            console.log("85: Your image could not be successfully analyzed")
             this.setState({
               isFailMessageVisible : true,
               isMatchedPhoto: false
@@ -103,7 +95,7 @@ export default class TakePhoto extends React.Component {
           }
         } else if (huntCategory === "Things & Stuff!") {
           if (!JSONresponse.responses[0].labelAnnotations) {
-            console.log("89: Your image could not be successfully analyzed")
+            console.log("99: Your image could not be successfully analyzed")
             this.setState({
               isFailMessageVisible : true,
               isMatchedPhoto: false
@@ -121,15 +113,12 @@ export default class TakePhoto extends React.Component {
       console.log(error)
     })
   }
-  
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
-    console.log(checkpoint_name)
-    for (let i=0; i< detectedLabels.length; i++) {
+    for (let i = 0; i < detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
-        console.log(fileName)
         let file = {
           uri: this.state.image,
           name: fileName,
@@ -142,21 +131,15 @@ export default class TakePhoto extends React.Component {
           secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
           successActionStatus: 201
         }
-        console.log("here")
         RNS3.put(file, options).then(response => {
           if (response.status !== 201) {
-            console.log(response)
-            console.log("not going to DB")
             throw new Error("Failed to upload image to S3");
-          } else 
-          {
-            console.log("going to DB")
+          } else {
             this.savePhotoToDB(fileName)
           }
         });
         break
-      } 
-      else {
+      } else {
         this.setState({
           isMatchedPhoto : false,
           isFailMessageVisible : true
@@ -198,7 +181,6 @@ export default class TakePhoto extends React.Component {
 
   clearOverlay= () => {
     const finalCheckpoint = this.props.navigation.getParam('finalCheckpoint', 4)
-
     this.setState({
       isMatchedPhoto: false,
       image: null,
@@ -214,8 +196,6 @@ export default class TakePhoto extends React.Component {
 
   render() {
     let { image } = this.state;
-    console.log(`125: ${this.state.checkpoint_number}`)
-
     return (
       <View style={styles.container}>
         { this.state.isFailMessageVisible 
