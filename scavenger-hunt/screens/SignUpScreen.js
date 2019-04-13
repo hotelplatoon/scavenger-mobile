@@ -1,8 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View  } from "react-native";
 import { Button, Card, Input, Icon} from "react-native-elements";
-import UserAPI from '../api/UserAPI'
-
+import UserAPI from '../api/UserAPI';
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {
@@ -68,7 +67,7 @@ export default class SignUpScreen extends React.Component {
 
           <Button
             buttonStyle={{ marginTop: 20 }}
-            backgroundColor="#03A9F4"
+            backgroundColor="RED"
             title="SIGN UP"
             onPress={this.addUser}
             disabled={!(this.state.nameValidated && this.state.emailValidated && this.state.passwordValidated && this.state.confirmPasswordValidated)}
@@ -77,7 +76,7 @@ export default class SignUpScreen extends React.Component {
           <Button
             buttonStyle={{ marginTop: 20 }}
             type='outline'
-            textStyle={{ color: "#bcbec1" }}
+            textStyle={{ color: "RED" }}
             title="SIGN IN"
             onPress={this.goSignIn}
           />
@@ -129,12 +128,11 @@ export default class SignUpScreen extends React.Component {
   addUser = async () => {
     const user = this.state
     UserAPI.addUser(user)
-      .then((response) => {
-        console.log(response._bodyInit.slice(11,54))
-        if (response.status === 201) {
+      .then((res) => {
+        if (res.status === 201) {
           alert('User Created');
           this.goSignIn()
-        } else if (response._bodyInit.slice(11,54) === 'user profile with this email already exists') {
+        } else if (res._bodyInit.slice(11,54) === 'user profile with this email already exists') {
           alert('This User already exists')
         } else {
           alert('No User Created')
