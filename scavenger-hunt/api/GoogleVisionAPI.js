@@ -6,7 +6,7 @@ const analyzeImage = async (encodedImage) => {
       requests: [
         {
           features: [
-            { type: "LABEL_DETECTION", maxResults: 2 },
+            { type: "LABEL_DETECTION", maxResults: 10 },
             { type: "LANDMARK_DETECTION" },
           ],
           image: {
