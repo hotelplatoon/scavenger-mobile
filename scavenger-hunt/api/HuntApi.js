@@ -1,5 +1,5 @@
 const fetchHuntByID = () => {
-  return fetch(`https://scavenger-backend.herokuapp.com/api/hunt`)
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/hunt`)
     .then((response) => response.json());
 }
 
@@ -7,9 +7,9 @@ const fetchCheckpointsbyID = () => {
   return fetch(`https://hunt-app-backend.herokuapp.com/api/checkpoint`)
     .then((response) => response.json());
 }
- 
+
 const fetchUsersbyID = (userID) => {
-  return fetch(`https://scavenger-backend.herokuapp.com/api/signup`)
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/signup`)
     .then((response) => response.json());
 }
 
