@@ -86,38 +86,47 @@ export default class TakePhoto extends React.Component {
     console.log("Analyzing....")
     GoogleVisionAPI.analyzeImage(this.state.encodedImage)
       .then((JSONresponse) => { 
-        console.log("=========================")
-        if (!JSONresponse.responses[0].landmarkAnnotations) {
-          console.log("50: Your image could not be successfully analyzed")
-          this.setState({
-            isFailMessageVisible : true,
-            isMatchedPhoto: false
-          })
-        } 
-        else {
-          let detectedLandmarks = []
-          for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
-            detectedLandmarks.push((landmark.description))
+        let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
+        if (huntCategory === "Landmarks") {
+          if (!JSONresponse.responses[0].landmarkAnnotations) {
+            console.log("75: Your image could not be successfully analyzed")
+            this.setState({
+              isFailMessageVisible : true,
+              isMatchedPhoto: false
+            })
+          } else {
+            let detectedLandmarks = []
+            for (landmark of JSONresponse.responses[0].landmarkAnnotations) {      
+              detectedLandmarks.push((landmark.description))
+            }
+            this.isMatchingPhoto(detectedLandmarks)
           }
-          this.isMatchingPhoto(detectedLandmarks)
-        } 
+        } else if (huntCategory === "Things & Stuff!") {
+          if (!JSONresponse.responses[0].labelAnnotations) {
+            console.log("89: Your image could not be successfully analyzed")
+            this.setState({
+              isFailMessageVisible : true,
+              isMatchedPhoto: false
+            })
+          } else {
+            let detectedLabels = []
+            for (label of JSONresponse.responses[0].labelAnnotations) {      
+              detectedLabels.push((label.description))
+            }
+            this.isMatchingPhoto(detectedLabels)
+          }
+        }
       })
-      .catch((error) => {
-        console.log(error)
-      })
+    .catch((error) => {
+      console.log(error)
+    })
   }
+  
 
-  isMatchingPhoto = (detectedLandmarks) => {
+  isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
-
-    console.log(`89: ${detectedLandmarks}`)
-    console.log(`90: ${checkpoint_name}`)
-
-    for (let i=0; i< detectedLandmarks.length; i++) {
-      if (detectedLandmarks[i] === checkpoint_name) {
-
-        console.log("yes")
-
+    for (let i=0; i< detectedLabels.length; i++) {
+      if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
         console.log(fileName)
         let file = {
@@ -126,26 +135,22 @@ export default class TakePhoto extends React.Component {
           type: "image/png"
         }
         const options = {
-          // keyPrefix: "uploads/",
           bucket: "scavenger-bucket",
           region: "us-east-2",
           accessKey: Constants.manifest.extra.S3_API_KEY_ID,
           secretKey: Constants.manifest.extra.S3_SECRET_ACCESS_KEY,
           successActionStatus: 201
         }
-        RNS3.put(file, options).then(response => {  // Send to S3 bucket!
+        RNS3.put(file, options).then(response => {
           if (response.status !== 201) {
-            console.log(response)
+            // console.log(response)
             throw new Error("Failed to upload image to S3");
           } else {
-          console.log(response.body)
-          this.savePhotoToDB(fileName)
+            this.savePhotoToDB(fileName)
           }
         });
         break
-      }
-      else {
-        console.log("HELL NO!")
+      } else {
         this.setState({
           isMatchedPhoto : false,
           isFailMessageVisible : true
@@ -163,7 +168,7 @@ export default class TakePhoto extends React.Component {
     ImagesDjangoAPI.addImage(imageObject)
       .then((response) => {
         if (response.status === 201) {
-          console.log(response)
+          // console.log(response)
         } else {
           console.log(response)
         }
@@ -171,7 +176,6 @@ export default class TakePhoto extends React.Component {
       .catch((error) => {
         console.log(error)
       })
-      //
       this.setState({
         isMatchedPhoto : true,
         isFailMessageVisible : false
