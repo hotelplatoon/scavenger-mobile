@@ -17,7 +17,7 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
-export default class HomeScreen extends React.Component {
+export default class FinishScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -31,35 +31,23 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
-    
-
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-
       { console.log(`30: hello`) }
-
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          
+
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
-            <Text style={styles.subTitleText}>Welcome to</Text>
+            <Text style={styles.getStartedText}>Congratulations {this.state.user_name}!</Text>
+            <Text style={styles.subTitleText}>You have completed</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
-
-          {/* Button to navigate to new hunt */}
           <TouchableOpacity
             style={styles.startGameButton}
-            // onPress={() => {
-            //   WebBrowser.openBrowserAsync('https://expo.io');
-            // }}
-            // onPress={() => navigate('Clue', {name: 'Jane'})}
-            onPress={() => navigate('SelectTheme', {name: 'Jane'})}
-
+            onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
             underlayColor='#fff'>
-            <Text style={styles.startGameText}>START NEW HUNT</Text>
+            <Text style={styles.startGameText}>START A NEW HUNT</Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.startGameButton}
             onPress={() => navigate('Gallery')}
@@ -67,44 +55,12 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.startGameText}>View Gallery</Text>
           </TouchableOpacity>
           <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="Async Test"
-        onPress={() => this._checkAsync()}
-        />
+            buttonStyle={{ marginTop: 20 }}
+            backgroundColor="#03A9F4"
+            title="Async Test"
+            onPress={() => this._checkAsync()}
+            />
           </ScrollView>
-
-          <View style={{marginTop: 22}}>
-            <Modal 
-              animationType="slide"
-              transparent={false}
-              visible={this.state.modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-              }}>
-              <View style={{margin: 30, padding: 10}}>
-                <View style={styles.howToModal}>
-                <Text style={styles.subTitleText}>How to play THE HUNT</Text>
-                <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
-                <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
-
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}>
-                    <Text style={styles.subTitleText} >Hide</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </Modal>
-
-          <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(true);
-            }}>
-            <Text style={styles.subTitleText}>How to play</Text>
-          </TouchableHighlight>
-        </View>
       </View>
     );
   }

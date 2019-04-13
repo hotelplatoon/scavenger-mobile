@@ -1,43 +1,64 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import ClueText from '../components/ClueText';
-// import { ExpoLinksView } from '@expo/samples';
-import ExitButton from '../components/ExitButton';
+import Clue from '../components/Clue';
+import HuntApi from '../api/HuntApi'
 
 export default class ClueScreen extends React.Component {
-  
-  static navigationOptions = {
-    title: 'Checkpoint',
-  };
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
-      checkpoint_number : 1,
-      clues: ["________, created by noted American artist Alexander Calder, is a 53-foot (16 m) tall stabile located in the Federal Plaza in front of the Kluczynski Federal Building in Chicago, Illinois, United States.", "Clue 2"]
-    }}
+      clues: [],
+      checkpoint_number: 0,
+      description: "",
+      checkpoint_name : "",
+      checkpoint_amount: 5,
+      clueText: ""
+    }
+  }
 
+  componentDidMount() {
+    this.fetchClues()
+  }
+
+  componentDidUpdate() {
+    const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
+    clue = this.state.clues[clueIndex]
+    if (clueIndex != this.state.checkpoint_number) {
+      this.setState({
+        ...this.state, checkpoint_number: clueIndex, checkpoint_name: clue.clue
+      })
+      }
+    }
 
   render() {
-    const {navigate} = this.props.navigation;
-
     return (
       <View style={styles.container}>
-
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
           <View style={styles.getStartedContainer}>
-            <Text style={styles.titleText}>CHECKPOINT {this.state.checkpoint_number}</Text>
+            <Text style={styles.titleText}>
+              {this.props.navigation.getParam('selectedHuntCategory', 'NONE')}
+            </Text>
+            <Text style={styles.titleText}>
+              CHECKPOINT {this.state.checkpoint_number + 1}     
+            </Text>
           </View>
+
           <View style={styles.getStartedContainer}>
-            <ClueText clueText={this.state.clues[this.state.checkpoint_number - 1]}/>
+            {this.renderClue()}
           </View>
-          {/* Button to navigate to new hunt */}
+
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('TakePhoto')}
-            underlayColor='#fff'>
-            <Text style={styles.buttonTextLight}>FOUND IT?</Text>
-
-            <Text style={styles.buttonText}>PROVE IT!</Text>
+            onPress={this.goTakePhoto}
+            underlayColor='#fff'
+            >
+            <Text style={styles.buttonTextLight}>
+              FOUND IT?
+            </Text>
+            <Text style={styles.buttonText}>
+              PROVE IT!
+            </Text>
           </TouchableOpacity>
         </ScrollView>
         <ExitButton/>
@@ -45,6 +66,51 @@ export default class ClueScreen extends React.Component {
 
 
     );
+  }
+
+  goTakePhoto = () => {
+    const clueIndex = this.state.checkpoint_number
+    const clues = this.state.clues
+    const clue = clues[clueIndex]
+    this.props.navigation.navigate(
+      'TakePhoto', { 
+        checkpoint_number: clueIndex, 
+        checkpoint_name: clue.clue,
+        checkpoint_description: clue.description,
+        finalCheckpoint: this.state.clues.length - 1,
+      }
+    )}
+
+  getClueName = () => {
+    const clueIndex = this.state.checkpoint_number
+    const clue = this.state.clues[clueIndex]
+    if (clue) {
+      this.setState({
+      ...this.setState, checkpoint_name: clue.clue 
+      })
+    }
+    return this.state.checkpoint_name
+  }
+
+  renderClue = () => {
+    const clueIndex = this.state.checkpoint_number
+    const clue = this.state.clues[clueIndex]
+    if (clue) {
+      return <Clue text={clue.description} />
+    }
+  }
+
+  filterCluesHuntID(data) {
+    return data.filter(clue => clue.hunt_id === this.props.navigation.getParam('selectedHuntID'))
+  }
+
+  fetchClues = () => {
+    HuntApi.fetchCheckpointsbyID()
+      .then(allClues => {
+        let clues = this.filterCluesHuntID(allClues)
+        this.setState({clues})
+      })
+      .catch(error => console.log(error))
   }
 }
 
