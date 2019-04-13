@@ -11,7 +11,8 @@ export default class SelectThemeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      huntThemes : []
+      huntThemes : [],
+      selectedHuntID: 0
     }}
     
 
@@ -30,6 +31,10 @@ export default class SelectThemeScreen extends React.Component {
     .catch((error) => {
       console.log(error)
     })
+    let selectedHunt=this.props.navigation.getParam('selectedHuntID')
+    this.setState({
+      selectedHuntID: selectedHunt
+    })
   }
 
   createThemeButtons() {
@@ -42,7 +47,7 @@ export default class SelectThemeScreen extends React.Component {
           type="outline"
           raised={true}
           style={{width: 100}}
-          onPress={() => this.props.navigation.navigate('Clue', {selectedHuntID: huntTheme.pk, selectedHuntCategory: huntTheme.category} )}
+          onPress={() => this.props.navigation.navigate('Clue', {selectedHuntID: huntTheme.pk, selectedHuntCategory: huntTheme.category, checkpoint_number: 0} )}
         />
       </View>
       )

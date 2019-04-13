@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {   Modal, TouchableHighlight, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
+import ExitButton from '../components/ExitButton'
 
 export default class ClueScreen extends React.Component {
   constructor(props) {
@@ -12,8 +13,14 @@ export default class ClueScreen extends React.Component {
       description: "",
       checkpoint_name : "",
       checkpoint_amount: 5,
-      clueText: ""
+      clueText: "",
+      modalVisible: false
     }
+  }
+
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   componentDidMount() {
@@ -23,11 +30,33 @@ export default class ClueScreen extends React.Component {
   componentDidUpdate() {
     const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
     clue = this.state.clues[clueIndex]
+
+
+    const huntID = clue.hunt_id
+    if (huntID != this.props.navigation.getParam('selectedHuntID')) {
+      // this.fetchClues()
+      this.componentDidMount()
+    }
+
     if (clueIndex != this.state.checkpoint_number) {
       this.setState({
         ...this.state, checkpoint_number: clueIndex, checkpoint_name: clue.clue
       })
       }
+    }
+
+    exitHunt() {
+      // this.setState({
+      //   // clues: [],
+      //   checkpoint_number: 0,
+      //   description: "",
+      //   checkpoint_name : "",
+      //   checkpoint_amount: 5,
+      //   clueText: "",
+      //   // modalVisible: false
+      // })
+      {this.props.navigation.navigate('Main', {checkpoint_number: 0}, {name: 'Jane'}, {selectedHuntID: 0}, {checkpoint_name: ""})}
+      {this.setModalVisible(!this.state.modalVisible)}
     }
 
   render() {
@@ -61,8 +90,58 @@ export default class ClueScreen extends React.Component {
             </Text>
           </TouchableOpacity>
 
+ {/* Button to navigate to new hunt */}
+ <View style={styles.container}>
+          
+          <ScrollView style={styles.container} contentContainerStyle={styles.exitContainer}>
+            <TouchableOpacity
+              style={styles.exitButton}
+              onPress={() => {
+                this.setModalVisible(true);
+              }}>            
+              <Text style={styles.subTitleText}>Exit</Text>
+            </TouchableOpacity>
+
+          </ScrollView>
+
+          <View style={{marginTop: 22}}>
+              <Modal 
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                  Alert.alert('Modal has been closed.');
+                }}>
+                <View style={{margin: 30, padding: 10}}>
+                  <View style={styles.howToModal}>
+                  <Text style={styles.subTitleText}>Are your sure want to quit?</Text>
+                  <Text style={styles.exitText}>Warning! Data from this hunt session will not be saved.</Text>
+
+                    <TouchableHighlight
+                      style={styles.startGameButton}
+                      onPress={() => this.exitHunt()}
+                      underlayColor='#fff'>
+                      <Text style={styles.subTitleText} >Quit</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+                      <Text style={styles.subTitleText} >Continue</Text>
+                    </TouchableHighlight>
+                </View>
+              </View>
+            </Modal>
+          </View>
+
+        </View>
+        {/* End Code for exiting hunt */}
+
         </ScrollView>
+
+         
       </View>
+
+
     );
   }
 
@@ -70,6 +149,7 @@ export default class ClueScreen extends React.Component {
     const clueIndex = this.state.checkpoint_number
     const clues = this.state.clues
     const clue = clues[clueIndex]
+    console.log(clue.clue)
     this.props.navigation.navigate(
       'TakePhoto', { 
         checkpoint_number: clueIndex, 
@@ -162,5 +242,48 @@ const styles = StyleSheet.create({
     textAlign:'center',
     paddingLeft : 10,
     paddingRight : 10
+  },
+  exitContainer: {
+    alignItems: 'center',
+    marginHorizontal: 50,
+  },
+   exitButton:{
+    marginRight:70,
+    marginLeft:70,
+    marginTop:5,
+    paddingTop:5,
+    paddingBottom:5,
+    // backgroundColor:'#4c0a01',
+    borderRadius:5,
+  },
+  exitText:{
+      color:'#4c0a01',
+      fontSize: 15,
+      fontWeight: "900",
+      textAlign:'right',
+      paddingLeft : 10,
+      paddingRight : 10,
+      textAlign: 'center',
+      color: 'rgba(96,100,109, 1)',
+      lineHeight: 24,
+
+  },
+  // exitText: {
+  //   fontSize: 15,
+  // },
+    howToModal: {
+    marginTop:'80%',
+    borderWidth: 5,
+    borderColor: '#4c0a01'
+  },
+    subTitleText: {
+    fontSize: 18,
+    color: '#4c0a01',
+    lineHeight: 30,
+    textAlign: 'center',
+    fontWeight: "500",
+    paddingLeft : 10,
+    paddingRight : 10,
+    paddingTop : 30
   },
 });

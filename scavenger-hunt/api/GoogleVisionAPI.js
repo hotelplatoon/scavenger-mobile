@@ -28,7 +28,6 @@ const analyzeImage = async (encodedImage) => {
       }
     )
     let responseJson = await response.json();
-    console.log(responseJson)
     return responseJson
   } catch (error) {
     console.log(error);
