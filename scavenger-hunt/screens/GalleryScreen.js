@@ -14,12 +14,10 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      user_id : 2,
       images : null,
       imageURLs : []
     }}
-
-
-  // grabbing all image objects from db with matching the user_id and 
 
   async componentDidMount() {
     let imageNames = []
@@ -27,18 +25,20 @@ export default class GalleryScreen extends React.Component {
     await ImagesDjangoAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
-          let imageObject = {
-            user_hunt_id : element.user_hunt_id,
-            image_name : element.image_name
+          if (element.user_hunt_id === this.state.user_id) {
+            let imageObject = {
+              user_hunt_id : element.user_hunt_id,
+              image_name : element.image_name
+            }
+            imageNames.push({imageObject})
+            let url = S3ImagesAPI.s3.getSignedUrl('getObject', {
+              Bucket: "scavenger-bucket",
+              Key: element.image_name,
+              Expires: 1800
+            });
+            imageURLs.push(url)
           }
-          imageNames.push({imageObject})
-          let url = S3ImagesAPI.s3.getSignedUrl('getObject', {
-            Bucket: "scavenger-bucket",
-            Key: element.image_name,
-            Expires: 1800
-          });
-          imageURLs.push(url)
-      }
+        }
       this.setState({
         imageURLs: imageURLs,
         images: imageNames
