@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
-import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
+import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 export default class GalleryScreen extends React.Component {
     static navigationOptions = {
@@ -19,7 +19,7 @@ export default class GalleryScreen extends React.Component {
   async componentDidMount() {
     let imageNames = []
     let imageURLs = []
-    await ImagesDjangoAPI.fetchImages() 
+    await HuntAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           if (element.user_hunt_id === this.state.user_id) {
@@ -59,8 +59,7 @@ export default class GalleryScreen extends React.Component {
           />
         </View>
         imagesList.push(imageRow)
-        }
-        else {
+        } else {
         let imageRow = 
           <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
             <Image 
