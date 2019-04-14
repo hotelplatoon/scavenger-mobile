@@ -119,6 +119,7 @@ export default class TakePhoto extends React.Component {
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
+    console.log(detectedLabels)
     for (let i = 0; i < detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
@@ -142,14 +143,15 @@ export default class TakePhoto extends React.Component {
           }
         });
         break
-      } else {
+      }
+      else {
         this.setState({
           isMatchedPhoto : false,
-          isFailMessageVisible : true
         })
       }
     }
   }
+   
   
   savePhotoToDB = (fileName) => {
     let imageObject = {
