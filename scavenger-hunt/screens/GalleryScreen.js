@@ -14,7 +14,7 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id : 1,
+      user_id : 3,
       images : null,
       imageURLs : []
     }}
@@ -56,7 +56,7 @@ export default class GalleryScreen extends React.Component {
           let imageRow = 
           <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
           <Image 
-            style={{width: 155, height: 155, margin: 6, borderRadius: 2, justifyContent: "flex-start"}}
+            style={{width: 160, height: 160, margin: 6, borderRadius: 3, justifyContent: "flex-start"}}
             source={{uri: this.state.imageURLs[i]}}
             PlaceholderContent={<ActivityIndicator />}
           />
@@ -67,12 +67,12 @@ export default class GalleryScreen extends React.Component {
         let imageRow = 
           <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
             <Image 
-              style={{width: 155, height: 155, margin: 6, borderRadius: 2}}
+              style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
               source={{uri: this.state.imageURLs[i]}}
               PlaceholderContent={<ActivityIndicator />}
             />
             <Image 
-              style={{width: 155, height: 155, margin: 6, borderRadius: 2}}
+              style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
               source={{uri: this.state.imageURLs[i + 1]}}
               PlaceholderContent={<ActivityIndicator />}
             />
@@ -86,7 +86,6 @@ export default class GalleryScreen extends React.Component {
   render() {
     return (
       <View style={style.pageContainer}>
-      {/* <View style={styles.container}> */}
         <Text style={style.pageTitleText}>Gallery</Text>
         <ScrollView contentContainerStyle={style.contentContainer}>
           <View style={styles.container}>
@@ -119,7 +118,7 @@ export default class GalleryScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    paddingTop: 15,
+    paddingTop: 10,
     backgroundColor: '#fff',
     // flexDirection: 'row',
     justifyContent: 'center'

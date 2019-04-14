@@ -7,13 +7,14 @@ export default StyleSheet.create({
   pageContainer: {
     backgroundColor: '#4c0a01',
     paddingTop: 20,
-    // paddingBottom: 20,
   },
   contentContainer: {
-    marginTop: 30,
-    // borderColor: '#4c0a01'
+    // marginTop: 30,
+    backgroundColor: '#fff',
+    paddingTop: 10,
+    paddingBottom: 50,
   },
-    screenTitleText: {
+  screenTitleText: {
     fontSize: 30,
     color: '#4c0a01',
     // color: '#fff',
@@ -32,7 +33,8 @@ export default StyleSheet.create({
     fontWeight: "900",
     paddingLeft : 10,
     paddingRight : 10,
-    paddingTop: 15
+    paddingTop: 15,
+    paddingBottom: 15
   },
   bodyText: {
     fontSize: 15,
