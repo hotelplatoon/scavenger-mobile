@@ -3,7 +3,7 @@ import {   Modal, TouchableHighlight, ScrollView, StyleSheet, Text, View, Toucha
 import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
 import style from '../constants/Style'
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
 export default class ClueScreen extends React.Component {
   constructor(props) {
@@ -58,10 +58,10 @@ export default class ClueScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={style.contentContainer}>
+      <View style={style.homeClueScreenContainer}>
+        <ScrollView style={style.homeClueScreenContainer} contentContainerStyle={style.contentContainer}>
 
-          <View style={style.container}>
+          <View>
             <Text style={style.upperSubTitleText}>
               {this.props.navigation.getParam('selectedHuntCategory', '')}
             </Text>
@@ -70,7 +70,7 @@ export default class ClueScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={style.container}>
+          <View>
             {this.renderClue()}
           </View>
           <TouchableOpacity
@@ -78,73 +78,75 @@ export default class ClueScreen extends React.Component {
             onPress={this.goTakePhoto}
             underlayColor='#fff'
             >
-            <Text style={styles.buttonTextLight}>FOUND IT?</Text>
-            <Text style={styles.buttonText}>PROVE IT!</Text>
+            <Text style={style.buttonTextLight}>FOUND IT?</Text>
+            <Text style={style.buttonText}>PROVE IT!</Text>
           </TouchableOpacity>
 
-        <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.exitContainer}>
-            {/* <TouchableOpacity
-              style={styles.exitButton}
-              onPress={() => {
-                this.setModalVisible(true);
-              }}>            
-              <Text style={style.subTitleText}>Exit</Text>
-            </TouchableOpacity> */}
-        <View style={style.buttonContainer}>
-          <Button
-              buttonStyle={{
-                height: 40,
-                // width: 160,
-                borderWidth: 1,
-                borderColor: '#4c0a01'
-              }}
-              titleStyle={{
-                color: '#4c0a01',
-                fontSize: 13
-              }}
-              title="Leave the hunt"
-              type="outline"
-              raised={true}
-              onPress={() => {
-                this.setModalVisible(true);
-              }} 
-            />
-          </View>
+        <View style={style.homeClueScreenContainer}>
+          <ScrollView style={style.homeClueScreenContainer} >
+            <View style={style.buttonContainer}>
+              <Button
+                  buttonStyle={{
+                    height: 40,
+                    // width: 160,
+                    borderWidth: 1,
+                    borderColor: '#4c0a01'
+                  }}
+                  titleStyle={{
+                    color: '#4c0a01',
+                    fontSize: 13
+                  }}
+                  title="Leave the hunt"
+                  type="outline"
+                  raised={true}
+                  onPress={() => {
+                    this.setModalVisible(true);
+                  }} 
+                />
+              </View>
 
           </ScrollView>
 
-          <View style={{marginTop: 22}}>
-              <Modal 
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                }}>
-                <View style={{margin: 30, padding: 10}}>
-                  <View style={styles.howToModal}>
-                  <Text style={style.subTitleText}>Are your sure want to quit?</Text>
-                  <Text style={styles.exitText}>Warning! Data from this hunt session will not be saved.</Text>
-
+          <View style={{marginTop: 1}}>
+            <Modal 
+              animationType="slide"
+              transparent={true}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+              }}>
+              <View style={{margin: 35}}>
+                <View style={style.modalContainer}>
+                    <View style={{ alignSelf: 'flex-end' }}>
+                      <Icon
+                        name="closecircleo"
+                        type="antdesign"
+                        size={25}
+                        color="white"
+                        onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+                      />
+                    </View>
+                  <View style={{padding: 30 }}>
+                    <Text style={style.modalTitleText}>Are you sure want to quit?</Text>
+                    <Text style={style.modalBodyText}>_______</Text>
+                    <Text style={style.modalBodyText}>{"\n"}Warning! Data from this hunt session will not be saved.</Text>
+                    <Text style={style.modalBodyText}>_______</Text>
+                    {/* <Text style={style.modalTitleText}>{"\n\n\n"}Good Luck!</Text> */}
                     <TouchableHighlight
-                      style={styles.startGameButton}
+                      style={style.smallOutlineButton}
                       onPress={() => this.exitHunt()}
                       underlayColor='#fff'>
-                      <Text style={style.subTitleText}>Quit</Text>
+                      <Text style={style.subTitleText}>Yes, I'm bored!</Text>
                     </TouchableHighlight>
 
-                    <TouchableHighlight
-                      onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                      <Text style={style.subTitleText} >Continue</Text>
-                    </TouchableHighlight>
+                  </View>
                 </View>
               </View>
             </Modal>
-          </View>
 
         </View>
-        {/* End Code for exiting hunt */}
+
+        </View>
 
         </ScrollView>
       </View>
@@ -162,7 +164,8 @@ export default class ClueScreen extends React.Component {
         checkpoint_name: clue.clue,
         checkpoint_description: clue.description,
         finalCheckpoint: this.state.clues.length - 1,
-        huntCategory: this.props.navigation.getParam('selectedHuntCategory', 'NO_CATEGORY')
+        huntCategory: this.props.navigation.getParam('selectedHuntCategory', 'NO_CATEGORY'),
+        clues: clues
       }
     )}
 
@@ -199,84 +202,25 @@ export default class ClueScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  titleText: {
-    fontSize: 30,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "900",
-    paddingLeft : 10,
-    paddingRight : 10,
-  },
-  clueText: {
-    fontSize: 15,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  // button:{
-  //   marginHorizontal: 110,
-  //   marginTop:150,
-  //   paddingTop:30,
-  //   paddingBottom:30,
-  //   backgroundColor:'#4c0a01',
-  //   borderRadius:5,
-  // },
-  buttonText:{
-    color:'#fff',
-    fontSize: 25,
-    lineHeight: 30,
-    fontWeight: "900",
-    textAlign:'center',
-    paddingLeft : 10,
-    paddingRight : 10
-  },
-  buttonTextLight:{
-    color:'#fff',
-    fontSize: 25,
-    lineHeight: 30,
-    fontWeight: "300",
-    textAlign:'center',
-    paddingLeft : 10,
-    paddingRight : 10
-  },
-  exitContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  exitButton:{
-    marginRight:70,
-    marginLeft:70,
-    marginTop:5,
-    paddingTop:5,
-    paddingBottom:5,
-    // backgroundColor:'#4c0a01',
-    borderRadius:5,
-  },
-  exitText:{
-      color:'#4c0a01',
-      fontSize: 15,
-      fontWeight: "900",
-      textAlign:'right',
-      paddingLeft : 10,
-      paddingRight : 10,
-      textAlign: 'center',
-      color: 'rgba(96,100,109, 1)',
-      lineHeight: 24,
-
-  },
-  howToModal: {
-    marginTop:'80%',
-    borderWidth: 5,
-    borderColor: '#4c0a01'
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     // paddingTop: 15,
+//     backgroundColor: '#fff',
+//   },
+//   titleText: {
+//     fontSize: 30,
+//     color: '#4c0a01',
+//     lineHeight: 30,
+//     textAlign: 'center',
+//     fontWeight: "900",
+//     paddingLeft : 10,
+//     paddingRight : 10,
+//   },
+//   clueText: {
+//     fontSize: 15,
+//     color: 'rgba(96,100,109, 1)',
+//     lineHeight: 24,
+//     textAlign: 'center',
+//   }
+// });
