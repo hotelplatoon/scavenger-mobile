@@ -1,22 +1,22 @@
 import React from "react";
-import { View, AsyncStorage, TouchableOpacity } from "react-native";
-import { Card, Button, Text } from "react-native-elements";
+import { View, TouchableOpacity } from "react-native";
+import { Card, Text } from "react-native-elements";
 import { onSignOut } from "../auth";
-import { globalEmail } from "./SignInScreen";
+import { GlobalStorage } from "../App"
 import style from '../constants/Style'
 
 export default class ProfileScreen extends React.Component {
-// export default ({ navigation }) => (
   
   render() {
-    console.log(this.globalEmail)  
+    
+
     return (
   <View style={{ paddingVertical: 20 }}>
     <Card title='Profile'>
       <View style={style.profileImagePlaceholder}>
-        <Text style={{ color: "white", fontSize: 28 }}>C</Text> 
+        <Text style={{ color: "white", fontSize: 28 }}>{(globalState.name)}</Text> 
       </View>
-      {/* <Text style={{ color: "#4c0a01", fontSize: 18 }}>Email:</Text> */}
+      <Text style={{ color: "#4c0a01", fontSize: 18 }}>Email: {(globalState.username)}</Text>
         <TouchableOpacity
           style={style.wideRedButton}
           underlayColor='#fff'
@@ -28,8 +28,10 @@ export default class ProfileScreen extends React.Component {
   </View>
     )
   }
+  
 }
 // );
 // export const profilePass = async (USER_OBJECT_PROP) => {
 //   await AsyncStorage.setItem('USER_OBJECT', USER_OBJECT_PROP);
 // }
+// export const initial = globalState.name.slice(1,2)
