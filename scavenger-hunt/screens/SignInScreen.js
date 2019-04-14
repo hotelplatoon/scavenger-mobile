@@ -4,6 +4,8 @@ import { Card, Button, Input, Icon } from "react-native-elements";
 import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 import { StoreGlobal } from "../App";
+import style from '../constants/Style'
+
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -16,7 +18,6 @@ export default class SignInScreen extends React.Component {
         passedEmail: '',
         emailValidated: false,
         passwordValidated: false,
-
       }
     }
 
