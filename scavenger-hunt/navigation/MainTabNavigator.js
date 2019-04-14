@@ -16,7 +16,6 @@ import SelectThemeScreen from '../screens/SelectThemeScreen';
 import FinishScreen from '../screens/FinishScreen';
 import ExitButton from '../components/1ExitButton';
 
-
 export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
     screen: SignUpScreen,
