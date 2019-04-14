@@ -5,9 +5,6 @@ import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 import { StoreGlobal } from "../App";
 
-
-
-
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -107,6 +104,7 @@ export default class SignInScreen extends React.Component {
       }
     })
     .catch((error) => console.log(error))    
+
     UserAPI.getUser(userObject)
       .then((res) => {
         const localEmail = res[0].email
