@@ -1,8 +1,6 @@
-import { NavigationActions } from 'react-navigation';
-
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
-import { Image, View, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Image, View, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay, Button, Icon } from 'react-native-elements';
@@ -143,15 +141,14 @@ export default class TakePhoto extends React.Component {
           }
         });
         break
-      }
-      else {
+      } else {
         this.setState({
           isMatchedPhoto : false,
         })
       }
     }
   }
-   
+  
   
   savePhotoToDB = (fileName) => {
     let imageObject = {
@@ -195,8 +192,7 @@ export default class TakePhoto extends React.Component {
       let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
       let clues = this.props.navigation.getParam('clues', 'NO_CATEGORY')
       this.props.navigation.navigate('Finish', {checkpoint_number: 0, huntCategory: huntCategory, clues: clues})
-    }
-    else {
+    } else {
       this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number + 1})
     }
   }

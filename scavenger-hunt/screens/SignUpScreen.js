@@ -1,6 +1,6 @@
 import React from "react";
 import { View  } from "react-native";
-import { Button, Card, Input, Icon} from "react-native-elements";
+import { Button, Card, Input, Icon } from "react-native-elements";
 import HuntAPI from '../api/HuntAPI';
 
 export default class SignUpScreen extends React.Component {
