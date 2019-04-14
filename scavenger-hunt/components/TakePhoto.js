@@ -189,8 +189,10 @@ export default class TakePhoto extends React.Component {
       image: null,
       encodedImage: null,
     })
-    if (this.state.checkpoint_number === finalCheckpoint) {
-      this.props.navigation.navigate('Finish', {checkpoint_number: 0})
+    if ((this.state.checkpoint_number === finalCheckpoint)) {
+      let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
+      let clues = this.props.navigation.getParam('clues', 'NO_CATEGORY')
+      this.props.navigation.navigate('Finish', {checkpoint_number: 0, huntCategory: huntCategory, clues: clues})
     }
     else {
       this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number + 1})
@@ -199,33 +201,29 @@ export default class TakePhoto extends React.Component {
 
   render() {
     let { image } = this.state;
-    const backAction = NavigationActions.back({
-      key: 'ClueScreen',
-    });
     return (
-      <View style={styles.page}>
+      <View style={style.takephotocontainer}>
         <View style={{ alignSelf: 'flex-end' }}>
           <Icon
             name="closecircleo"
             type="antdesign"
             size={25}
             color="#4c0a01"
-
-            onPress={() => this.props.navigation.dispatch(backAction)}
-            // onPress={() => this.props.navigation.navigate('ClueScreen')}
+            onPress={() => this.props.navigation.navigate('Clue')}
           />
         </View>
         { this.state.isFailMessageVisible 
           ?
             <Overlay
-              overlayStyle={styles.overlayContainer}
+              overlayStyle={style.overlayContainer}
               isVisible={this.state.isFailMessageVisible}
               windowBackgroundColor="rgba(200, 200, 200, .5)"
               overlayBackgroundColor="rgba(255, 255, 255, .9)"
               width="80%"
               height="35%"
+              borderRadius={6}
             >
-            <View style={styles.overlayMessage}>
+            <View style={style.overlayMessage}>
               <Icon
                 name='frown-o'
                 type='font-awesome'
@@ -234,11 +232,11 @@ export default class TakePhoto extends React.Component {
               />
               <Text style={{paddingVertical: 10 }}>Your photo does not match the checkpoint</Text>
               <TouchableHighlight 
-                style={styles.button}
+                style={style.wideRedButton}
                 onPress={() => {
                   this.setModalVisible(!this.state.isFailMessageVisible);
                 }}>
-                <Text style={styles.buttonText}>TRY AGAIN</Text>
+                <Text style={style.wideButtonText}>TRY AGAIN</Text>
               </TouchableHighlight>
               </View>
             </Overlay> 
@@ -247,14 +245,15 @@ export default class TakePhoto extends React.Component {
         { this.state.isMatchedPhoto 
           ?
             <Overlay
-              overlayStyle={styles.overlayContainer}
+              overlayStyle={style.overlayContainer}
               isVisible={true}
               windowBackgroundColor="rgba(200, 200, 200, .5)"
               overlayBackgroundColor="rgba(255, 255, 255, .9)"
               width="80%"
               height="35%"
+              borderRadius={6}
             >
-            <View style={styles.overlayMessage}>
+            <View style={style.overlayMessage}>
             <Icon
                 name='smile-o'
                 type='font-awesome'
@@ -263,10 +262,10 @@ export default class TakePhoto extends React.Component {
               />
               <Text style={{paddingVertical: 10 }}>Woohoo! You found it - nice work!</Text>
               <TouchableHighlight 
-                style={styles.button}
+                style={style.wideRedButton}
                 onPress={() => this.clearOverlay()}
                 >
-                <Text style={styles.buttonText}>NEXT CHECKPOINT</Text>
+                <Text style={style.wideButtonText}>NEXT CHECKPOINT</Text>
               </TouchableHighlight>
               </View>
             </Overlay> 
@@ -275,9 +274,9 @@ export default class TakePhoto extends React.Component {
         {!image &&   
           <View>
             <Text style={style.subTitleText}>
-              Clue Reminder
+              Clue
             </Text>
-            <View style={styles.textContainer}>
+            <View style={style.textContainer}>
             <Text style={style.bodyText}>
               {this.props.navigation.getParam('checkpoint_description')}
             </Text>
@@ -324,7 +323,7 @@ export default class TakePhoto extends React.Component {
             />
           </View>
         }
-        
+
         {image &&
           <TouchableOpacity
             style={style.button}
@@ -338,46 +337,3 @@ export default class TakePhoto extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    alignItems: 'center',
-    margin:20,
-    paddingTop: 30,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  overlayContainer: {
-    shadowOffset:{ width: 2, height: 2 },
-    shadowColor: 'black',
-    shadowOpacity: 0.7,
-  },
-  textContainer: {
-    marginHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  overlayMessage: {
-    marginVertical: 20,
-    alignItems: 'center',
-  },
-  button: {
-    paddingTop:20,
-    margin: 10,
-    paddingBottom:20,
-    backgroundColor:'#4c0a01',
-    borderRadius:5,
-  },
-  buttonText:{
-    color:'#fff',
-    fontSize: 20,
-    fontWeight: "700",
-    textAlign:'center',
-    paddingLeft : 10,
-    paddingRight : 10
-  },
-});
