@@ -13,57 +13,60 @@ const fetchUsersbyID = (userID) => {
     .then((response) => response.json());
 }
 
+const sendLogin = (loginObject) => {
+  return fetch('https://hunt-app-backend.herokuapp.com/api/login/', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(loginObject)
+  })
+}
+
+const addUser = (userObject) => {
+  return fetch('https://hunt-app-backend.herokuapp.com/api/signup/', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(userObject)
+  })
+}
+
+const getUser = (userObject) => {
+  const formattedEmail = userObject.replace('@','%40')
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/signup/?search=${formattedEmail}`)
+    .then((res) => res.json());
+}
+
+const fetchImages = () => {
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/userimages/`)
+    .then((response) => response.json());
+}
+
+const addImage = (imageObject) => {
+  return fetch('https://hunt-app-backend.herokuapp.com/api/userimages/', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(imageObject)
+  })
+}
+
+const fetchHuntThemes = () => {
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/hunt/`)
+    .then((response) => response.json());
+}
+
 export default {
   fetchHuntByID: fetchHuntByID,
   fetchCheckpointsbyID: fetchCheckpointsbyID,
   fetchUsersbyID: fetchUsersbyID,
+  sendLogin: sendLogin,
+  addUser: addUser,
+  getUser: getUser,
+  addImage: addImage,
+  fetchImages: fetchImages,
+  fetchHuntThemes: fetchHuntThemes
 }
-
-
-// const addCategory = (categoryObject) => {
-//   return fetch('https://cors-anywhere.herokuapp.com/https://craigslist-django-backend.herokuapp.com/category/', {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     method: 'POST',
-//     body: JSON.stringify(categoryObject)
-//   })
-// }
-
-// const editCategory = (categoryID, categoryObject) => {
-//   return fetch(`http://localhost:8000/categories/${categoryID}/`, {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     method: "PUT",
-//     body: JSON.stringify(categoryObject)
-//   })
-// }
-
-// const deleteCategory = (categoryID) => {
-//   return fetch(`http://localhost:8000/categories/${categoryID}/`, { 
-//     method: 'DELETE' 
-//   });
-// }
-
-// const addPost = (postObject) => {
-//   return fetch('https://cors-anywhere.herokuapp.com/https://craigslist-django-backend.herokuapp.com/posts/', {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     method: 'POST',
-//     body: JSON.stringify(postObject)
-//   })
-// }
-
-// const fetchPosts = () => {
-//   return fetch(`https://cors-anywhere.herokuapp.com/https://craigslist-django-backend.herokuapp.com/posts/`)
-//     .then((response) => response.json());
-// }
-
-// const fetchPostsByCategory = (categoryID) => {
-//   return fetch(`https://cors-anywhere.herokuapp.com/https://craigslist-django-backend.herokuapp.com/posts/?filter={"where":{"categoryID":"${categoryID}"}}`)
-//     .then((data) => data.json())
-// }
-
-

@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Card, Button, Input, Icon } from "react-native-elements";
 import { onSignIn } from '../auth'
-import UserAPI from '../api/UserAPI'
+import HuntAPI from '../api/HuntAPI'
 import { StoreGlobal } from "../App";
 import style from '../constants/Style'
 
@@ -78,7 +78,7 @@ export default class SignInScreen extends React.Component {
   handleLogin = () => {
     const loginObject = this.state
     const userObject = this.state.username
-    UserAPI.sendLogin(loginObject)
+    HuntAPI.sendLogin(loginObject)
     .then((res) => {
       if (res.status === 200) {
         const USER_KEY = res._bodyInit.slice(9,-1)
@@ -87,7 +87,7 @@ export default class SignInScreen extends React.Component {
     })
     .catch((error) => console.log(error))    
 
-    UserAPI.getUser(userObject)
+    HuntAPI.getUser(userObject)
       .then((res) => {
         this.setglobal('username', res[0].email)
         this.setglobal('id', res[0].id)

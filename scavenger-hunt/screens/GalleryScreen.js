@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
-import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
+import HuntAPI from '../api/HuntAPI';
 import { testing } from './SignInScreen';
 import { teststyles } from '../constants/Colors'
 import style from '../constants/Style'
@@ -22,7 +22,7 @@ export default class GalleryScreen extends React.Component {
   async componentDidMount() {
     let imageNames = []
     let imageURLs = []
-    await ImagesDjangoAPI.fetchImages() 
+    await HuntAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           if (element.user_hunt_id === this.state.user_id) {

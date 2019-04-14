@@ -6,7 +6,7 @@ import { Image, View, StyleSheet, Text, TouchableHighlight, TouchableOpacity } f
 import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay, Button, Icon } from 'react-native-elements';
-import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
+import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 
 export default class TakePhoto extends React.Component {
@@ -157,7 +157,7 @@ export default class TakePhoto extends React.Component {
       "user_hunt_id": 1,
       "checkpoint_id": (this.state.checkpoint_number + 1)
     }
-    ImagesDjangoAPI.addImage(imageObject)
+    HuntAPI.addImage(imageObject)
       .then((response) => {
         if (response.status === 201) {
           // console.log(response)
