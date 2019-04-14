@@ -15,7 +15,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
+import { MonoText } from './StyledText';
 import { USER_KEY } from '../auth'
 
 export default class ExitButton extends React.Component {

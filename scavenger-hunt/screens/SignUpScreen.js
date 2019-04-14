@@ -15,7 +15,6 @@ export default class SignUpScreen extends React.Component {
       emailValidated: false,
       passwordValidated: false,
       confirmPasswordValidated: false,
-
     }
   }
   
