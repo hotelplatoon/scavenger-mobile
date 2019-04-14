@@ -1,12 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
-import { testing } from './SignInScreen';
-import { teststyles } from '../constants/Colors'
 import style from '../constants/Style'
-
 export default class GalleryScreen extends React.Component {
     static navigationOptions = {
     title: 'Gallery',
@@ -88,7 +85,7 @@ export default class GalleryScreen extends React.Component {
       <View style={style.pageContainer}>
         <Text style={style.pageTitleText}>Gallery</Text>
         <ScrollView contentContainerStyle={style.contentContainer}>
-          <View style={styles.container}>
+          <View style={style.galleryContainer}>
             { this.state.imageURLs && this.createImages() }
           </View>
           <View style={style.buttonContainer}>
@@ -114,13 +111,3 @@ export default class GalleryScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    paddingTop: 10,
-    backgroundColor: '#fff',
-    // flexDirection: 'row',
-    justifyContent: 'center'
-  }
-});
