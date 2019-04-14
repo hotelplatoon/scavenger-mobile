@@ -33,6 +33,7 @@ export const SignedOutStack = createStackNavigator({
 });
 
 export const SignedInStack = createBottomTabNavigator({
+  
   Main: {
     screen: HomeScreen,
     navigationOptions: {

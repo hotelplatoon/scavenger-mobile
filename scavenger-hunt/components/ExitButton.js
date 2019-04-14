@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 50,
   },
-   exitButton:{
+  exitButton:{
     marginRight:70,
     marginLeft:70,
     marginTop:5,

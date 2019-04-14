@@ -19,7 +19,6 @@ import style from '../constants/Style'
 import { Button, Icon } from 'react-native-elements';
 
 
-
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -34,6 +33,7 @@ export default class HomeScreen extends React.Component {
     }
 
   render() {
+    console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
