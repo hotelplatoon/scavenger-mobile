@@ -141,9 +141,10 @@ export default class TakePhoto extends React.Component {
           }
         });
         break
-      } else {
+      } else if (i === detectedLabels.length - 1) {
         this.setState({
           isMatchedPhoto : false,
+          isFailMessageVisible : true,
         })
       }
     }
@@ -210,7 +211,7 @@ export default class TakePhoto extends React.Component {
             onPress={() => this.props.navigation.navigate('Clue')}
           />
         </View>
-        { this.state.isFailMessageVisible 
+        { this.state.isFailMessageVisible
           ?
             <Overlay
               overlayStyle={style.overlayContainer}
