@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator,  } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
 import HuntAPI from '../api/HuntAPI';
@@ -48,6 +48,7 @@ export default class GalleryScreen extends React.Component {
 
     createImages() {
       let imagesList = []
+
       for (let i = 0; i < this.state.imageURLs.length; i += 2) {
         if (i === this.state.imageURLs.length - 1) {
           let imageRow = 
@@ -60,24 +61,38 @@ export default class GalleryScreen extends React.Component {
         </View>
         imagesList.push(imageRow)
         } else {
-        let imageRow = 
-          <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-            <Image 
-              style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
-              source={{uri: this.state.imageURLs[i]}}
-              PlaceholderContent={<ActivityIndicator />}
-            />
-            <Image 
-              style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
-              source={{uri: this.state.imageURLs[i + 1]}}
-              PlaceholderContent={<ActivityIndicator />}
-            />
-          </View>
-          imagesList.push(imageRow)
+          let imageRow = 
+            <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+              <Image 
+                style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
+                source={{uri: this.state.imageURLs[i]}}
+                PlaceholderContent={<ActivityIndicator />}
+              />
+              <Image 
+                style={{width: 160, height: 160, margin: 6, borderRadius: 3}}
+                source={{uri: this.state.imageURLs[i + 1]}}
+                PlaceholderContent={<ActivityIndicator />}
+              />
+            </View>
+            imagesList.push(imageRow)
+          }
+        }
+        if (imagesList.length <= 0) {
+          return this.noImage()
+        }
+        else {
+          return imagesList
         }
       }
-      return imagesList
-    }
+
+      noImage() {
+        let text = 
+        <View>
+          <Text style={style.subTitleText}>You currently have no images in your gallery.</Text>
+          <Text style={style.subTitleText}>Start a new hunt and come back to track your progress!</Text>
+        </View>
+      return text
+      }
 
   render() {
     return (
@@ -110,3 +125,23 @@ export default class GalleryScreen extends React.Component {
     );
   }
 }
+// const styles = StyleSheet.create({
+//   container: {
+//     // flex: 1,
+//     paddingTop: 10,
+//     backgroundColor: '#fff',
+//     // flexDirection: 'row',
+//     justifyContent: 'center'
+//   },
+//   subTitleText: {
+//     fontSize: 18,
+//     color: '#4c0a01',
+//     lineHeight: 30,
+//     textAlign: 'center',
+//     fontWeight: "500",
+//     paddingLeft : 10,
+//     paddingRight : 10,
+//     // paddingTop : 15,
+//     // paddingBottom: 15,
+//   },
+// });
