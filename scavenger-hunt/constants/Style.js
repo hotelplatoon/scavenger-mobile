@@ -116,5 +116,25 @@ export default StyleSheet.create({
     shadowOffset:{ width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.7,
+  },
+  wideRedButton:{
+    marginTop:10,
+    paddingTop:15,
+    paddingBottom:15,
+    backgroundColor:'#4c0a01',
+    borderRadius:5,
+    shadowOffset:{ width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  },
+  profileImagePlaceholder: {
+    backgroundColor: "#B3DDF2",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    alignSelf: "center",
+    marginVertical: 30
   }
 });
