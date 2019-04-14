@@ -15,8 +15,6 @@ import {
 }
 from 'react-native';
 import { Card } from "react-native-elements";
-import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
 import style from '../constants/Style'
 
@@ -25,17 +23,16 @@ export default class FinishScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_name : "Jon",
+      user_name : globalState.name,
       modalVisible: false
     }}
 
   sentenceCase(str) {
-      if ((str===null) || (str===''))
-           return false;
-      else
-       str = str.toString();
-    
-     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    if ((str===null) || (str===''))
+      return false;
+    else
+      str = str.toString();
+      return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
   getClueList() {
@@ -54,9 +51,8 @@ export default class FinishScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-      { console.log(`30: hello`) }
       <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Congratulations {this.state.user_name}!</Text>
+            <Text style={style.bodyText}>Congratulations {this.state.user_name}!</Text>
       </View>
       <View style={styles.finishCategoryContainer}>
         <Text style={styles.subTitleText}>You have completed the hunt for </Text>
@@ -66,14 +62,9 @@ export default class FinishScreen extends React.Component {
 
         <Card style={style.screenTitleText} title='You found the following clues!'>
           <View>
-            {/* <Text style={{ color: "#4c0a01", fontSize: 18 }}>You found the following clues:</Text> */}
             {this.getClueList()}
           </View>
         </Card>
-
-              {/* <Text style={styles.subTitleText}>You found the following clues:</Text> */}
-              {/* {this.getClueList()} */}
-
 
         </ScrollView>
         <TouchableOpacity
@@ -90,28 +81,6 @@ export default class FinishScreen extends React.Component {
     this.setState({modalVisible: visible});
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
 }
 
 const styles = StyleSheet.create({
@@ -168,12 +137,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 3,
     paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 15,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
   },
   subTitleText: {
     fontSize: 18,
@@ -260,53 +223,3 @@ const styles = StyleSheet.create({
     borderColor: '#4c0a01'
   }
 })
-
-
-// <<<<<<< HEAD
-// import React from "react";
-// import { ScrollView, Text, Linking, View } from "react-native";
-// import { Card, Button } from "react-native-elements";
-
-// const images = [
-//   {
-//     key: 1,
-//     name: "Nathan Anderson",
-//     image: require("../images/1.jpg"),
-//     url: "https://unsplash.com/photos/C9t94JC4_L8"
-//   },
-//   {
-//     key: 2,
-//     name: "Jamison McAndie",
-//     image: require("../images/2.jpg"),
-//     url: "https://unsplash.com/photos/waZEHLRP98s"
-//   },
-//   {
-//     key: 3,
-//     name: "Alberto Restifo",
-//     image: require("../images/3.jpg"),
-//     url: "https://unsplash.com/photos/cFplR9ZGnAk"
-//   },
-//   {
-//     key: 4,
-//     name: "John Towner",
-//     image: require("../images/4.jpg"),
-//     url: "https://unsplash.com/photos/89PFnHKg8HE"
-
-// export default () => (
-//   <View style={{ flex: 1 }}>
-//     <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
-//       {images.map(({ name, image, url, key }) => (
-//         <Card title={`CARD ${key}`} image={image} key={key}>
-//           <Text style={{ marginBottom: 10 }}>
-//             Photo by {name}.
-//           </Text>
-//           <Button
-//             backgroundColor="#03A9F4"
-//             title="VIEW NOW"
-//             onPress={() => Linking.openURL(url)}
-//           />
-//         </Card>
-//       ))}
-//     </ScrollView>
-//   </View>
-// );
