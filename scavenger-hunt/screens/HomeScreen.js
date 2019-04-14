@@ -15,22 +15,23 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { USER_KEY } from '../auth'
+import { StoreGlobal } from '../App'
 import style from '../constants/Style'
 import { Button, Icon } from 'react-native-elements';
-
 
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_name : "Jon",
+      user_name : globalState.name,
       modalVisible: false
     }}
 
     _checkAsync = async () => {
       let value = await AsyncStorage.getItem('USER_KEY')
-      console.log(value)
+      console.log(value, 'value')
     }
+    _globalState = () => {StoreGlobal({type:'get', key:'name'})}
 
   render() {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
@@ -39,9 +40,8 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
       {/* { console.log(`30: hello`) } */}
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          
           <View style={styles.welcomeContainer}>
-            <Text style={style.bodyText}>Hello {this.state.user_name}!</Text>
+            <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
             <Text style={style.upperSubTitleText} >Welcome to</Text>
             <Text style={style.screenTitleText}>THE HUNT</Text>
