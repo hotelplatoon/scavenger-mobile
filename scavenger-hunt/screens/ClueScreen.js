@@ -4,7 +4,7 @@ import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
 import ExitButton from '../components/ExitButton'
 import style from '../constants/Style'
-
+import { Button } from 'react-native-elements';
 
 export default class ClueScreen extends React.Component {
   constructor(props) {
@@ -60,9 +60,9 @@ export default class ClueScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <ScrollView style={styles.container} contentContainerStyle={style.contentContainer}>
 
-          <View style={styles.getStartedContainer}>
+          <View style={style.container}>
             <Text style={style.upperSubTitleText}>
               {this.props.navigation.getParam('selectedHuntCategory', '')}
             </Text>
@@ -71,34 +71,47 @@ export default class ClueScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={styles.getStartedContainer}>
+          <View style={style.container}>
             {this.renderClue()}
           </View>
-
           <TouchableOpacity
-            style={styles.button}
+            style={style.button}
             onPress={this.goTakePhoto}
             underlayColor='#fff'
             >
-            <Text style={styles.buttonTextLight}>
-              FOUND IT?
-            </Text>
-            <Text style={styles.buttonText}>
-              PROVE IT!
-            </Text>
+            <Text style={styles.buttonTextLight}>FOUND IT?</Text>
+            <Text style={styles.buttonText}>PROVE IT!</Text>
           </TouchableOpacity>
 
- {/* Button to navigate to new hunt */}
         <View style={styles.container}>
-          
           <ScrollView style={styles.container} contentContainerStyle={styles.exitContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.exitButton}
               onPress={() => {
                 this.setModalVisible(true);
               }}>            
               <Text style={style.subTitleText}>Exit</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+        <View style={style.buttonContainer}>
+          <Button
+              buttonStyle={{
+                height: 40,
+                // width: 160,
+                borderWidth: 1,
+                borderColor: '#4c0a01'
+              }}
+              titleStyle={{
+                color: '#4c0a01',
+                fontSize: 13
+              }}
+              title="Leave the hunt"
+              type="outline"
+              raised={true}
+              onPress={() => {
+                this.setModalVisible(true);
+              }} 
+            />
+          </View>
 
           </ScrollView>
 
@@ -211,14 +224,14 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
-  button:{
-    marginHorizontal: 110,
-    marginTop:150,
-    paddingTop:30,
-    paddingBottom:30,
-    backgroundColor:'#4c0a01',
-    borderRadius:5,
-  },
+  // button:{
+  //   marginHorizontal: 110,
+  //   marginTop:150,
+  //   paddingTop:30,
+  //   paddingBottom:30,
+  //   backgroundColor:'#4c0a01',
+  //   borderRadius:5,
+  // },
   buttonText:{
     color:'#fff',
     fontSize: 25,

@@ -20,6 +20,7 @@
     "react-native-aws3": "0.0.8",
     "react-native-base64": "0.0.2",
     "react-native-elements": "^1.1.0",
+    "react-native-fontawesome-pro": "^2.1.0",
     "react-native-linear-gradient": "^2.5.4",
     "react-navigation": "^3.0.9"
   },

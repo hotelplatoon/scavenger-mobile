@@ -4,7 +4,6 @@ import { Button } from 'react-native-elements';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 import style from '../constants/Style'
 
-
 export default class SelectThemeScreen extends React.Component {
     static navigationOptions = {
     title: 'Choose a Hunt',
@@ -27,7 +26,6 @@ export default class SelectThemeScreen extends React.Component {
         this.setState({
           huntThemes: huntThemes
         })
-        console.log(huntThemes)
     })
     .catch((error) => {
       console.log(error)
@@ -40,16 +38,17 @@ export default class SelectThemeScreen extends React.Component {
 
   createThemeButtons() {
     return this.state.huntThemes.map(( huntTheme, index ) =>
-      <View key={index} 
-      style={{margin: 6}}
-      >
-        <Button
-          title={huntTheme.category}
-          type="outline"
-          raised={true}
-          style={{width: 100}}
-          onPress={() => this.props.navigation.navigate('Clue', {selectedHuntID: huntTheme.pk, selectedHuntCategory: huntTheme.category, checkpoint_number: 0} )}
-        />
+      <View key={index}>
+        <TouchableOpacity
+          style={style.huntButton}
+          underlayColor='#fff'
+          onPress={() => this.props.navigation.navigate('Clue', { selectedHuntID: huntTheme.pk,
+            selectedHuntCategory: huntTheme.category, 
+            checkpoint_number: 0
+          })}
+        >          
+          <Text style={style.buttonText}>{huntTheme.category}</Text>
+        </TouchableOpacity>
       </View>
       )
     }
@@ -59,11 +58,16 @@ export default class SelectThemeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={style.contentContainer}>
           <Text style={style.screenTitleText}>Choose a Theme</Text>
-          <View style={styles.container}>
+          <View       
+          style={{margin: 6,
+            flex: 1,
+            backgroundColor: '#fff',
+            flexDirection: 'column',
+            justifyContent: 'flex-start'}}
+          >
             { this.state.huntThemes && this.createThemeButtons() }
           </View>
           <View style={styles.container}>
-
             <Button
               buttonStyle={{
                 height: 50,
@@ -95,16 +99,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center'
   },
-  // contentContainer: {
-  //   paddingTop: 30,
-  // },
-  // screenTitleText: {
-  //   fontSize: 30,
-  //   color: '#4c0a01',
-  //   lineHeight: 30,
-  //   textAlign: 'center',
-  //   fontWeight: "900",
-  //   paddingLeft : 10,
-  //   paddingRight : 10,
-  // },
 });

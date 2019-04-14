@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 40,
-    borderColor: '#4c0a01'
+    // borderColor: '#4c0a01'
   },
     screenTitleText: {
     fontSize: 30,
@@ -56,14 +56,17 @@ export default StyleSheet.create({
   },
   modalContainer: {
     alignItems: 'center',
-    height: '60%',
-    marginTop:'50%',
+    // height: 350,
+    marginTop:'40%',
     borderWidth: 2,
     borderColor: '#4c0a01',
     borderRadius: 5,
     padding: 10,
     // backgroundColor: 'rgba(255,255,255, 1)',
     backgroundColor: '#4c0a01',
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
   },
   modalTitleText: {
     fontSize: 25,
@@ -72,9 +75,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontWeight: "900",
     padding : 10,
-    
-    // paddingRight : 10,
-    // paddingTop : 30
+    marginTop : -25
   },
   modalBodyText: {
     fontSize: 15,
@@ -83,14 +84,16 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   button:{
-    marginHorizontal: 50,
-    marginTop:70,
-    marginBottom:60,
-    paddingTop:40,
-    paddingBottom:40,
+    marginHorizontal: 80,
+    marginTop:30,
+    marginBottom:20,
+    paddingTop:35,
+    paddingBottom:35,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor:'#4c0a01',
     borderRadius:5,
-    shadowOffset:{  width: 2,  height: 2,  },
+    shadowOffset:{ width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.7,
   },
@@ -103,4 +106,15 @@ export default StyleSheet.create({
     paddingLeft : 10,
     paddingRight : 10
   },
+  huntButton:{
+    marginHorizontal: 50,
+    marginTop:15,
+    paddingTop:40,
+    paddingBottom:40,
+    backgroundColor:'#4c0a01',
+    borderRadius:5,
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  }
 });

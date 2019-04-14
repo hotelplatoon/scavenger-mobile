@@ -82,7 +82,7 @@ export default class HomeScreen extends React.Component {
         /> */}
           </ScrollView>
 
-          <View style={{marginTop: 22}}>
+          <View style={{marginTop: 1}}>
             <Modal 
               animationType="slide"
               transparent={true}
@@ -90,7 +90,7 @@ export default class HomeScreen extends React.Component {
               onRequestClose={() => {
                 Alert.alert('Modal has been closed.');
               }}>
-              <View style={{margin: 30}}>
+              <View style={{margin: 35}}>
                 <View style={style.modalContainer}>
                     <View style={{ alignSelf: 'flex-end' }}>
                       <Icon
@@ -101,12 +101,12 @@ export default class HomeScreen extends React.Component {
                         onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
                       />
                     </View>
-                  <View style={{padding: 35 }}>
+                  <View style={{padding: 30 }}>
                     <Text style={style.modalTitleText}>HOW TO PLAY</Text>
                     <Text style={style.modalBodyText}>_______</Text>
                     <Text style={style.modalBodyText}>{"\n"}You will be shown clues to help you discover 5 checkpoints. To prove you found each checkpoint, snap a photo and submit it for analysis!</Text>
                     <Text style={style.modalBodyText}>_______</Text>
-                    <Text style={style.modalTitleText}>{"\n"}Good Luck!</Text>
+                    <Text style={style.modalTitleText}>{"\n\n\n"}Good Luck!</Text>
                   </View>
                 </View>
               </View>
