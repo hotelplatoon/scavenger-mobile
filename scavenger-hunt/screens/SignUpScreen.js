@@ -1,7 +1,8 @@
 import React from "react";
-import { View  } from "react-native";
-import { Button, Card, Input, Icon} from "react-native-elements";
-import UserAPI from '../api/UserAPI';
+import { View, TouchableOpacity  } from "react-native";
+import { Button, Card, Input, Icon, Text } from "react-native-elements";
+import HuntAPI from '../api/HuntAPI';
+import style from '../constants/Style'
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {
@@ -20,9 +21,12 @@ export default class SignUpScreen extends React.Component {
   
   render() {
     return(
+      <View style={{ paddingVertical: 20, backgroundColor: "#4c0a01", height: '100%',}}>
       <View>
-        <Card title="SIGN UP">
+        {/* <Card title="JOIN THE HUNT"> */}
+        <Card>
           <Input
+            containerStyle={{ marginVertical: 8 }}
             label='Name'
             placeholder='Hunter'
             onChangeText={this.handleNameChange}
@@ -31,6 +35,7 @@ export default class SignUpScreen extends React.Component {
             }
           />
           <Input
+            containerStyle={{ marginVertical: 8 }}
             label='Email'
             placeholder='hunter@thehunt.com...'
             autoCapitalize='none'
@@ -40,6 +45,7 @@ export default class SignUpScreen extends React.Component {
             }
           />
           <Input
+            containerStyle={{ marginVertical: 8 }}
             secureTextEntry
             label='Password'
             placeholder='Password...'
@@ -50,6 +56,7 @@ export default class SignUpScreen extends React.Component {
             }
           />
           <Input
+            containerStyle={{ marginBottom: 10, marginTop: 4 }}
             secureTextEntry
             label='Confirm Password'
             placeholder='Confirm Password...'
@@ -60,20 +67,38 @@ export default class SignUpScreen extends React.Component {
             }
           />
           <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor="RED"
+            buttonStyle={{ 
+              marginTop: 10, 
+              paddingVertical: 12, 
+              backgroundColor:'#4c0a01'
+            }}
             title="SIGN UP"
+            titleStyle={style.wideButtonText}
             onPress={this.addUser}
             disabled={!(this.state.nameValidated && this.state.emailValidated && this.state.passwordValidated && this.state.confirmPasswordValidated)}
           />
           <Button
-            buttonStyle={{ marginTop: 20 }}
+            buttonStyle={{
+              marginTop: 10, 
+              paddingVertical: 12, 
+              backgroundColor:'#fff',
+              borderWidth: 1,
+              borderColor: '#4c0a01'
+            }}
+            titleStyle={{
+              color: '#4c0a01',
+              fontSize: 20,
+              fontWeight: "700",
+              textAlign:'center',
+              paddingLeft : 10,
+              paddingRight : 10
+            }}
             type='outline'
-            textStyle={{ color: "RED" }}
             title="SIGN IN"
             onPress={this.goSignIn}
           />
         </Card>
+      </View>
       </View>
     )
   }
@@ -119,7 +144,7 @@ export default class SignUpScreen extends React.Component {
 
   addUser = async () => {
     const user = this.state
-    UserAPI.addUser(user)
+    HuntAPI.addUser(user)
       .then((res) => {
         if (res.status === 201) {
           alert('User Created');

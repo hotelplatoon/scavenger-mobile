@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
-import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
+import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 
 export default class SelectThemeScreen extends React.Component {
@@ -18,7 +18,7 @@ export default class SelectThemeScreen extends React.Component {
 
   componentDidMount() {
     let huntThemes = []
-    ImagesDjangoAPI.fetchHuntThemes() 
+    HuntAPI.fetchHuntThemes() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           huntThemes.push(element)

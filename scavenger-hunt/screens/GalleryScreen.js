@@ -1,12 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
-import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
-import { testing } from './SignInScreen';
-import { teststyles } from '../constants/Colors'
+import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
-
 export default class GalleryScreen extends React.Component {
     static navigationOptions = {
     title: 'Gallery',
@@ -22,7 +19,7 @@ export default class GalleryScreen extends React.Component {
   async componentDidMount() {
     let imageNames = []
     let imageURLs = []
-    await ImagesDjangoAPI.fetchImages() 
+    await HuntAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           if (element.user_hunt_id === this.state.user_id) {
@@ -51,10 +48,21 @@ export default class GalleryScreen extends React.Component {
 
     createImages() {
       let imagesList = []
-        for (let i = 0; i < this.state.imageURLs.length; i += 2) {
-          if (i === this.state.imageURLs.length - 1) {
-            let imageRow = 
-            <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+
+      for (let i = 0; i < this.state.imageURLs.length; i += 2) {
+        if (i === this.state.imageURLs.length - 1) {
+          let imageRow = 
+          <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <Image 
+            style={{width: 160, height: 160, margin: 6, borderRadius: 3, justifyContent: "flex-start"}}
+            source={{uri: this.state.imageURLs[i]}}
+            PlaceholderContent={<ActivityIndicator />}
+          />
+        </View>
+        imagesList.push(imageRow)
+        } else {
+        let imageRow = 
+          <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
             <Image 
               style={{width: 160, height: 160, margin: 6, borderRadius: 3, justifyContent: "flex-start"}}
               source={{uri: this.state.imageURLs[i]}}
@@ -102,7 +110,7 @@ export default class GalleryScreen extends React.Component {
       <View style={style.pageContainer}>
         <Text style={style.pageTitleText}>Gallery</Text>
         <ScrollView contentContainerStyle={style.contentContainer}>
-          <View style={styles.container}>
+          <View style={style.galleryContainer}>
             { this.state.imageURLs && this.createImages() }
           </View>
           <View style={style.buttonContainer}>
@@ -128,7 +136,6 @@ export default class GalleryScreen extends React.Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     // flex: 1,

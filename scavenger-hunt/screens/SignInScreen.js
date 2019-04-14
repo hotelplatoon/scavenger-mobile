@@ -1,9 +1,9 @@
 import React from "react";
-import { View } from "react-native";
-import { Card, Button, Input, Icon } from "react-native-elements";
+import { View, TouchableOpacity } from "react-native";
+import { Card, Button, Input, Icon, Text } from "react-native-elements";
 import { onSignIn } from '../auth'
-import UserAPI from '../api/UserAPI'
-import { StoreGlobal } from "../App";
+import HuntAPI from '../api/HuntAPI'
+import { StoreGlobal } from "../App"; 
 import style from '../constants/Style'
 
 export default class SignInScreen extends React.Component {
@@ -20,38 +20,42 @@ export default class SignInScreen extends React.Component {
 
   render() {
     return(
-  <View style={{ paddingVertical: 20 }}>
-    <Card title="SIGN IN">
-      
-      <Input 
-        label='Email'
-        placeholder='hunter@thehunt.com...'
-        autoCapitalize='none'
-        onChangeText={this.handleusernameChange}
-        rightIcon={ this.state.usernameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
-        />
-      
-      <Input
-          secureTextEntry
-          label='Password'
-          placeholder='Password...'
-          autoCapitalize='none'
-          onChangeText={this.handlePasswordChange}
-          value={this.state.password}
-          rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
-      />      
 
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="SIGN IN"
-        onPress={() => this.handleLogin()}
-        disabled={!(this.state.usernameValidated && this.state.passwordValidated)}
-      />
-    </Card>
-  </View>
+      <View style={{ paddingVertical: 20, backgroundColor: "#4c0a01", height: '100%',}}>
+        <Card>
+          <Input
+            containerStyle={{ marginVertical: 10 }}
+            label='Email'
+            placeholder='hunter@thehunt.com...'
+            autoCapitalize='none'
+            onChangeText={this.handleusernameChange}
+            rightIcon={ this.state.usernameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
+            />
+          
+          <Input
+            secureTextEntry
+            containerStyle={{ marginBottom: 20 }}
+            label='Password'
+            placeholder='Password...'
+            autoCapitalize='none'
+            onChangeText={this.handlePasswordChange}
+            value={this.state.password}
+            rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
+          />      
+
+          <TouchableOpacity
+            style={style.wideRedButton}
+            underlayColor='#fff'
+            onPress={() => this.handleLogin()}
+            disabled={!(this.state.usernameValidated && this.state.passwordValidated)}
+          >          
+            <Text style={style.wideButtonText}>SIGN IN</Text>
+          </TouchableOpacity>
+        </Card>
+      </View>
     )
   }
+
   setglobal = (key, value) => {StoreGlobal({type:'set', key: key, value: value})}
 
   handleusernameChange = username => {
@@ -78,7 +82,7 @@ export default class SignInScreen extends React.Component {
   handleLogin = () => {
     const loginObject = this.state
     const userObject = this.state.username
-    UserAPI.sendLogin(loginObject)
+    HuntAPI.sendLogin(loginObject)
     .then((res) => {
       if (res.status === 200) {
         const USER_KEY = res._bodyInit.slice(9,-1)
@@ -87,7 +91,7 @@ export default class SignInScreen extends React.Component {
     })
     .catch((error) => console.log(error))    
 
-    UserAPI.getUser(userObject)
+    HuntAPI.getUser(userObject)
       .then((res) => {
         this.setglobal('username', res[0].email)
         this.setglobal('id', res[0].id)
