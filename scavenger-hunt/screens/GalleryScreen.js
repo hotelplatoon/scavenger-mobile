@@ -104,7 +104,6 @@ export default class GalleryScreen extends React.Component {
         <ScrollView contentContainerStyle={style.contentContainer}>
           <View style={styles.container}>
             { this.state.imageURLs && this.createImages() }
-            {/* { !this.state.imageURLs && this.noImage() } */}
           </View>
           <View style={style.buttonContainer}>
             <Button
