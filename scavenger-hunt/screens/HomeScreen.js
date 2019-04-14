@@ -17,22 +17,25 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
+import { StoreGlobal } from '../App'
+
 export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_name : "Jon",
+      user_name : globalState.name,
       modalVisible: false
     }}
 
     _checkAsync = async () => {
       let value = await AsyncStorage.getItem('USER_KEY')
-      console.log(value)
+      console.log(value, 'value')
     }
+    _globalState = () => {StoreGlobal({type:'get', key:'name'})}
 
   render() {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
-    
+
 
     const {navigate} = this.props.navigation;
     return (
@@ -43,7 +46,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
+            <Text style={styles.getStartedText}>Hello {(globalState.name)}!</Text>
             <Text style={styles.subTitleText}>Welcome to</Text>
             <Text style={styles.titleText}>THE HUNT</Text>
           </View>
@@ -72,6 +75,12 @@ export default class HomeScreen extends React.Component {
         backgroundColor="#03A9F4"
         title="Async Test"
         onPress={() => this._checkAsync()}
+        />
+        <Button
+        buttonStyle={{ marginTop: 20 }}
+        backgroundColor="#03A9F4"
+        title="FTW"
+        onPress={() => this._globalState()}
         />
           </ScrollView>
 
