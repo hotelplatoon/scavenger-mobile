@@ -6,10 +6,7 @@ import { GlobalStorage } from "../App"
 import style from '../constants/Style'
 
 export default class ProfileScreen extends React.Component {
-  
   render() {
-    
-
     return (
   <View style={{ paddingVertical: 20 }}>
     <Card title='Profile'>
@@ -28,10 +25,4 @@ export default class ProfileScreen extends React.Component {
   </View>
     )
   }
-  
 }
-// );
-// export const profilePass = async (USER_OBJECT_PROP) => {
-//   await AsyncStorage.setItem('USER_OBJECT', USER_OBJECT_PROP);
-// }
-// export const initial = globalState.name.slice(1,2)
