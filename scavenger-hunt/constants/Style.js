@@ -5,10 +5,12 @@ export default StyleSheet.create({
   //   flex: 1
   // },
   pageContainer: {
-    backgroundColor: '#4c0a01'
+    backgroundColor: '#4c0a01',
+    paddingTop: 20,
+    // paddingBottom: 20,
   },
   contentContainer: {
-    paddingTop: 40,
+    marginTop: 30,
     // borderColor: '#4c0a01'
   },
     screenTitleText: {
@@ -20,6 +22,17 @@ export default StyleSheet.create({
     fontWeight: "900",
     paddingLeft : 10,
     paddingRight : 10,
+  },
+  pageTitleText: {
+    fontSize: 30,
+    // color: '#4c0a01',
+    color: '#fff',
+    lineHeight: 30,
+    textAlign: 'center',
+    fontWeight: "900",
+    paddingLeft : 10,
+    paddingRight : 10,
+    paddingTop: 15
   },
   bodyText: {
     fontSize: 15,

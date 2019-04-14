@@ -14,7 +14,7 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id : 3,
+      user_id : 1,
       images : null,
       imageURLs : []
     }}
@@ -85,11 +85,10 @@ export default class GalleryScreen extends React.Component {
 
   render() {
     return (
-      // <View style={style.pageContainer}>
-      <View style={styles.container}>
-
+      <View style={style.pageContainer}>
+      {/* <View style={styles.container}> */}
+        <Text style={style.pageTitleText}>Gallery</Text>
         <ScrollView contentContainerStyle={style.contentContainer}>
-          <Text style={style.screenTitleText}>Checkpoint Photos</Text>
           <View style={styles.container}>
             { this.state.imageURLs && this.createImages() }
           </View>
@@ -124,12 +123,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // flexDirection: 'row',
     justifyContent: 'center'
-  },
-  // buttonContainer: {
-  //   flex: 1,
-  //   paddingTop: 15,
-  //   backgroundColor: '#fff',
-  //   flexDirection: 'row',
-  //   justifyContent: 'center'
-  // },
+  }
 });
