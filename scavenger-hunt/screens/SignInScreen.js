@@ -4,6 +4,8 @@ import { Card, Button, Input, Icon } from "react-native-elements";
 import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 import { StoreGlobal } from "../App";
+import style from '../constants/Style'
+
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -84,6 +86,7 @@ export default class SignInScreen extends React.Component {
       }
     })
     .catch((error) => console.log(error))    
+
     UserAPI.getUser(userObject)
       .then((res) => {
         this.setglobal('username', res[0].email)

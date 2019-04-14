@@ -2,7 +2,6 @@ import React from 'react';
 import {   Modal, TouchableHighlight, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
-import ExitButton from '../components/ExitButton'
 import style from '../constants/Style'
 import { Button } from 'react-native-elements';
 

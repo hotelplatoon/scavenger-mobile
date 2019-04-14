@@ -14,7 +14,7 @@ import ClueScreen from '../screens/ClueScreen'
 import GalleryScreen from '../screens/GalleryScreen'
 import SelectThemeScreen from '../screens/SelectThemeScreen';
 import FinishScreen from '../screens/FinishScreen';
-import ExitButton from '../components/ExitButton';
+import ExitButton from '../components/1ExitButton';
 
 
 export const SignedOutStack = createStackNavigator({

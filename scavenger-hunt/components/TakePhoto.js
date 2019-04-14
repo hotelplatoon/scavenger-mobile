@@ -1,3 +1,5 @@
+import { NavigationActions } from 'react-navigation';
+
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
 import { Image, View, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
@@ -197,8 +199,22 @@ export default class TakePhoto extends React.Component {
 
   render() {
     let { image } = this.state;
+    const backAction = NavigationActions.back({
+      key: 'ClueScreen',
+    });
     return (
-      <View style={styles.container}>
+      <View style={styles.page}>
+        <View style={{ alignSelf: 'flex-end' }}>
+          <Icon
+            name="closecircleo"
+            type="antdesign"
+            size={25}
+            color="#4c0a01"
+
+            onPress={() => this.props.navigation.dispatch(backAction)}
+            // onPress={() => this.props.navigation.navigate('ClueScreen')}
+          />
+        </View>
         { this.state.isFailMessageVisible 
           ?
             <Overlay
@@ -325,32 +341,24 @@ export default class TakePhoto extends React.Component {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor:'#4c0a01',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    margin:20,
+    paddingTop: 30,
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
   },
   overlayContainer: {
-    // borderColor: '#4c0a01',
-    // borderWidth: 1,
     shadowOffset:{ width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 0.7,
   },
   textContainer: {
     marginHorizontal: 30,
-    
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     backgroundColor: '#fff',
   },
   overlayMessage: {

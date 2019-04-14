@@ -35,11 +35,6 @@ export default class HomeScreen extends React.Component {
 
   render() {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
-<<<<<<< HEAD
-
-
-=======
->>>>>>> c2fe07f1b2d6886a6c9e6e19dc4fb1d046b4f70b
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
