@@ -36,8 +36,17 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={style.homeClueScreenContainer}>
+      <Icon
+        name="profile"
+        type="antdesign"
+        size={25}
+        color="black"
+        onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
+      />
         <ScrollView style={style.homeClueScreenContainer}>
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
+
+
             <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
             <Text style={style.upperSubTitleText} >Welcome to</Text>
