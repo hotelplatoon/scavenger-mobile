@@ -12,11 +12,14 @@ import {
   Alert,
   TouchableHighlight,
   Button,
-  AsyncStorage
-} from 'react-native';
+}
+from 'react-native';
+import { Card } from "react-native-elements";
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { USER_KEY } from '../auth'
+import style from '../constants/Style'
+
 
 export default class FinishScreen extends React.Component {
   constructor(props){
@@ -26,42 +29,59 @@ export default class FinishScreen extends React.Component {
       modalVisible: false
     }}
 
-    _checkAsync = async () => {
-      let value = await AsyncStorage.getItem('USER_KEY')
-      console.log(value)
+  sentenceCase(str) {
+      if ((str===null) || (str===''))
+           return false;
+      else
+       str = str.toString();
+    
+     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
+
+  getClueList() {
+    let clues = this.props.navigation.getParam('clues', 'NO_CATEGORY')
+    let clueText=[]
+    for (let i = 0; i < clues.length; i++) {
+      clueText.push(<View key={i} style={styles.clueContainer}>
+        <Text style={styles.subTitleText}>{(i+1)+ (". ") + this.sentenceCase(clues[i].clue)}
+        </Text>
+      </View>)
+    }
+    return clueText
+  }
 
   render() {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
       { console.log(`30: hello`) }
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.getStartedContainer}>
+      <View style={styles.getStartedContainer}>
             <Text style={styles.getStartedText}>Congratulations {this.state.user_name}!</Text>
-            <Text style={styles.subTitleText}>You have completed</Text>
-            <Text style={styles.titleText}>THE HUNT</Text>
+      </View>
+      <View style={styles.finishCategoryContainer}>
+        <Text style={styles.subTitleText}>You have completed the hunt for </Text>
+        <Text style={styles.titleText}>{this.props.navigation.getParam('huntCategory')}</Text>
+      </View>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
+        <Card style={style.screenTitleText} title='You found the following clues!'>
+          <View>
+            {/* <Text style={{ color: "#4c0a01", fontSize: 18 }}>You found the following clues:</Text> */}
+            {this.getClueList()}
           </View>
-          <TouchableOpacity
-            style={styles.startGameButton}
-            onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
-            underlayColor='#fff'>
-            <Text style={styles.startGameText}>START A NEW HUNT</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.startGameButton}
-            onPress={() => navigate('Gallery')}
-            underlayColor='#fff'>
-            <Text style={styles.startGameText}>View Gallery</Text>
-          </TouchableOpacity>
-          <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor="#03A9F4"
-            title="Async Test"
-            onPress={() => this._checkAsync()}
-            />
-          </ScrollView>
+        </Card>
+
+              {/* <Text style={styles.subTitleText}>You found the following clues:</Text> */}
+              {/* {this.getClueList()} */}
+
+
+        </ScrollView>
+        <TouchableOpacity
+          style={styles.finishGameButton}
+          onPress={() => navigate('Main', {checkpoint_number: 0}, {name: 'Jane'})}
+          underlayColor='#fff'>
+          <Text style={styles.startGameText}>Home</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -92,16 +112,6 @@ export default class FinishScreen extends React.Component {
       );
     }
   }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
@@ -118,6 +128,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 30,
+    marginHorizontal: 50,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -134,6 +145,18 @@ const styles = StyleSheet.create({
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
+    marginTop: 50,
+  },
+  finishCategoryContainer: {
+    alignItems: 'center',
+    marginHorizontal: 50,
+    marginTop: 30,
+    marginBottom: 15,
+  },
+  clueContainer: {
+    alignItems: 'center',
+    marginHorizontal: 25,
+    marginTop: 5,
   },
   homeScreenFilename: {
     marginVertical: 7,
@@ -160,7 +183,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     paddingLeft : 10,
     paddingRight : 10,
-    paddingTop : 30
+    // paddingTop : 15,
+    // paddingBottom: 15,
   },
   titleText: {
     fontSize: 30,
@@ -170,7 +194,8 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     paddingLeft : 10,
     paddingRight : 10,
-    // paddingTop : 10
+    paddingTop : 15,
+    paddingBottom : 15
   },
   tabBarInfoContainer: {
     position: 'absolute',
@@ -211,10 +236,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
-  startGameButton:{
+  finishGameButton:{
     marginRight:70,
     marginLeft:70,
     marginTop:20,
+    marginBottom:20,
     paddingTop:30,
     paddingBottom:30,
     backgroundColor:'#4c0a01',
