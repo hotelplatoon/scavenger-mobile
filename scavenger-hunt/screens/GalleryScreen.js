@@ -19,7 +19,7 @@ export default class GalleryScreen extends React.Component {
   async componentDidMount() {
     let imageNames = []
     let imageURLs = []
-    await ImagesDjangoAPI.fetchImages() 
+    await HuntAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           if (element.user_hunt_id === this.state.user_id) {

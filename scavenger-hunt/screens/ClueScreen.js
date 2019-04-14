@@ -1,7 +1,7 @@
 import React from 'react';
 import {   Modal, TouchableHighlight, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Clue from '../components/Clue';
-import HuntApi from '../api/HuntApi'
+import HuntApi from '../api/HuntAPI'
 import style from '../constants/Style'
 import { Button, Icon } from 'react-native-elements';
 
