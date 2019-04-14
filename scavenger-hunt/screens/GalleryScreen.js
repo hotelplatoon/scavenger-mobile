@@ -14,7 +14,7 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id : 2,
+      user_id : 3,
       images : null,
       imageURLs : []
     }}
@@ -52,6 +52,18 @@ export default class GalleryScreen extends React.Component {
     createImages() {
       let imagesList = []
       for (let i = 0; i < this.state.imageURLs.length; i += 2) {
+        if (i === this.state.imageURLs.length - 1) {
+          let imageRow = 
+          <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <Image 
+            style={{width: 155, height: 155, margin: 6, borderRadius: 2, justifyContent: "flex-start"}}
+            source={{uri: this.state.imageURLs[i]}}
+            PlaceholderContent={<ActivityIndicator />}
+          />
+        </View>
+        imagesList.push(imageRow)
+        }
+        else {
         let imageRow = 
           <View key={i} style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
             <Image 
@@ -67,8 +79,9 @@ export default class GalleryScreen extends React.Component {
           </View>
           imagesList.push(imageRow)
         }
-        return imagesList
       }
+      return imagesList
+    }
 
   render() {
     return (
