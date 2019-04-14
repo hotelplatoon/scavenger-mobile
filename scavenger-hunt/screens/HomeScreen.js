@@ -18,6 +18,13 @@ import { StoreGlobal } from '../App'
 import style from '../constants/Style'
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Home',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+
+    }
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -35,22 +42,33 @@ export default class HomeScreen extends React.Component {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
     return (
-      <View style={style.homeClueScreenContainer}>
-      <Icon
-        name="profile"
-        type="antdesign"
-        size={25}
-        color="black"
-        onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
-      />
-        <ScrollView style={style.homeClueScreenContainer}>
+      <View style={{paddingTop: 18, flex: 1, backgroundColor: '#4c0a01'}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{
+            fontSize: 30,
+            color: '#fff',
+            alignSelf: 'center',
+            fontWeight: "900",
+            marginTop: 15
+          }}>THE HUNT</Text>
+          <Icon
+            containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
+            name="profile"
+            type="antdesign"
+            size={25}
+            color="white"
+            onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
+          />
+          </View>
+        <ScrollView style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
+
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
 
 
             <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
-            <Text style={style.upperSubTitleText} >Welcome to</Text>
-            <Text style={style.screenTitleText}>THE HUNT</Text>
+            {/* <Text style={style.upperSubTitleText} >Welcome to</Text>
+            <Text style={style.screenTitleText}>THE HUNT</Text> */}
 
 
           <TouchableOpacity
@@ -115,7 +133,25 @@ export default class HomeScreen extends React.Component {
             onPress={() => {
               this.setModalVisible(true);
             }}>
-            <Text style={style.subTitleText}>How to play</Text>
+            <View>
+            <Icon
+            // containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
+            name="infocirlceo"
+            type="antdesign"
+            size={20}
+            color="white"
+            />
+            <Text style={{
+              fontSize: 16,
+              color: '#fff',
+              lineHeight: 30,
+              textAlign: 'center',
+              fontWeight: "500",
+              padding : 10,
+            }}>
+            How to play</Text>
+            </View>
+            
           </TouchableHighlight>
         </View>
       </View>

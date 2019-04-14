@@ -10,7 +10,6 @@ import ClueScreen from '../screens/ClueScreen'
 import GalleryScreen from '../screens/GalleryScreen'
 import SelectThemeScreen from '../screens/SelectThemeScreen';
 import FinishScreen from '../screens/FinishScreen';
-import ExitButton from '../components/1ExitButton';
 
 export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
@@ -28,7 +27,6 @@ export const SignedOutStack = createStackNavigator({
 });
 
 export const SignedInStack = createStackNavigator({
-  
   Main: {
     screen: HomeScreen,
     navigationOptions: {
@@ -51,11 +49,6 @@ export const SignedInStack = createStackNavigator({
       tabBarLabel: "Take Photo",
     }
   },
-  ExitButton: {screen: ExitButton,
-    navigationOptions: {
-    tabBarLabel: "Exit",
-    }
-  },
   Gallery: {screen: GalleryScreen,
     navigationOptions: {
     tabBarLabel: "Gallery",
@@ -71,4 +64,11 @@ export const SignedInStack = createStackNavigator({
     tabBarLabel: "Finish",
     }
   },
+
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
 });

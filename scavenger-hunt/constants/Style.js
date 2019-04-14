@@ -19,6 +19,7 @@ export default StyleSheet.create({
   pageContainer: {
     backgroundColor: '#4c0a01',
     paddingTop: 20,
+    // flex: 1
   },
   contentContainer: {
     // marginTop: 30,
