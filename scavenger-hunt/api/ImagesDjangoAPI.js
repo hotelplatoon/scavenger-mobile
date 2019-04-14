@@ -18,8 +18,6 @@ const fetchHuntThemes = () => {
     .then((response) => response.json());
 }
 
-
-
 export default {
   addImage: addImage,
   fetchImages: fetchImages,

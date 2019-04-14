@@ -6,7 +6,7 @@ const analyzeImage = async (encodedImage) => {
       requests: [
         {
           features: [
-            { type: "LABEL_DETECTION", maxResults: 2 },
+            { type: "LABEL_DETECTION", maxResults: 10 },
             { type: "LANDMARK_DETECTION" },
           ],
           image: {
@@ -28,7 +28,6 @@ const analyzeImage = async (encodedImage) => {
       }
     )
     let responseJson = await response.json();
-    console.log(responseJson)
     return responseJson
   } catch (error) {
     console.log(error);
