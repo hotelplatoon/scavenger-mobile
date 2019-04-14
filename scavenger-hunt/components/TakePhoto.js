@@ -1,10 +1,11 @@
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
-import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Image, View, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button, Icon } from 'react-native-elements';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
+import style from '../constants/Style'
 
 export default class TakePhoto extends React.Component {
   state = {
@@ -201,14 +202,21 @@ export default class TakePhoto extends React.Component {
         { this.state.isFailMessageVisible 
           ?
             <Overlay
+              overlayStyle={styles.overlayContainer}
               isVisible={this.state.isFailMessageVisible}
               windowBackgroundColor="rgba(200, 200, 200, .5)"
-              overlayBackgroundColor="rgba(255, 255, 255, .8)"
+              overlayBackgroundColor="rgba(255, 255, 255, .9)"
               width="80%"
-              height="50%"
+              height="35%"
             >
             <View style={styles.overlayMessage}>
-              <Text>Your photo does not match the checkpoint</Text>
+              <Icon
+                name='frown-o'
+                type='font-awesome'
+                color='#4c0a01'
+                size={70}
+              />
+              <Text style={{paddingVertical: 10 }}>Your photo does not match the checkpoint</Text>
               <TouchableHighlight 
                 style={styles.button}
                 onPress={() => {
@@ -223,14 +231,21 @@ export default class TakePhoto extends React.Component {
         { this.state.isMatchedPhoto 
           ?
             <Overlay
+              overlayStyle={styles.overlayContainer}
               isVisible={true}
               windowBackgroundColor="rgba(200, 200, 200, .5)"
-              overlayBackgroundColor="rgba(255, 255, 255, .8)"
+              overlayBackgroundColor="rgba(255, 255, 255, .9)"
               width="80%"
-              height="50%"
+              height="35%"
             >
             <View style={styles.overlayMessage}>
-              <Text>Woohoo! You found it - nice work!</Text>
+            <Icon
+                name='smile-o'
+                type='font-awesome'
+                color='#4c0a01'
+                size={70}
+              />
+              <Text style={{paddingVertical: 10 }}>Woohoo! You found it - nice work!</Text>
               <TouchableHighlight 
                 style={styles.button}
                 onPress={() => this.clearOverlay()}
@@ -243,48 +258,103 @@ export default class TakePhoto extends React.Component {
 
         {!image &&   
           <View>
-            <Text style={styles.subTitleText}>
+            <Text style={style.subTitleText}>
               Clue Reminder
             </Text>
-            <Text style={styles.clueText}>
+            <View style={styles.textContainer}>
+            <Text style={style.bodyText}>
               {this.props.navigation.getParam('checkpoint_description')}
             </Text>
+            </View>
           </View>
         }
 
         {!image &&
-        <Button title="Take Photo" onPress={this._pickImageCamera.bind(this)}>
-          <Text>Open Camera</Text>
-        </Button>}
+          <TouchableOpacity
+            style={style.button}
+            underlayColor='#fff'
+            onPress={this._pickImageCamera.bind(this)}
+          >          
+            <Text style={style.buttonText}>Take Photo</Text>
+          </TouchableOpacity>
+        }
 
         {!image &&
-        <Button title="Open Camera Roll" onPress={this._pickImageCameraRoll.bind(this)}>
-          <Text>Open Camera Roll</Text>
-        </Button>}
+          <Button
+            buttonStyle={{
+              borderWidth: 1,
+              borderColor: '#4c0a01'
+            }}
+            titleStyle={{
+              color: '#4c0a01',
+              fontSize: 16
+            }}
+            title="Open Camera Roll"
+            type="outline"
+            raised={true}
+            onPress={this._pickImageCameraRoll.bind(this)}
+          />
+        }
 
         {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          <View style={{backgroundColor: '#fff', borderRadius: 8, borderColor:'#4c0a01', borderWidth: 1}}>
+            <Image 
+              source={{ uri: image }} 
+              style={{ width: 250,  
+                height: 250,     
+                borderRadius: 6, 
+                margin: 8
+              }} 
+            />
+          </View>
+        }
         
         {image &&
-        <Button title="ANALYZE" onPress={this.handleAnalyzePhoto}>
-          <Text >Analyze</Text>
-        </Button>}
-        
+          <TouchableOpacity
+            style={style.button}
+            underlayColor='#fff'
+            onPress={this.handleAnalyzePhoto}
+          >          
+            <Text style={style.buttonText}>ANALYZE</Text>
+          </TouchableOpacity>
+        }
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  page: {
+    backgroundColor:'#4c0a01',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#fff',
+  },
+  overlayContainer: {
+    // borderColor: '#4c0a01',
+    // borderWidth: 1,
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  },
+  textContainer: {
+    marginHorizontal: 30,
+    
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   overlayMessage: {
-    marginTop:'40%',
+    marginVertical: 20,
     alignItems: 'center',
   },
   button: {
@@ -301,32 +371,5 @@ const styles = StyleSheet.create({
     textAlign:'center',
     paddingLeft : 10,
     paddingRight : 10
-  },
-  clueReminderText:{
-    color:'#fff',
-    fontSize: 20,
-    textAlign:'center',
-    paddingLeft : 10,
-    paddingRight : 10
-  },
-  subTitleText: {
-    fontSize: 18,
-    color: '#4c0a01',
-    textAlign: 'center',
-    fontWeight: "500",
-    paddingLeft : 10,
-    paddingRight : 10,
-    paddingTop : 10,
-    marginBottom : 20,
-  },
-  clueText: {
-    fontSize: 15,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-    paddingLeft : 50,
-    paddingRight : 50,
-    paddingTop : 20,
-    marginBottom : 20,
   },
 });

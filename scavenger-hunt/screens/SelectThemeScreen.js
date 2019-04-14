@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
-
+import style from '../constants/Style'
 
 export default class SelectThemeScreen extends React.Component {
     static navigationOptions = {
@@ -16,9 +16,9 @@ export default class SelectThemeScreen extends React.Component {
     }}
     
 
-  async componentDidMount() {
+  componentDidMount() {
     let huntThemes = []
-    await ImagesDjangoAPI.fetchHuntThemes() 
+    ImagesDjangoAPI.fetchHuntThemes() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
           huntThemes.push(element)
@@ -26,7 +26,6 @@ export default class SelectThemeScreen extends React.Component {
         this.setState({
           huntThemes: huntThemes
         })
-        console.log(huntThemes)
     })
     .catch((error) => {
       console.log(error)
@@ -39,16 +38,17 @@ export default class SelectThemeScreen extends React.Component {
 
   createThemeButtons() {
     return this.state.huntThemes.map(( huntTheme, index ) =>
-      <View key={index} 
-      style={{margin: 6}}
-      >
-        <Button
-          title={huntTheme.category}
-          type="outline"
-          raised={true}
-          style={{width: 100}}
-          onPress={() => this.props.navigation.navigate('Clue', {selectedHuntID: huntTheme.pk, selectedHuntCategory: huntTheme.category, checkpoint_number: 0} )}
-        />
+      <View key={index}>
+        <TouchableOpacity
+          style={style.huntButton}
+          underlayColor='#fff'
+          onPress={() => this.props.navigation.navigate('Clue', { selectedHuntID: huntTheme.pk,
+            selectedHuntCategory: huntTheme.category, 
+            checkpoint_number: 0
+          })}
+        >          
+          <Text style={style.buttonText}>{huntTheme.category}</Text>
+        </TouchableOpacity>
       </View>
       )
     }
@@ -56,14 +56,30 @@ export default class SelectThemeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.titleText}>Choose a Theme</Text>
-          <View style={styles.container}>
+        <ScrollView contentContainerStyle={style.contentContainer}>
+          <Text style={style.screenTitleText}>Choose a Theme</Text>
+          <View       
+          style={{margin: 6,
+            flex: 1,
+            backgroundColor: '#fff',
+            flexDirection: 'column',
+            justifyContent: 'flex-start'}}
+          >
             { this.state.huntThemes && this.createThemeButtons() }
           </View>
           <View style={styles.container}>
             <Button
-              title="Go back"
+              buttonStyle={{
+                height: 50,
+                width: 100,
+                borderWidth: 1,
+                borderColor: '#4c0a01'
+              }}
+              titleStyle={{
+                color: '#4c0a01',
+                fontSize: 20
+              }}
+              title="Back"
               type="outline"
               raised={true}
               onPress={() => this.props.navigation.navigate('Main')}
@@ -82,17 +98,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'center'
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  titleText: {
-    fontSize: 30,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "900",
-    paddingLeft : 10,
-    paddingRight : 10,
   },
 });
