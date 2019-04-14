@@ -43,40 +43,49 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={{paddingTop: 18, flex: 1, backgroundColor: '#4c0a01'}}>
+
         <View style={{flexDirection: 'row'}}>
-          <Text style={{
-            fontSize: 30,
-            color: '#fff',
-            alignSelf: 'center',
-            fontWeight: "900",
-            marginTop: 15
-          }}>THE HUNT</Text>
-          <Icon
-            containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
-            name="profile"
-            type="antdesign"
-            size={25}
-            color="white"
-            onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
-          />
+
+          <View style={{ alignSelf: 'flex-start', width: 200}}>
+            <Text style={{
+              fontSize: 30,
+              color: '#fff',
+              alignSelf: 'center',
+              fontWeight: "900",
+              marginTop: 15
+              }}>THE HUNT
+            </Text>
           </View>
+
+          <View style={{ alignSelf: 'flex-end', width: 200}}>
+            <Icon
+              containerStyle={{ alignSelf: 'flex-end', marginRight: 15, marginTop:0 }}
+              name="profile"
+              type="antdesign"
+              size={25}
+              color="white"
+              onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
+            />
+          </View>
+
+        </View>
+
         <ScrollView style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
 
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
-
-
             <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
             {/* <Text style={style.upperSubTitleText} >Welcome to</Text>
             <Text style={style.screenTitleText}>THE HUNT</Text> */}
-
 
           <TouchableOpacity
             style={style.button}
             onPress={() => navigate('SelectTheme')}
             underlayColor='#fff'
             >
-            <Text style={style.buttonText}>START NEW HUNT</Text>
+            <Text style={style.buttonText}>
+              START NEW HUNT
+            </Text>
           </TouchableOpacity>
         
         <View style={style.buttonContainer}>
@@ -154,7 +163,7 @@ export default class HomeScreen extends React.Component {
             
           </TouchableHighlight>
         </View>
-      </View>
+    </View>
     );
   }
 
