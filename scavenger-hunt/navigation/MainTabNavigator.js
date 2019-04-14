@@ -1,10 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-
-import TabBarIcon from '../components/TabBarIcon';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -20,7 +16,7 @@ export const SignedOutStack = createStackNavigator({
   SignUpScreen: {
     screen: SignUpScreen,
     navigationOptions: {
-      title: "Sign Up"
+      title: "JOIN THE HUNT"
     }
   },
   SignInScreen: {
