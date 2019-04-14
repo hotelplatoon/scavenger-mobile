@@ -9,7 +9,6 @@ export default class ProfileScreen extends React.Component {
   
   render() {
     
-
     return (
   <View style={{ paddingVertical: 20 }}>
     <Card title='Profile'>
