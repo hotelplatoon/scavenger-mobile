@@ -20,9 +20,16 @@ const addUser = (userObject) => {
   })
 }
 
+const getUser = (userObject) => {
+  const formattedEmail = userObject.replace('@','%40')
+  return fetch(`https://hunt-app-backend.herokuapp.com/api/signup/?search=${formattedEmail}`)
+    .then((res) => res.json());
+}
+
 export default {
   sendLogin: sendLogin,
-  addUser: addUser
+  addUser: addUser,
+  getUser: getUser
 }
 
 // const editCategory = (categoryID, categoryObject) => {

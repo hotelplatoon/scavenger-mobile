@@ -15,7 +15,7 @@ export default class SignUpScreen extends React.Component {
       emailValidated: false,
       passwordValidated: false,
       confirmPasswordValidated: false,
-      allValidatedS: false,
+
     }
   }
   
@@ -23,7 +23,6 @@ export default class SignUpScreen extends React.Component {
     return(
       <View>
         <Card title="SIGN UP">
-
           <Input
             label='Name'
             placeholder='Hunter'
@@ -32,17 +31,15 @@ export default class SignUpScreen extends React.Component {
             rightIcon={ this.state.nameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
             }
           />
-
           <Input
             label='Email'
-            placeholder='hunter@scavenger.com...'
+            placeholder='hunter@thehunt.com...'
             autoCapitalize='none'
             onChangeText={this.handleEmailChange}
             value={this.state.email}
             rightIcon={ this.state.emailValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
             }
           />
-
           <Input
             secureTextEntry
             label='Password'
@@ -53,7 +50,6 @@ export default class SignUpScreen extends React.Component {
             rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
             }
           />
-
           <Input
             secureTextEntry
             label='Confirm Password'
@@ -64,7 +60,6 @@ export default class SignUpScreen extends React.Component {
             rightIcon={ this.state.confirmPasswordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />
             }
           />
-
           <Button
             buttonStyle={{ marginTop: 20 }}
             backgroundColor="RED"
@@ -72,7 +67,6 @@ export default class SignUpScreen extends React.Component {
             onPress={this.addUser}
             disabled={!(this.state.nameValidated && this.state.emailValidated && this.state.passwordValidated && this.state.confirmPasswordValidated)}
           />
-
           <Button
             buttonStyle={{ marginTop: 20 }}
             type='outline'
@@ -80,7 +74,6 @@ export default class SignUpScreen extends React.Component {
             title="SIGN IN"
             onPress={this.goSignIn}
           />
-
         </Card>
       </View>
     )
