@@ -11,11 +11,14 @@ import {
   View,
   Alert,
   TouchableHighlight,
-  Button,
   AsyncStorage
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { USER_KEY } from '../auth'
+import style from '../constants/Style'
+import { Button, Icon } from 'react-native-elements';
+
+
 
 export default class HomeScreen extends React.Component {
   constructor(props){
@@ -37,55 +40,74 @@ export default class HomeScreen extends React.Component {
       {/* { console.log(`30: hello`) } */}
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           
-          <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Hello {this.state.user_name}!</Text>
-            <Text style={styles.subTitleText}>Welcome to</Text>
-            <Text style={styles.titleText}>THE HUNT</Text>
+          <View style={styles.welcomeContainer}>
+            <Text style={style.bodyText}>Hello {this.state.user_name}!</Text>
+          </View>
+            <Text style={style.upperSubTitleText} >Welcome to</Text>
+            <Text style={style.screenTitleText}>THE HUNT</Text>
+
+
+          <TouchableOpacity
+            style={style.button}
+            onPress={() => navigate('SelectTheme')}
+            underlayColor='#fff'
+            >
+            <Text style={style.buttonText}>START NEW HUNT</Text>
+          </TouchableOpacity>
+        
+        <View style={style.buttonContainer}>
+          <Button
+              buttonStyle={{
+                height: 60,
+                width: 160,
+                borderWidth: 1,
+                borderColor: '#4c0a01'
+              }}
+              titleStyle={{
+                color: '#4c0a01',
+                fontSize: 20
+              }}
+              title="View Gallery"
+              type="outline"
+              raised={true}
+              onPress={() => navigate('Gallery')}
+            />
           </View>
 
-          {/* Button to navigate to new hunt */}
-          <TouchableOpacity
-            style={styles.startGameButton}
-            onPress={() => navigate('SelectTheme', {name: 'Jane'})}
-
-            underlayColor='#fff'>
-            <Text style={styles.startGameText}>START NEW HUNT</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.startGameButton}
-            onPress={() => navigate('Gallery')}
-            underlayColor='#fff'>
-            <Text style={styles.startGameText}>View Gallery</Text>
-          </TouchableOpacity>
-          <Button
+          {/* <Button
         buttonStyle={{ marginTop: 20 }}
         backgroundColor="#03A9F4"
         title="Async Test"
         onPress={() => this._checkAsync()}
-        />
+        /> */}
           </ScrollView>
 
           <View style={{marginTop: 22}}>
             <Modal 
               animationType="slide"
-              transparent={false}
+              transparent={true}
               visible={this.state.modalVisible}
               onRequestClose={() => {
                 Alert.alert('Modal has been closed.');
               }}>
-              <View style={{margin: 30, padding: 10}}>
-                <View style={styles.howToModal}>
-                <Text style={styles.subTitleText}>How to play THE HUNT</Text>
-                <Text style={styles.getStartedText}>You will be shown clues to help you locate 5 checkpoints. To prove you found each checkpoint, snap a photo for analysis!</Text>
-                <Text style={styles.getStartedText}>{"\n"}Good Luck!</Text>
-
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}>
-                    <Text style={styles.subTitleText} >Hide</Text>
-                  </TouchableHighlight>
+              <View style={{margin: 30}}>
+                <View style={style.modalContainer}>
+                    <View style={{ alignSelf: 'flex-end' }}>
+                      <Icon
+                        name="closecircleo"
+                        type="antdesign"
+                        size={25}
+                        color="white"
+                        onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+                      />
+                    </View>
+                  <View style={{padding: 35 }}>
+                    <Text style={style.modalTitleText}>HOW TO PLAY</Text>
+                    <Text style={style.modalBodyText}>_______</Text>
+                    <Text style={style.modalBodyText}>{"\n"}You will be shown clues to help you discover 5 checkpoints. To prove you found each checkpoint, snap a photo and submit it for analysis!</Text>
+                    <Text style={style.modalBodyText}>_______</Text>
+                    <Text style={style.modalTitleText}>{"\n"}Good Luck!</Text>
+                  </View>
                 </View>
               </View>
             </Modal>
@@ -94,7 +116,7 @@ export default class HomeScreen extends React.Component {
             onPress={() => {
               this.setModalVisible(true);
             }}>
-            <Text style={styles.subTitleText}>How to play</Text>
+            <Text style={style.subTitleText}>How to play</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -105,98 +127,25 @@ export default class HomeScreen extends React.Component {
     this.setState({modalVisible: visible});
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    // alignItems: 'center'
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
+  // welcomeImage: {
+  //   width: 100,
+  //   height: 80,
+  //   resizeMode: 'contain',
+  //   marginTop: 3,
+  //   marginLeft: -10,
+  // },
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
     marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 15,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  subTitleText: {
-    fontSize: 18,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "500",
-    paddingLeft : 10,
-    paddingRight : 10,
-    paddingTop : 30
-  },
-  titleText: {
-    fontSize: 30,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "900",
-    paddingLeft : 10,
-    paddingRight : 10,
-    // paddingTop : 10
+    marginTop: 80
   },
   tabBarInfoContainer: {
     position: 'absolute',
@@ -229,34 +178,5 @@ const styles = StyleSheet.create({
   helpContainer: {
     marginTop: 15,
     alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
-  startGameButton:{
-    marginRight:70,
-    marginLeft:70,
-    marginTop:20,
-    paddingTop:30,
-    paddingBottom:30,
-    backgroundColor:'#4c0a01',
-    borderRadius:5,
-  },
-  startGameText:{
-      color:'#fff',
-      fontSize: 25,
-      fontWeight: "900",
-      textAlign:'center',
-      paddingLeft : 10,
-      paddingRight : 10
-  },
-  howToModal: {
-    marginTop:'80%',
-    borderWidth: 5,
-    borderColor: '#4c0a01'
   }
 })

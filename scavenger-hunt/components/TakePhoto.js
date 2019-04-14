@@ -1,9 +1,9 @@
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
-import { Button, Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Image, View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 
 export default class TakePhoto extends React.Component {
@@ -253,9 +253,27 @@ export default class TakePhoto extends React.Component {
         }
 
         {!image &&
-        <Button title="Take Photo" onPress={this._pickImageCamera.bind(this)}>
-          <Text>Open Camera</Text>
-        </Button>}
+            <Button
+            buttonStyle={{
+              height: 50,
+              width: 100,
+              borderWidth: 1,
+              borderColor: '#4c0a01'
+            }}
+            titleStyle={{
+              color: '#4c0a01',
+              fontSize: 20
+            }}
+            title="Take Photo"
+            type="outline"
+            raised={true}
+            onPress={this._pickImageCamera.bind(this)}
+          />
+
+        // <Button title="Take Photo" onPress={this._pickImageCamera.bind(this)}>
+        //   <Text>Open Camera</Text>
+        // </Button>
+      }
 
         {!image &&
         <Button title="Open Camera Roll" onPress={this._pickImageCameraRoll.bind(this)}>

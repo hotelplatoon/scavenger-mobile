@@ -3,6 +3,8 @@ import {   Modal, TouchableHighlight, ScrollView, StyleSheet, Text, View, Toucha
 import Clue from '../components/Clue';
 import HuntApi from '../api/HuntApi'
 import ExitButton from '../components/ExitButton'
+import style from '../constants/Style'
+
 
 export default class ClueScreen extends React.Component {
   constructor(props) {
@@ -18,7 +20,6 @@ export default class ClueScreen extends React.Component {
     }
   }
 
-
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
@@ -30,14 +31,11 @@ export default class ClueScreen extends React.Component {
   componentDidUpdate() {
     const clueIndex = this.props.navigation.getParam('checkpoint_number', 0)
     clue = this.state.clues[clueIndex]
-
-
     const huntID = clue.hunt_id
     if (huntID != this.props.navigation.getParam('selectedHuntID')) {
       // this.fetchClues()
       this.componentDidMount()
     }
-
     if (clueIndex != this.state.checkpoint_number) {
       this.setState({
         ...this.state, checkpoint_number: clueIndex, checkpoint_name: clue.clue
@@ -65,10 +63,10 @@ export default class ClueScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <View style={styles.getStartedContainer}>
-            <Text style={styles.titleText}>
-              {this.props.navigation.getParam('selectedHuntCategory', 'NONE')}
+            <Text style={style.upperSubTitleText}>
+              {this.props.navigation.getParam('selectedHuntCategory', '')}
             </Text>
-            <Text style={styles.titleText}>
+            <Text style={style.screenTitleText}>
               CHECKPOINT {this.state.checkpoint_number + 1}     
             </Text>
           </View>
@@ -91,7 +89,7 @@ export default class ClueScreen extends React.Component {
           </TouchableOpacity>
 
  {/* Button to navigate to new hunt */}
- <View style={styles.container}>
+        <View style={styles.container}>
           
           <ScrollView style={styles.container} contentContainerStyle={styles.exitContainer}>
             <TouchableOpacity
@@ -99,7 +97,7 @@ export default class ClueScreen extends React.Component {
               onPress={() => {
                 this.setModalVisible(true);
               }}>            
-              <Text style={styles.subTitleText}>Exit</Text>
+              <Text style={style.subTitleText}>Exit</Text>
             </TouchableOpacity>
 
           </ScrollView>
@@ -114,19 +112,19 @@ export default class ClueScreen extends React.Component {
                 }}>
                 <View style={{margin: 30, padding: 10}}>
                   <View style={styles.howToModal}>
-                  <Text style={styles.subTitleText}>Are your sure want to quit?</Text>
+                  <Text style={style.subTitleText}>Are your sure want to quit?</Text>
                   <Text style={styles.exitText}>Warning! Data from this hunt session will not be saved.</Text>
 
                     <TouchableHighlight
                       style={styles.startGameButton}
                       onPress={() => this.exitHunt()}
                       underlayColor='#fff'>
-                      <Text style={styles.subTitleText} >Quit</Text>
+                      <Text style={style.subTitleText}>Quit</Text>
                     </TouchableHighlight>
 
                     <TouchableHighlight
                       onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                      <Text style={styles.subTitleText} >Continue</Text>
+                      <Text style={style.subTitleText} >Continue</Text>
                     </TouchableHighlight>
                 </View>
               </View>
@@ -137,11 +135,7 @@ export default class ClueScreen extends React.Component {
         {/* End Code for exiting hunt */}
 
         </ScrollView>
-
-         
       </View>
-
-
     );
   }
 
@@ -233,7 +227,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
     paddingLeft : 10,
     paddingRight : 10
-},
+  },
   buttonTextLight:{
     color:'#fff',
     fontSize: 25,
@@ -247,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 50,
   },
-   exitButton:{
+  exitButton:{
     marginRight:70,
     marginLeft:70,
     marginTop:5,
@@ -268,22 +262,9 @@ const styles = StyleSheet.create({
       lineHeight: 24,
 
   },
-  // exitText: {
-  //   fontSize: 15,
-  // },
-    howToModal: {
+  howToModal: {
     marginTop:'80%',
     borderWidth: 5,
     borderColor: '#4c0a01'
-  },
-    subTitleText: {
-    fontSize: 18,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "500",
-    paddingLeft : 10,
-    paddingRight : 10,
-    paddingTop : 30
-  },
+  }
 });

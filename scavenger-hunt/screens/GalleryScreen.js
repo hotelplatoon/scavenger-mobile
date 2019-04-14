@@ -4,8 +4,8 @@ import { Image, Button } from 'react-native-elements';
 import S3ImagesAPI from '../api/S3ImagesAPI';
 import ImagesDjangoAPI from '../api/ImagesDjangoAPI';
 import { testing } from './SignInScreen';
-
-
+import { teststyles } from '../constants/Colors'
+import style from '../constants/Style'
 
 export default class GalleryScreen extends React.Component {
     static navigationOptions = {
@@ -72,13 +72,15 @@ export default class GalleryScreen extends React.Component {
 
   render() {
     return (
+      // <View style={style.pageContainer}>
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.titleText}>Checkpoint Photos</Text>
+
+        <ScrollView contentContainerStyle={style.contentContainer}>
+          <Text style={style.screenTitleText}>Checkpoint Photos</Text>
           <View style={styles.container}>
             { this.state.imageURLs && this.createImages() }
           </View>
-          <View style={styles.buttonContainer}>
+          <View style={style.buttonContainer}>
             <Button
               buttonStyle={{
                 height: 50,
@@ -110,23 +112,11 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     justifyContent: 'center'
   },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  titleText: {
-    fontSize: 30,
-    color: '#4c0a01',
-    lineHeight: 30,
-    textAlign: 'center',
-    fontWeight: "900",
-    paddingLeft : 10,
-    paddingRight : 10,
-  },
-  buttonContainer: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
+  // buttonContainer: {
+  //   flex: 1,
+  //   paddingTop: 15,
+  //   backgroundColor: '#fff',
+  //   flexDirection: 'row',
+  //   justifyContent: 'center'
+  // },
 });
