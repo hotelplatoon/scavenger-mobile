@@ -189,18 +189,18 @@ export default class TakePhoto extends React.Component {
       image: null,
       encodedImage: null,
     })
-    if (this.state.checkpoint_number === finalCheckpoint) {
-      this.props.navigation.navigate('Finish', {checkpoint_number: 0})
-    } else {
+    if ((this.state.checkpoint_number === finalCheckpoint)) {
+      let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
+      let clues = this.props.navigation.getParam('clues', 'NO_CATEGORY')
+      this.props.navigation.navigate('Finish', {checkpoint_number: 0, huntCategory: huntCategory, clues: clues})
+    }
+    else {
       this.props.navigation.navigate('Clue', {checkpoint_number: this.state.checkpoint_number + 1})
     }
   }
 
   render() {
     let { image } = this.state;
-    const backAction = NavigationActions.back({
-      key: 'Clue',
-    });
     return (
       <View style={style.takephotocontainer}>
         <View style={{ alignSelf: 'flex-end' }}>
@@ -209,9 +209,7 @@ export default class TakePhoto extends React.Component {
             type="antdesign"
             size={25}
             color="#4c0a01"
-
-            onPress={() => this.props.navigation.dispatch(backAction)}
-            // onPress={() => this.props.navigation.navigate('Clue')}
+            onPress={() => this.props.navigation.navigate('Clue')}
           />
         </View>
         { this.state.isFailMessageVisible 
