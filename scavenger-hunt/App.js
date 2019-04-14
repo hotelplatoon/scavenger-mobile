@@ -2,8 +2,6 @@ import React from 'react';
 import { createRootNavigator } from './navigation/AppNavigator';
 import { isSignedIn } from './auth'
 
-
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +34,6 @@ export default class App extends React.Component {
 }
 globalState={}
 export const StoreGlobal = (obj) => {
-console.log(globalState)
   if(obj.type==='set'){
     globalState[obj.key]=obj.value;
     return true;
@@ -46,5 +43,4 @@ console.log(globalState)
     }else{
     return null;
     }
-  
 }

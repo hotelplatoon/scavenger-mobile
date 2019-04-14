@@ -4,10 +4,6 @@ import { Card, Button, Input, Icon } from "react-native-elements";
 import { onSignIn } from '../auth'
 import UserAPI from '../api/UserAPI'
 import { StoreGlobal } from "../App";
-
-
-
-
 export default class SignInScreen extends React.Component {
   constructor(props) {
     super(props)
@@ -17,7 +13,6 @@ export default class SignInScreen extends React.Component {
         id:'',
         usernameValidated: false,
         usernameValidated: false,
-
       }
     }
 
@@ -51,26 +46,11 @@ export default class SignInScreen extends React.Component {
         onPress={() => this.handleLogin()}
         disabled={!(this.state.usernameValidated && this.state.passwordValidated)}
       />
-      {/* <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="Set global"
-        onPress={() => this.setglobal()}
-        
-      /> */}
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="Get global"
-        onPress={() => this.getglobal()}
-        
-      />
     </Card>
   </View>
     )
   }
   setglobal = (key, value) => {StoreGlobal({type:'set', key: key, value: value})}
-  getglobal = () => {StoreGlobal({type:'get', key: 'id'})}
 
   handleusernameChange = username => {
     let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
@@ -98,17 +78,14 @@ export default class SignInScreen extends React.Component {
     const userObject = this.state.username
     UserAPI.sendLogin(loginObject)
     .then((res) => {
-      console.log('handleLogin Res', res)
       if (res.status === 200) {
         const USER_KEY = res._bodyInit.slice(9,-1)
-        console.log('charles')
         onSignIn(USER_KEY).then(() => this.props.navigation.navigate("SignedInStack"))
       }
     })
     .catch((error) => console.log(error))    
     UserAPI.getUser(userObject)
       .then((res) => {
-        console.log(res)
         this.setglobal('username', res[0].email)
         this.setglobal('id', res[0].id)
         this.setglobal('name', res[0].name)
