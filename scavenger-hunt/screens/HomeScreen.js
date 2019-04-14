@@ -1,4 +1,3 @@
-import { Constants } from 'expo';
 import React from 'react';
 import {
   Modal,
@@ -13,11 +12,10 @@ import {
   TouchableHighlight,
   AsyncStorage
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { Button, Icon } from 'react-native-elements';
 import { USER_KEY } from '../auth'
 import { StoreGlobal } from '../App'
 import style from '../constants/Style'
-import { Button, Icon } from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
   constructor(props){
@@ -37,7 +35,7 @@ export default class HomeScreen extends React.Component {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <View style={style.homeClueScreenContainer}>
       <Icon
         name="profile"
         type="antdesign"
@@ -45,10 +43,10 @@ export default class HomeScreen extends React.Component {
         color="black"
         onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
       />
-      {/* { console.log(`30: hello`) } */}
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-          
+        <ScrollView style={style.homeClueScreenContainer}>
+          <View style={{ marginHorizontal: 50, marginTop: 80}}>
+
+
             <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
             <Text style={style.upperSubTitleText} >Welcome to</Text>
@@ -82,14 +80,7 @@ export default class HomeScreen extends React.Component {
             />
           </View>
 
-          {/* <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="Async Test"
-        onPress={() => this._checkAsync()}
-        /> */}
           </ScrollView>
-
           <View style={{marginTop: 1}}>
             <Modal 
               animationType="slide"
@@ -134,57 +125,5 @@ export default class HomeScreen extends React.Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center'
-  },
-  // welcomeImage: {
-  //   width: 100,
-  //   height: 80,
-  //   resizeMode: 'contain',
-  //   marginTop: 3,
-  //   marginLeft: -10,
-  // },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-    marginTop: 80
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  }
-})

@@ -1,7 +1,7 @@
 import React from "react";
 import { View  } from "react-native";
 import { Button, Card, Input, Icon} from "react-native-elements";
-import UserAPI from '../api/UserAPI';
+import HuntAPI from '../api/HuntAPI';
 
 export default class SignUpScreen extends React.Component {
   constructor(props) {
@@ -119,7 +119,7 @@ export default class SignUpScreen extends React.Component {
 
   addUser = async () => {
     const user = this.state
-    UserAPI.addUser(user)
+    HuntAPI.addUser(user)
       .then((res) => {
         if (res.status === 201) {
           alert('User Created');

@@ -1,9 +1,21 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  // container: {
-  //   flex: 1
-  // },
+  homeClueScreenContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  takephotocontainer: {
+    flex: 1,
+    alignItems: 'center',
+    margin:20,
+    paddingTop: 30,
+  },
+  galleryContainer: {
+    paddingTop: 10,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
   pageContainer: {
     backgroundColor: '#4c0a01',
     paddingTop: 20,
@@ -13,6 +25,15 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 10,
     paddingBottom: 50,
+  },  
+  overlayContainer: {
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  },
+  overlayMessage: {
+    marginVertical: 20,
+    alignItems: 'center',
   },
   screenTitleText: {
     fontSize: 30,
@@ -65,6 +86,7 @@ export default StyleSheet.create({
   buttonContainer: {
     flex: 1,
     paddingTop: 15,
+    paddingBottom: 15,
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'center'
@@ -86,7 +108,7 @@ export default StyleSheet.create({
   modalTitleText: {
     fontSize: 25,
     color: '#fff',
-    lineHeight: 15,
+    lineHeight: 30,
     textAlign: 'center',
     fontWeight: "900",
     padding : 10,
@@ -121,6 +143,15 @@ export default StyleSheet.create({
     paddingLeft : 10,
     paddingRight : 10
   },
+  buttonTextLight:{
+    color:'#fff',
+    fontSize: 25,
+    lineHeight: 30,
+    fontWeight: "300",
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10
+  },
   huntButton:{
     marginHorizontal: 50,
     marginTop:15,
@@ -142,6 +173,14 @@ export default StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.7,
   },
+  wideButtonText:{
+    color:'#fff',
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10
+  },
   profileImagePlaceholder: {
     backgroundColor: "#B3DDF2",
     alignItems: "center",
@@ -151,5 +190,23 @@ export default StyleSheet.create({
     borderRadius: 60,
     alignSelf: "center",
     marginVertical: 30
-  }
+  },
+  smallOutlineButton:{
+    marginHorizontal: -20,
+    marginTop:30,
+    marginBottom:-10,
+    paddingTop:5,
+    paddingBottom:5,
+    // paddingLeft: 10,
+    // paddingRight: 10,
+    backgroundColor:'#fff',
+    borderRadius:5,
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  },
+  textContainer: {
+    marginHorizontal: 30,
+    backgroundColor: '#fff',
+  },
 });
