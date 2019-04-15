@@ -15,8 +15,8 @@ export default class App extends React.Component {
     _signOutAsync = async () => {
       await AsyncStorage.clear();
       this.props.navigation.navigate('Auth');
-  };
-}
+    };
+  }
   componentDidMount() {
     isSignedIn()
       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
@@ -34,13 +34,12 @@ export default class App extends React.Component {
 }
 globalState={}
 export const StoreGlobal = (obj) => {
-  if(obj.type==='set'){
+  if (obj.type==='set') {
     globalState[obj.key]=obj.value;
     return true;
-    }else
-      if(obj.type==='get'){
+  } else if (obj.type==='get') {
     return globalState[obj.key];
-    }else{
+  } else {
     return null;
-    }
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { View  } from "react-native";
-import { Button, Card, Input, Icon, Text } from "react-native-elements";
+import { Button, Card, Input, Icon } from "react-native-elements";
 import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 
@@ -142,12 +142,10 @@ export default class SignUpScreen extends React.Component {
 
   handleEmailChange = email => {
     let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
-    if(reg.test(email) === false)
-    {
-    this.setState({email:email, emailValidated:false})
-    return false;
-      }
-    else {
+    if (reg.test(email) === false) {
+      this.setState({email:email, emailValidated:false})
+      return false;
+    } else {
       this.setState({email:email, emailValidated:true})
     }
   }

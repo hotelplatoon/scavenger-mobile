@@ -41,7 +41,6 @@ export default class SignInScreen extends React.Component {
             onChangeText={this.handleusernameChange}
             rightIcon={ this.state.usernameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
             />
-          
           <Input
             secureTextEntry
             containerStyle={{ marginBottom: 20 }}
@@ -52,7 +51,6 @@ export default class SignInScreen extends React.Component {
             value={this.state.password}
             rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
           />
-
           <Button
             buttonStyle={{ 
               marginTop: 10, 
