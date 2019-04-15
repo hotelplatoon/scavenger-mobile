@@ -1,10 +1,7 @@
 import React from 'react';
 import {
   Modal,
-  Image,
-  Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -18,13 +15,6 @@ import { StoreGlobal } from '../App'
 import style from '../constants/Style'
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#f4511e',
-
-    }
-  }
   constructor(props){
     super(props);
     this.state = {
@@ -35,16 +25,16 @@ export default class HomeScreen extends React.Component {
     _checkAsync = async () => {
       let value = await AsyncStorage.getItem('USER_KEY')
     }
-    _globalState = () => {StoreGlobal({type:'get', key:'name'})}
+    _globalState = () => {StoreGlobal({ type:'get', key:'name' })}
 
   render() {
     const {navigate} = this.props.navigation;
     let greetingText = (globalState.name) ? (globalState.name) : 'Hunter'
 
     return (
-      <View style={{paddingTop: 18, flex: 1, backgroundColor: '#4c0a01'}}>
+      <View style={{ paddingTop: 18, flex: 1, backgroundColor: '#4c0a01' }}>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
 
           <View style={{ alignSelf: 'flex-start', width: 200}}>
             <Text style={{
@@ -57,7 +47,7 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={{ alignSelf: 'flex-end', width: 170}}>
+          <View style={{ alignSelf: 'flex-end', width: 170 }}>
             <Icon
               containerStyle={{ alignSelf: 'flex-end', marginRight: 15, marginTop:0 }}
               name="profile"
@@ -67,16 +57,12 @@ export default class HomeScreen extends React.Component {
               onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
             />
           </View>
-
         </View>
 
         <ScrollView style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
-
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
             <Text style={style.bodyText}>Hello {greetingText}!</Text>
           </View>
-            {/* <Text style={style.upperSubTitleText} >Welcome to</Text>
-            <Text style={style.screenTitleText}>THE HUNT</Text> */}
 
           <TouchableOpacity
             style={style.button}
@@ -130,7 +116,7 @@ export default class HomeScreen extends React.Component {
                   <View style={{padding: 30 }}>
                     <Text style={style.modalTitleText}>HOW TO PLAY</Text>
                     <Text style={style.modalBodyText}>_______</Text>
-                    <Text style={style.modalBodyText}>{"\n"}You will be shown clues to help you discover 5 checkpoints. To prove you found each checkpoint, snap a photo and submit it for analysis!</Text>
+                    <Text style={style.modalBodyText}>{"\n"}You will be shown clues to help you discover 5 checkpoints. To prove you have found each checkpoint, snap a photo and submit it for analysis!</Text>
                     <Text style={style.modalBodyText}>_______</Text>
                     <Text style={style.modalTitleText}>{"\n\n\n"}Good Luck!</Text>
                   </View>
@@ -138,34 +124,22 @@ export default class HomeScreen extends React.Component {
               </View>
             </Modal>
 
-
-      <View style={{flexDirection: 'column'}}>
+        <View style={{flexDirection: 'column'}}>
           <TouchableHighlight
             onPress={() => {
               this.setModalVisible(true);
-            }}>
-
-
+            }}
+          >
             <View style={{ flexDirection: 'row', alignSelf: 'center', width: 400}}>
               <View style={{ alignSelf: 'center', width: 200}}>
                 <Icon
-                // containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
-                name="infocirlceo"
-                type="antdesign"
-                size={20}
-                color="white"
-                padding={10}
-                marginRight={-80}
+                  name="infocirlceo"
+                  type="antdesign"
+                  size={20}
+                  color="white"
+                  padding={10}
+                  marginRight={-80}
                 />
-                {/* <Text style={{
-                  fontSize: 16,
-                  color: '#fff',
-                  lineHeight: 30,
-                  textAlign: 'center',
-                  fontWeight: "500",
-                  padding : 10,
-                }}>
-                How to play</Text> */}
               </View>
               <View style={{ alignSelf: 'flex-start', width: 200}}>
                 <Text style={{
@@ -177,18 +151,13 @@ export default class HomeScreen extends React.Component {
                   padding : 10,
                   marginLeft: -200
                 }}>
-                How to play</Text>
+                  How to play
+                </Text>
               </View>
-
             </View>
-
-
           </TouchableHighlight>
         </View>
-
-
-
-        </View>
+      </View>
     </View>
     );
   }

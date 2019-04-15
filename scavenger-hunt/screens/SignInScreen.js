@@ -1,6 +1,6 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Card, Input, Icon, Text } from "react-native-elements";
+import { View } from "react-native";
+import { Card, Input, Icon, Button } from "react-native-elements";
 import { onSignIn } from '../auth'
 import HuntAPI from '../api/HuntAPI'
 import { StoreGlobal } from "../App"; 
@@ -12,10 +12,21 @@ export default class SignInScreen extends React.Component {
       this.state = {
         username: '',
         password: '',
-        id:'',
+        id: '',
         usernameValidated: false,
         usernameValidated: false,
       }
+    }
+
+    static navigationOptions = {
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#4c0a01',
+      headerTitleStyle: {
+        fontWeight: '900',
+        fontSize: 20
+      },
     }
 
   render() {
@@ -30,7 +41,6 @@ export default class SignInScreen extends React.Component {
             onChangeText={this.handleusernameChange}
             rightIcon={ this.state.usernameValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
             />
-          
           <Input
             secureTextEntry
             containerStyle={{ marginBottom: 20 }}
@@ -40,15 +50,18 @@ export default class SignInScreen extends React.Component {
             onChangeText={this.handlePasswordChange}
             value={this.state.password}
             rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
-          />      
-          <TouchableOpacity
-            style={style.wideRedButton}
-            underlayColor='#fff'
+          />
+          <Button
+            buttonStyle={{ 
+              marginTop: 10, 
+              paddingVertical: 12, 
+              backgroundColor:'#4c0a01'
+            }}
+            title="SIGN IN"
+            titleStyle={style.wideButtonText}
             onPress={() => this.handleLogin()}
-            disabled={!(this.state.usernameValidated && this.state.passwordValidated)}
-          >          
-            <Text style={style.wideButtonText}>SIGN IN</Text>
-          </TouchableOpacity>
+            disabled={!(this.state.usernameValidated && this.state.passwordValidated)}  
+          />   
         </Card>
       </View>
     )
@@ -58,12 +71,10 @@ export default class SignInScreen extends React.Component {
 
   handleusernameChange = username => {
     let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ;
-    if(reg.test(username) === false)
-    {
-    this.setState({username:username, usernameValidated:false})
-    return false;
-      }
-    else {
+    if (reg.test(username) === false) {
+      this.setState({username:username, usernameValidated:false})
+      return false;
+    } else {
       this.setState({username:username, usernameValidated:true})
     }
   }

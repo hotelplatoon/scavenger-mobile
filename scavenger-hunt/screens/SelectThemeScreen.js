@@ -5,9 +5,6 @@ import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 
 export default class SelectThemeScreen extends React.Component {
-    static navigationOptions = {
-    title: 'Choose a Hunt',
-  };
   constructor(props){
     super(props);
     this.state = {
@@ -49,8 +46,8 @@ export default class SelectThemeScreen extends React.Component {
           <Text style={style.buttonText}>{huntTheme.category}</Text>
         </TouchableOpacity>
       </View>
-      )
-    }
+    )
+  }
 
   render() {
     return (

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import SignUpScreen from '../screens/SignUpScreen';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -21,7 +20,7 @@ export const SignedOutStack = createStackNavigator({
   SignInScreen: {
     screen: SignInScreen,
     navigationOptions: {
-      title: "Sign In"
+      title: "JOIN THE HUNT"
     }
   }
 });
@@ -64,7 +63,6 @@ export const SignedInStack = createStackNavigator({
     tabBarLabel: "Finish",
     }
   },
-
 },
 {
   headerMode: 'none',
