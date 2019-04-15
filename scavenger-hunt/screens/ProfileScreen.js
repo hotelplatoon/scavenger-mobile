@@ -2,7 +2,6 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Card, Text } from "react-native-elements";
 import { onSignOut } from "../auth";
-import { GlobalStorage } from "../App"
 import style from '../constants/Style'
 
 export default class ProfileScreen extends React.Component {

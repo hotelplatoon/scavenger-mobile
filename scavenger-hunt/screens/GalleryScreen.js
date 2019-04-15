@@ -11,7 +11,7 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id : 3,
+      user_id : (globalState.id),
       images : null,
       imageURLs : []
     }}
@@ -22,11 +22,13 @@ export default class GalleryScreen extends React.Component {
     await HuntAPI.fetchImages() 
       .then((apiResponseJSON) => {
         for (let element of apiResponseJSON) {
-          if (element.user_hunt_id === this.state.user_id) {
+          if (element.user_id === this.state.user_id) {
             let imageObject = {
               user_hunt_id : element.user_hunt_id,
-              image_name : element.image_name
+              image_name : element.image_name,
+              user_id : element.user_id
             }
+            console.log(imageObject)
             imageNames.push({imageObject})
             let url = S3ImagesAPI.s3.getSignedUrl('getObject', {
               Bucket: "scavenger-bucket",
@@ -125,23 +127,3 @@ export default class GalleryScreen extends React.Component {
     );
   }
 }
-// const styles = StyleSheet.create({
-//   container: {
-//     // flex: 1,
-//     paddingTop: 10,
-//     backgroundColor: '#fff',
-//     // flexDirection: 'row',
-//     justifyContent: 'center'
-//   },
-//   subTitleText: {
-//     fontSize: 18,
-//     color: '#4c0a01',
-//     lineHeight: 30,
-//     textAlign: 'center',
-//     fontWeight: "500",
-//     paddingLeft : 10,
-//     paddingRight : 10,
-//     // paddingTop : 15,
-//     // paddingBottom: 15,
-//   },
-// });
