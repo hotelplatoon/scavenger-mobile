@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={{ alignSelf: 'flex-end', width: 200}}>
+          <View style={{ alignSelf: 'flex-end', width: 170}}>
             <Icon
               containerStyle={{ alignSelf: 'flex-end', marginRight: 15, marginTop:0 }}
               name="profile"
