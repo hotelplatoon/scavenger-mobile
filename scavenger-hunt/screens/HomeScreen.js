@@ -138,30 +138,56 @@ export default class HomeScreen extends React.Component {
               </View>
             </Modal>
 
+
+      <View style={{flexDirection: 'column'}}>
           <TouchableHighlight
             onPress={() => {
               this.setModalVisible(true);
             }}>
-            <View>
-            <Icon
-            // containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
-            name="infocirlceo"
-            type="antdesign"
-            size={20}
-            color="white"
-            />
-            <Text style={{
-              fontSize: 16,
-              color: '#fff',
-              lineHeight: 30,
-              textAlign: 'center',
-              fontWeight: "500",
-              padding : 10,
-            }}>
-            How to play</Text>
+
+
+            <View style={{ flexDirection: 'row', alignSelf: 'center', width: 400}}>
+              <View style={{ alignSelf: 'center', width: 200}}>
+                <Icon
+                // containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
+                name="infocirlceo"
+                type="antdesign"
+                size={20}
+                color="white"
+                padding={10}
+                marginRight={-80}
+                />
+                {/* <Text style={{
+                  fontSize: 16,
+                  color: '#fff',
+                  lineHeight: 30,
+                  textAlign: 'center',
+                  fontWeight: "500",
+                  padding : 10,
+                }}>
+                How to play</Text> */}
+              </View>
+              <View style={{ alignSelf: 'flex-start', width: 200}}>
+                <Text style={{
+                  fontSize: 16,
+                  color: '#fff',
+                  lineHeight: 30,
+                  textAlign: 'center',
+                  fontWeight: "500",
+                  padding : 10,
+                  marginLeft: -200
+                }}>
+                How to play</Text>
+              </View>
+
             </View>
-            
+
+
           </TouchableHighlight>
+        </View>
+
+
+
         </View>
     </View>
     );
