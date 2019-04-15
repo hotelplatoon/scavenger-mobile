@@ -182,14 +182,19 @@ export default StyleSheet.create({
     paddingRight : 10
   },
   profileImagePlaceholder: {
-    backgroundColor: "#B3DDF2",
+    backgroundColor: "#4c0a01",
+    // borderColor: '#4c0a01',
+    // borderWidth: 4,
     alignItems: "center",
     justifyContent: "center",
     width: 120,
     height: 120,
     borderRadius: 60,
     alignSelf: "center",
-    marginVertical: 30
+    marginBottom: 10,
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
   },
   smallOutlineButton:{
     marginHorizontal: -20,
