@@ -92,7 +92,7 @@ export default class TakePhoto extends React.Component {
             }
             this.isMatchingPhoto(detectedLandmarks)
           }
-        } else if (huntCategory === "Things & Stuff!") {
+        } else if (huntCategory === "Things & Stuff!" || "Delightfully Delicious") {
           if (!JSONresponse.responses[0].labelAnnotations) {
             this.setState({
               isFailMessageVisible : true,
@@ -184,7 +184,9 @@ export default class TakePhoto extends React.Component {
       image: null,
       encodedImage: null,
     })
-    if ((this.state.checkpoint_number === finalCheckpoint)) {
+    // if ((this.state.checkpoint_number === finalCheckpoint)) {
+    if ((this.state.checkpoint_number === 0)) {
+
       let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
       let clues = this.props.navigation.getParam('clues', 'NO_CATEGORY')
       this.props.navigation.navigate('Finish', {checkpoint_number: 0, huntCategory: huntCategory, clues: clues})

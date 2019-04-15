@@ -169,5 +169,4 @@ export default class SignUpScreen extends React.Component {
   }
 
   goSignIn = () => this.props.navigation.navigate('SignInScreen')
-
 };

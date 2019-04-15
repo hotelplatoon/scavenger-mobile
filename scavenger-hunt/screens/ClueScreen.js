@@ -52,7 +52,7 @@ export default class ClueScreen extends React.Component {
       //   clueText: "",
       //   // modalVisible: false
       // })
-      {this.props.navigation.navigate('Main', {checkpoint_number: 0}, {name: 'Jane'}, {selectedHuntID: 0}, {checkpoint_name: ""})}
+      {this.props.navigation.navigate('Main', {checkpoint_number: 0}, {selectedHuntID: 0}, {checkpoint_name: ""})}
       {this.setModalVisible(!this.state.modalVisible)}
     }
 
@@ -88,7 +88,6 @@ export default class ClueScreen extends React.Component {
               <Button
                   buttonStyle={{
                     height: 40,
-                    // width: 160,
                     borderWidth: 1,
                     borderColor: '#4c0a01'
                   }}
@@ -131,7 +130,6 @@ export default class ClueScreen extends React.Component {
                     <Text style={style.modalBodyText}>_______</Text>
                     <Text style={style.modalBodyText}>{"\n"}Warning! Data from this hunt session will not be saved.</Text>
                     <Text style={style.modalBodyText}>_______</Text>
-                    {/* <Text style={style.modalTitleText}>{"\n\n\n"}Good Luck!</Text> */}
                     <TouchableHighlight
                       style={style.smallOutlineButton}
                       onPress={() => this.exitHunt()}
@@ -200,26 +198,3 @@ export default class ClueScreen extends React.Component {
       .catch(error => console.log(error))
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     // paddingTop: 15,
-//     backgroundColor: '#fff',
-//   },
-//   titleText: {
-//     fontSize: 30,
-//     color: '#4c0a01',
-//     lineHeight: 30,
-//     textAlign: 'center',
-//     fontWeight: "900",
-//     paddingLeft : 10,
-//     paddingRight : 10,
-//   },
-//   clueText: {
-//     fontSize: 15,
-//     color: 'rgba(96,100,109, 1)',
-//     lineHeight: 24,
-//     textAlign: 'center',
-//   }
-// });

@@ -8,7 +8,6 @@ export default class ProfileScreen extends React.Component {
   render() {
     let headerText = (globalState.username) ? (globalState.username) : 'Profile'
     return (
-      // <View style={{ paddingVertical: 20 }}>
       <View style={{ paddingVertical: 20, backgroundColor: "#4c0a01", height: '100%',}}>
         <ScrollView >
 
@@ -16,7 +15,6 @@ export default class ProfileScreen extends React.Component {
           <View style={style.profileImagePlaceholder}>
             <Text style={{ color: "#fff", fontSize: 20, fontWeight: '300' }}>{(globalState.name)}</Text> 
           </View>
-          {/* <Text style={{ color: "#4c0a01", fontSize: 18 }}>Email: {(globalState.username)}</Text> */}
             <TouchableOpacity
               style={style.wideRedButton}
               underlayColor='#fff'
@@ -45,7 +43,6 @@ export default class ProfileScreen extends React.Component {
         </Card>
         <Card title="Proudly built by Code Platoon students!">
         <View style={{ 
-          // width: 20,
           marginVertical: -70
           }}>
             <Image 
@@ -54,8 +51,6 @@ export default class ProfileScreen extends React.Component {
                 width: '100%',
                 resizeMode: "center",
                 height: 250,     
-                // borderRadius: 6, 
-                // margin: 8
               }} 
             />
             </View>
