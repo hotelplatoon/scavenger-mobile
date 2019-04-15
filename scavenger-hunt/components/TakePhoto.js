@@ -76,13 +76,11 @@ export default class TakePhoto extends React.Component {
   }
   
   handleAnalyzePhoto = () => {
-    console.log("Analyzing....")
     GoogleVisionAPI.analyzeImage(this.state.encodedImage)
       .then((JSONresponse) => { 
         let huntCategory = this.props.navigation.getParam('huntCategory', 'NO_CATEGORY')
         if (huntCategory === "Landmarks") {
           if (!JSONresponse.responses[0].landmarkAnnotations) {
-            console.log("85: Your image could not be successfully analyzed")
             this.setState({
               isFailMessageVisible : true,
               isMatchedPhoto: false
@@ -96,7 +94,6 @@ export default class TakePhoto extends React.Component {
           }
         } else if (huntCategory === "Things & Stuff!") {
           if (!JSONresponse.responses[0].labelAnnotations) {
-            console.log("99: Your image could not be successfully analyzed")
             this.setState({
               isFailMessageVisible : true,
               isMatchedPhoto: false
@@ -159,7 +156,6 @@ export default class TakePhoto extends React.Component {
     HuntAPI.addImage(imageObject)
       .then((response) => {
         if (response.status === 201) {
-          // console.log(response)
         } else {
           console.log(response)
         }

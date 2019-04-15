@@ -68,5 +68,5 @@ export default {
   getUser: getUser,
   addImage: addImage,
   fetchImages: fetchImages,
-  fetchHuntThemes: fetchHuntThemes
+  fetchHuntThemes: fetchHuntThemes,
 }
