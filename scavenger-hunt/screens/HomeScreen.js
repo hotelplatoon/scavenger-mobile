@@ -34,12 +34,10 @@ export default class HomeScreen extends React.Component {
 
     _checkAsync = async () => {
       let value = await AsyncStorage.getItem('USER_KEY')
-      console.log(value, 'value')
     }
     _globalState = () => {StoreGlobal({type:'get', key:'name'})}
 
   render() {
-    console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
     let greetingText = (globalState.name) ? (globalState.name) : 'Hunter'
 
