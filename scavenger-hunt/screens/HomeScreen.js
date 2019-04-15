@@ -41,6 +41,8 @@ export default class HomeScreen extends React.Component {
   render() {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
+    let greetingText = (globalState.name) ? (globalState.name) : 'Hunter'
+
     return (
       <View style={{paddingTop: 18, flex: 1, backgroundColor: '#4c0a01'}}>
 
@@ -73,7 +75,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
 
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
-            <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
+            <Text style={style.bodyText}>Hello {greetingText}!</Text>
           </View>
             {/* <Text style={style.upperSubTitleText} >Welcome to</Text>
             <Text style={style.screenTitleText}>THE HUNT</Text> */}
