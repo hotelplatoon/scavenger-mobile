@@ -117,7 +117,6 @@ export default class TakePhoto extends React.Component {
 
   isMatchingPhoto = (detectedLabels) => {
     let checkpoint_name = this.state.checkpoint_name
-    console.log(detectedLabels)
     for (let i = 0; i < detectedLabels.length; i++) {
       if (detectedLabels[i] === checkpoint_name) {
         let fileName = this.generateUniqueImageName()
@@ -150,12 +149,12 @@ export default class TakePhoto extends React.Component {
     }
   }
   
-  
   savePhotoToDB = (fileName) => {
     let imageObject = {
       "image_name": fileName,
       "user_hunt_id": 1,
-      "checkpoint_id": (this.state.checkpoint_number + 1)
+      "checkpoint_id": (this.state.checkpoint_number + 1),
+      "user_id": (globalState.id)
     }
     HuntAPI.addImage(imageObject)
       .then((response) => {

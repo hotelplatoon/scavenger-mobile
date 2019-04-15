@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
-import { Card, Button, Input, Icon, Text } from "react-native-elements";
+import { Card, Input, Icon, Text } from "react-native-elements";
 import { onSignIn } from '../auth'
 import HuntAPI from '../api/HuntAPI'
 import { StoreGlobal } from "../App"; 
@@ -20,7 +20,6 @@ export default class SignInScreen extends React.Component {
 
   render() {
     return(
-
       <View style={{ paddingVertical: 20, backgroundColor: "#4c0a01", height: '100%',}}>
         <Card>
           <Input
