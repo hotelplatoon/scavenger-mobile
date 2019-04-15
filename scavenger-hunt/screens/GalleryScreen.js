@@ -28,7 +28,6 @@ export default class GalleryScreen extends React.Component {
               image_name : element.image_name,
               user_id : element.user_id
             }
-            console.log(imageObject)
             imageNames.push({imageObject})
             let url = S3ImagesAPI.s3.getSignedUrl('getObject', {
               Bucket: "scavenger-bucket",
@@ -50,7 +49,6 @@ export default class GalleryScreen extends React.Component {
 
     createImages() {
       let imagesList = []
-
       for (let i = 0; i < this.state.imageURLs.length; i += 2) {
         if (i === this.state.imageURLs.length - 1) {
           let imageRow = 
