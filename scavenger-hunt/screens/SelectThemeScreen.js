@@ -15,7 +15,6 @@ export default class SelectThemeScreen extends React.Component {
       selectedHuntID: 0
     }}
     
-
   componentDidMount() {
     let huntThemes = []
     HuntAPI.fetchHuntThemes() 

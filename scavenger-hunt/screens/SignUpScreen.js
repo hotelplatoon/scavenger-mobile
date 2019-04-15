@@ -23,7 +23,6 @@ export default class SignUpScreen extends React.Component {
     return(
       <View style={{ paddingVertical: 20, backgroundColor: "#4c0a01", height: '100%',}}>
       <View>
-        {/* <Card title="JOIN THE HUNT"> */}
         <Card>
           <Input
             containerStyle={{ marginVertical: 8 }}

@@ -41,7 +41,6 @@ export default class SignInScreen extends React.Component {
             value={this.state.password}
             rightIcon={ this.state.passwordValidated ?  <Icon name='check' color='green' /> : <Icon name='close' color='red' />}
           />      
-
           <TouchableOpacity
             style={style.wideRedButton}
             underlayColor='#fff'
