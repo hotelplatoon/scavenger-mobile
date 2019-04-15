@@ -157,7 +157,6 @@ export default class ClueScreen extends React.Component {
     const clueIndex = this.state.checkpoint_number
     const clues = this.state.clues
     const clue = clues[clueIndex]
-    console.log(clue.clue)
     this.props.navigation.navigate(
       'TakePhoto', { 
         checkpoint_number: clueIndex, 
