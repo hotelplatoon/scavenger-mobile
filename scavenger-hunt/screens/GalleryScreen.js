@@ -11,7 +11,7 @@ export default class GalleryScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id : 3,
+      user_id : 5,
       images : null,
       imageURLs : []
     }}

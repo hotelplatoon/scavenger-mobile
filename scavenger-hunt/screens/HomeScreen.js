@@ -18,6 +18,13 @@ import { StoreGlobal } from '../App'
 import style from '../constants/Style'
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Home',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+
+    }
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -35,30 +42,50 @@ export default class HomeScreen extends React.Component {
     console.log(this.props.navigation.getParam('passedName', 'no name'))
     const {navigate} = this.props.navigation;
     return (
-      <View style={style.homeClueScreenContainer}>
-      <Icon
-        name="profile"
-        type="antdesign"
-        size={25}
-        color="black"
-        onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
-      />
-        <ScrollView style={style.homeClueScreenContainer}>
+      <View style={{paddingTop: 18, flex: 1, backgroundColor: '#4c0a01'}}>
+
+        <View style={{flexDirection: 'row'}}>
+
+          <View style={{ alignSelf: 'flex-start', width: 200}}>
+            <Text style={{
+              fontSize: 30,
+              color: '#fff',
+              alignSelf: 'center',
+              fontWeight: "900",
+              marginTop: 15
+              }}>THE HUNT
+            </Text>
+          </View>
+
+          <View style={{ alignSelf: 'flex-end', width: 200}}>
+            <Icon
+              containerStyle={{ alignSelf: 'flex-end', marginRight: 15, marginTop:0 }}
+              name="profile"
+              type="antdesign"
+              size={25}
+              color="white"
+              onPress={() => {this.props.navigation.navigate('ProfileScreen')}}
+            />
+          </View>
+
+        </View>
+
+        <ScrollView style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
+
           <View style={{ marginHorizontal: 50, marginTop: 80}}>
-
-
             <Text style={style.bodyText}>Hello {(globalState.name)}!</Text>
           </View>
-            <Text style={style.upperSubTitleText} >Welcome to</Text>
-            <Text style={style.screenTitleText}>THE HUNT</Text>
-
+            {/* <Text style={style.upperSubTitleText} >Welcome to</Text>
+            <Text style={style.screenTitleText}>THE HUNT</Text> */}
 
           <TouchableOpacity
             style={style.button}
             onPress={() => navigate('SelectTheme')}
             underlayColor='#fff'
             >
-            <Text style={style.buttonText}>START NEW HUNT</Text>
+            <Text style={style.buttonText}>
+              START NEW HUNT
+            </Text>
           </TouchableOpacity>
         
         <View style={style.buttonContainer}>
@@ -111,14 +138,58 @@ export default class HomeScreen extends React.Component {
               </View>
             </Modal>
 
+
+      <View style={{flexDirection: 'column'}}>
           <TouchableHighlight
             onPress={() => {
               this.setModalVisible(true);
             }}>
-            <Text style={style.subTitleText}>How to play</Text>
+
+
+            <View style={{ flexDirection: 'row', alignSelf: 'center', width: 400}}>
+              <View style={{ alignSelf: 'center', width: 200}}>
+                <Icon
+                // containerStyle={{ alignSelf: 'flex-end', height: 25, marginRight: 15, marginTop:15 }}
+                name="infocirlceo"
+                type="antdesign"
+                size={20}
+                color="white"
+                padding={10}
+                marginRight={-80}
+                />
+                {/* <Text style={{
+                  fontSize: 16,
+                  color: '#fff',
+                  lineHeight: 30,
+                  textAlign: 'center',
+                  fontWeight: "500",
+                  padding : 10,
+                }}>
+                How to play</Text> */}
+              </View>
+              <View style={{ alignSelf: 'flex-start', width: 200}}>
+                <Text style={{
+                  fontSize: 16,
+                  color: '#fff',
+                  lineHeight: 30,
+                  textAlign: 'center',
+                  fontWeight: "500",
+                  padding : 10,
+                  marginLeft: -200
+                }}>
+                How to play</Text>
+              </View>
+
+            </View>
+
+
           </TouchableHighlight>
         </View>
-      </View>
+
+
+
+        </View>
+    </View>
     );
   }
 
