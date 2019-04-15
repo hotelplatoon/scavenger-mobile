@@ -92,7 +92,7 @@ export default class TakePhoto extends React.Component {
             }
             this.isMatchingPhoto(detectedLandmarks)
           }
-        } else if (huntCategory === "Things & Stuff!") {
+        } else if (huntCategory === "Things & Stuff!" || "Delightfully Delicious") {
           if (!JSONresponse.responses[0].labelAnnotations) {
             this.setState({
               isFailMessageVisible : true,

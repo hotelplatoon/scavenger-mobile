@@ -19,10 +19,8 @@ export default StyleSheet.create({
   pageContainer: {
     backgroundColor: '#4c0a01',
     paddingTop: 20,
-    // flex: 1
   },
   contentContainer: {
-    // marginTop: 30,
     backgroundColor: '#fff',
     paddingTop: 10,
     paddingBottom: 50,
@@ -39,7 +37,6 @@ export default StyleSheet.create({
   screenTitleText: {
     fontSize: 30,
     color: '#4c0a01',
-    // color: '#fff',
     lineHeight: 40,
     textAlign: 'center',
     fontWeight: "900",
@@ -48,7 +45,6 @@ export default StyleSheet.create({
   },
   pageTitleText: {
     fontSize: 30,
-    // color: '#4c0a01',
     color: '#fff',
     lineHeight: 30,
     textAlign: 'center',
@@ -71,8 +67,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontWeight: "500",
     padding : 10,
-    // paddingRight : 10,
-    // paddingTop : 30
   },
   upperSubTitleText: {
     fontSize: 18,
@@ -94,13 +88,11 @@ export default StyleSheet.create({
   },
   modalContainer: {
     alignItems: 'center',
-    // height: 350,
     marginTop:'40%',
     borderWidth: 2,
     borderColor: '#4c0a01',
     borderRadius: 5,
     padding: 10,
-    // backgroundColor: 'rgba(255,255,255, 1)',
     backgroundColor: '#4c0a01',
     shadowOffset:{ width: 2, height: 2 },
     shadowColor: 'black',
@@ -203,8 +195,6 @@ export default StyleSheet.create({
     marginBottom:-10,
     paddingTop:5,
     paddingBottom:5,
-    // paddingLeft: 10,
-    // paddingRight: 10,
     backgroundColor:'#fff',
     borderRadius:5,
     shadowOffset:{ width: 2, height: 2 },

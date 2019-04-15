@@ -5,7 +5,7 @@ import S3ImagesAPI from '../api/S3ImagesAPI';
 import HuntAPI from '../api/HuntAPI';
 import style from '../constants/Style'
 export default class GalleryScreen extends React.Component {
-    static navigationOptions = {
+  static navigationOptions = {
     title: 'Gallery',
   };
   constructor(props){
