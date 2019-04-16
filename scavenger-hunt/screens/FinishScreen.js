@@ -32,7 +32,7 @@ export default class FinishScreen extends React.Component {
     let clueText = []
     for (let i = 0; i < clues.length; i++) {
       clueText.push(<View key={i} style={styles.clueContainer}>
-        <Text style={style.bodyText}>{(i+1)+ (". ") + this.sentenceCase(clues[i].clue)}
+        <Text style={styles.bodyText}>{(i+1)+ (". ") + this.sentenceCase(clues[i].clue)}
         </Text>
       </View>)
     }
@@ -44,7 +44,7 @@ export default class FinishScreen extends React.Component {
     return (
       <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={style.bodyText}>
+        <Text style={styles.bodyText}>
           Congratulations {this.state.user_name}!
         </Text>
       </View>
@@ -52,7 +52,7 @@ export default class FinishScreen extends React.Component {
         <Text style={style.subTitleText}>You have completed the hunt for </Text>
         <Text style={style.screenTitleText}>{this.props.navigation.getParam('huntCategory')}</Text>
       </View>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      {/* <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}> */}
         <View style={styles.clueContainer}>
           <Card style={style.screenTitleText} title='You found the following clues!'>
             <View>
@@ -61,7 +61,7 @@ export default class FinishScreen extends React.Component {
           </Card>
         </View>
 
-        </ScrollView>
+        {/* </ScrollView> */}
         <TouchableOpacity
           style={style.button}
           onPress={() => navigate('Main', {checkpoint_number: 0} )}
@@ -89,12 +89,18 @@ const styles = StyleSheet.create({
   finishCategoryContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
-    marginTop: 30,
+    marginTop: 15,
     marginBottom: 15,
   },
   clueContainer: {
     alignItems: 'center',
-    marginHorizontal: 25,
+    marginHorizontal: 15,
     marginTop: 5,
-  }
+  },  
+  bodyText: {
+    fontSize: 15,
+    color: 'rgba(96,100,109, 1)',
+    lineHeight: 19,
+    textAlign: 'center',
+  },
 })

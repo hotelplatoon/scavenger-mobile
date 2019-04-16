@@ -1,6 +1,6 @@
 import { RNS3 } from 'react-native-aws3';
 import React from 'react';
-import { Image, View, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Image, View, Text, TouchableHighlight, TouchableOpacity, StyleSheet } from 'react-native';
 import { ImagePicker, Constants, Permissions } from 'expo';
 import GoogleVisionAPI from "../api/GoogleVisionAPI"
 import { Overlay, Button, Icon } from 'react-native-elements';
@@ -280,7 +280,7 @@ export default class TakePhoto extends React.Component {
 
         {!image &&
           <TouchableOpacity
-            style={style.button}
+            style={styles.button}
             underlayColor='#fff'
             onPress={this._pickImageCamera.bind(this)}
           >          
@@ -331,3 +331,21 @@ export default class TakePhoto extends React.Component {
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  button:{
+    marginHorizontal: 80,
+    marginTop:30,
+    marginBottom:20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 40,
+    paddingRight: 40,
+    backgroundColor:'#4c0a01',
+    borderRadius:5,
+    shadowOffset:{ width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+  },
+})
